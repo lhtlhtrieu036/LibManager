@@ -1,6 +1,6 @@
 #include"include.h"
 
 int main() {
-	cout << "Hello, world!";
+	cout << "Library Manager";
 	return 0;
 }
