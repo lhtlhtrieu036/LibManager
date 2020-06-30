@@ -27,6 +27,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LinkedList.h">
+    <ClInclude Include="account.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
