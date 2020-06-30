@@ -7,7 +7,7 @@
  */
 struct Node
 {
-	//void value;
+	int value;
 	Node* next;
 };
 
