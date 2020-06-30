@@ -143,6 +143,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="account.h" />
+    <ClInclude Include="Book.h" />
+    <ClInclude Include="theDocGia.h" />
     <ClInclude Include="include.h" />
     <ClInclude Include="LinkedList.h" />
   </ItemGroup>
