@@ -18,11 +18,15 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LinkedList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LinkedList.h">
     <ClInclude Include="account.h">
       <Filter>Header Files</Filter>
     </ClInclude>
