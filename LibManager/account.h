@@ -1,6 +1,10 @@
 #ifndef _ACCOUNT_H_
 #define _ACCOUNT_H_
 
+// Account file.
+#define ACCOUNT_FILE   "users.dat"
+#define USER_INFO_FILE "infos.dat"
+
 // Username & password
 #define USERNAME_MAX_SIZE 30
 #define USERNAME_MIN_SIZE 1
@@ -19,19 +23,7 @@
 #define ADDRESS 50
 #define SEX 4
 
-
-struct user_info
-{
-	int ID;
-	char ho_Ten[NAME_MAX];
-	char ngay_Sinh[BIRTH_DAY];
-	char so_CMND[CMND];
-	char dia_Chi[ADDRESS];
-	char gioi_Tinh[SEX];
-	bool tinh_Trang;
-
-};
-
+// Cau truc cua mot tai khoan gom ID, username va password.
 struct account 
 {
 
@@ -41,7 +33,43 @@ struct account
 
 };
 
+// O day ta se bieu dien danh sach tai khoan
+// duoi dang danh sach lien ket kep.
+struct accountNode {
+	account* credentials;
+	accountNode* nextAccount;
+	accountNode* prevAccount;
+};
 
+struct accountList {
+	accountNode* head;
+	accountNode* tail;
+};
 
+// Cau truc thong tin cua mot user.
+struct user_info
+{
+	int ID;
+	int permissions;
+	char ho_Ten[NAME_MAX];
+	char ngay_Sinh[BIRTH_DAY];
+	char so_CMND[CMND];
+	char dia_Chi[ADDRESS];
+	char gioi_Tinh[SEX];
+	bool tinh_Trang;
+};
+
+// Ta cung bieu dien danh sach thong tin tai khoan
+// duoi dang danh sach lien ket kep.
+struct userInfoNode {
+	user_info* info;
+	userInfoNode* nextUser;
+	userInfoNode* prevUser;
+};
+
+struct userInfoList {
+	userInfoNode* head;
+	userInfoNode* tail;
+};
 #endif
 

@@ -3,6 +3,7 @@
   <ItemGroup>
     <ClCompile Include="LinkedList.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Menu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="account.h" />
@@ -10,5 +11,6 @@
     <ClInclude Include="LinkedList.h" />
     <ClInclude Include="theDocGia.h" />
     <ClInclude Include="Book.h" />
+    <ClInclude Include="Menu.h" />
   </ItemGroup>
 </Project>
