@@ -8,7 +8,7 @@
 // Ham tao mot account node.
 // Ham nay duoc viet rieng, vi co the duoc tai su dung
 // trong qua trinh tao account moi.
-accountNode* createAccountNode(account*);
+accountNode* createAccountNode(account* newAccount);
 
 // Ham lay list account tu file.
 accountList* getAccountList(int&);

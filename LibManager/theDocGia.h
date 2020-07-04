@@ -1,6 +1,6 @@
 #pragma once
 
-#include"account.h"
+#include"include.h"
 
 struct theDocGia {
 	int maDocGia;
