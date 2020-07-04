@@ -27,49 +27,49 @@
 struct account 
 {
 
-	int ID;
-	char user_name[USERNAME_MAX_SIZE];
-	char pass_word[PASSWORD_MAX_SIZE];
+    int ID;
+    char user_name[USERNAME_MAX_SIZE];
+    char pass_word[PASSWORD_MAX_SIZE];
 
 };
 
 // O day ta se bieu dien danh sach tai khoan
 // duoi dang danh sach lien ket kep.
 struct accountNode {
-	account* credentials;
-	accountNode* nextAccount;
-	accountNode* prevAccount;
+    account* credentials;
+    accountNode* nextAccount;
+    accountNode* prevAccount;
 };
 
 struct accountList {
-	accountNode* head;
-	accountNode* tail;
+    accountNode* head;
+    accountNode* tail;
 };
 
 // Cau truc thong tin cua mot user.
 struct user_info
 {
-	int ID;
-	int permissions;
-	char ho_Ten[NAME_MAX];
-	char ngay_Sinh[BIRTH_DAY];
-	char so_CMND[CMND];
-	char dia_Chi[ADDRESS];
-	char gioi_Tinh[SEX];
-	bool tinh_Trang;
+    int ID;
+    int permissions;
+    char ho_Ten[NAME_MAX];
+    char ngay_Sinh[BIRTH_DAY];
+    char so_CMND[CMND];
+    char dia_Chi[ADDRESS];
+    char gioi_Tinh[SEX];
+    bool tinh_Trang;
 };
 
 // Ta cung bieu dien danh sach thong tin tai khoan
 // duoi dang danh sach lien ket kep.
 struct userInfoNode {
-	user_info* info;
-	userInfoNode* nextUser;
-	userInfoNode* prevUser;
+    user_info* info;
+    userInfoNode* nextUser;
+    userInfoNode* prevUser;
 };
 
 struct userInfoList {
-	userInfoNode* head;
-	userInfoNode* tail;
+    userInfoNode* head;
+    userInfoNode* tail;
 };
 #endif
 

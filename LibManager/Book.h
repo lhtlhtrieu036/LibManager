@@ -11,22 +11,22 @@
 #define MAX_BORROW 5
 
 struct Book {
-	char ISBN[ISBN_MAX];
-	char book_Name[BOOK_NAME_MAX];
-	char book_Author[NAME_MAX];
-	char book_published_year[BOOK_PUBLISHED_MAX];
-	char book_publisher[BOOK_PUBLISHER_MAX];
+    char ISBN[ISBN_MAX];
+    char book_Name[BOOK_NAME_MAX];
+    char book_Author[NAME_MAX];
+    char book_published_year[BOOK_PUBLISHED_MAX];
+    char book_publisher[BOOK_PUBLISHER_MAX];
 
-	char book_type[BOOK_TYPE_MAX];
-	int price;
-	int count;
+    char book_type[BOOK_TYPE_MAX];
+    int price;
+    int count;
 };
 
 struct borrowBook {
-	int maDocGia;
-	// Them ngay muon
-	// Them ngay tra (du kien)
-	// Them ngay tra (thuc te)
-	Book listISBN[MAX_BORROW];
-	bool returned;
+    int maDocGia;
+    // Them ngay muon
+    // Them ngay tra (du kien)
+    // Them ngay tra (thuc te)
+    Book listISBN[MAX_BORROW];
+    bool returned;
 };

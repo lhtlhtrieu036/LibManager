@@ -22,16 +22,22 @@ userInfoNode* createInfoNode(user_info*);
 userInfoList* getUserInfoList(int);
 
 // Ham dang nhap - tra ve con tro den user.
-account* logUserIn(accountList*, char*, char*);
+account* logUserIn(accountList*);
+
+// Ham dang xuat khoi he thong.
+void logUserOut(account*&, user_info*&);
 
 // Ham lay thong tin tai khoan - con tro den thong tin tai khoan.
-user_info* getUserInfo(account*);
+user_info* getUserInfo(userInfoList*, account*);
+
+// Ham kiem tra nguoi dung da dang nhap chua.
+bool isLoggedIn(account*, user_info*);
 
 // Ham kiem tra user co phai admin hay khong.
-int isAdmin(user_info*);
+bool isAdmin(user_info*);
 
 // Ham kiem tra user co phai quan ly hay khong.
-int isQuanLy(user_info*);
+bool isQuanLy(user_info*);
 
 // Ham kiem tra user con active hay bi block.
-int isActive(user_info*);
+bool isActive(user_info*);
