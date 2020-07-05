@@ -24,6 +24,41 @@ void Initialise(accountList*& users, userInfoList*& infos, int& totalAccounts) {
     }
 }
 
+// Ham ghi cac danh sach tro lai file sau khi ket thuc.
+void Terminate(accountList* users, userInfoList* infos, int totalAccounts) {
+    // Ghi danh sach users tro lai file.
+    FILE* f = fopen(ACCOUNT_FILE, "wb+");
+    fseek(f, 0, SEEK_SET);
+    
+    // Ghi tong so user.
+    fwrite(&totalAccounts, sizeof(int), 1, f);
+
+    // Ghi credentials tung user.
+    accountNode* thisNode = users->head;
+    while (thisNode != NULL) {
+        fwrite(thisNode->credentials, sizeof(account), 1, f);
+        thisNode = thisNode->nextAccount;
+    }
+    fclose(f);
+
+    // Ghi info users tro lai file.
+    f = fopen(USER_INFO_FILE, "wb+");
+
+    // Ghi info tung user.
+    userInfoNode* thisUserInfo = infos->head;
+    while (thisUserInfo != NULL) {
+        fwrite(thisUserInfo->info, sizeof(user_info), 1, f);
+        thisUserInfo = thisUserInfo->nextUser;
+    }
+    fclose(f);
+
+    //
+    // Xoa user list va user info list.
+    //
+    freeAccountList(users);
+    freeUserInfoList(infos);
+}
+
 int main() {
     //
     // De bat dau, dau tien load tat ca user va info vao mot danh sach.
@@ -52,9 +87,16 @@ int main() {
 
     account* user_session_account = NULL;
     user_info* user_session_info = NULL;
+    bool stop_executing = false;
     
     // Bat nguoi dung dang nhap bang moi gia.
     do {
+        // Thoat hoan toan chuong trinh.
+        if (stop_executing) {
+            Terminate(users, infos, totalAccounts);
+            break;
+        }
+
         system("cls");
         do {
             user_session_account = logUserIn(users);
@@ -112,7 +154,7 @@ int main() {
                     logUserOut(user_session_account, user_session_info);
                 cout << "Da dang xuat, dang thoat chuong trinh.." << endl;
                 system("pause");
-                exit(0);
+                stop_executing = true;
             }
         }
     } while (true);

@@ -73,3 +73,35 @@ struct userInfoList {
 };
 #endif
 
+
+// Ham tao mot account node.
+// Ham nay duoc viet rieng, vi co the duoc tai su dung
+// trong qua trinh tao account moi.
+accountNode* createAccountNode(account* newAccount);
+
+// Ham lay list account tu file.
+accountList* getAccountList(int&);
+
+// Ham tao mot info node.
+// Ham nay duoc viet rieng, vi co the duoc tai su dung
+// trong qua trinh tao account moi.
+userInfoNode* createInfoNode(user_info*);
+
+// Ham lay list user info tu 1 file.
+userInfoList* getUserInfoList(int);
+
+// Ham lay thong tin tai khoan - con tro den thong tin tai khoan.
+// aka nap user tu list vao session.
+user_info* getUserInfo(userInfoList*, account*);
+
+//
+// Ham giai phong list user (khi thoat chuong trinh)
+//
+void freeAccountNode(accountList*&);
+void freeAccountList(accountList*&);
+
+//
+// Ham giai phong list user info (khi thoat chuong trinh)
+//
+void freeUserInfoNode(userInfoList*&);
+void freeUserInfoList(userInfoList*&);
