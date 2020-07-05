@@ -3,8 +3,9 @@
 // Ham dang nhap, tra ve con tro den tai khoan cua user.
 account* logUserIn(accountList* list) {
     char username[USERNAME_MAX_SIZE], password[PASSWORD_MAX_SIZE];
-    cout << "Username: "; cin >> username;
-    cout << "Password: "; cin >> password;
+    cout << "== Dang nhap vao tai khoan ==" << endl;
+    cout << "Tai khoan: "; cin >> username;
+    cout << "Mat khau : "; cin >> password;
 
     accountNode* accountInDB = list->head;
     while (accountInDB != NULL) {

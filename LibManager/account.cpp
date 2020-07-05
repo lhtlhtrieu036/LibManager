@@ -124,11 +124,11 @@ user_info* getUserInfo(userInfoList* infoList, account* credentials) {
 // Ham doi mat khau cua nguoi dung.
 bool changeUserPassword(account* user) {
     char currentPassword[PASSWORD_MAX_SIZE], newPassword[PASSWORD_MAX_SIZE], renewPassword[PASSWORD_MAX_SIZE];
-    cout << "Nhap mat khau hien tai cua ban: "; 
+    cout << "Nhap mat khau hien tai cua ban: " << endl; 
     cin >> currentPassword;
-    cout << "Nhap mat khau moi cua ban (min = " << PASSWORD_MIN_SIZE << ", max = " << PASSWORD_MAX_SIZE << " ky tu): ";
+    cout << "Nhap mat khau moi cua ban (min = " << PASSWORD_MIN_SIZE << ", max = " << PASSWORD_MAX_SIZE << " ky tu): " << endl;
     cin >> newPassword;
-    cout << "Nhap lai mat khau moi cua ban: ";
+    cout << "Nhap lai mat khau moi cua ban: " << endl;
     cin >> renewPassword;
 
     // 2 mat khau khong trung nhau.
@@ -140,6 +140,13 @@ bool changeUserPassword(account* user) {
     // Mat khau moi hoac nhap lai mat khau moi khong dung.
     if (strcmp(newPassword, renewPassword) != 0) {
         cout << "Ban nhap sai mat khau moi, xin vui long thu lai." << endl;
+        return false;
+    }
+
+    // Kiem tra do dai mat khau.
+    // Phan nay nen duoc viet vao 1 file validation, nhung de viet sau.
+    if (strlen(newPassword) > PASSWORD_MAX_SIZE || strlen(newPassword) < PASSWORD_MIN_SIZE) {
+        cout << "Do dai mat khau khong phu hop, xin hay thu lai." << endl;
         return false;
     }
     

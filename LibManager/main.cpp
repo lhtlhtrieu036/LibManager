@@ -61,6 +61,13 @@ void Terminate(accountList* users, userInfoList* infos, int totalAccounts) {
 
 int main() {
     //
+    // Thong tin demo
+    //
+    cout << "(Demo only): Tai khoan admin: admin/admiN@fit.hcmus" << endl;
+    cout << "(Demo only): Tai khoan chuyen vien: thquan/quan@hcmus" << endl;
+    system("pause");
+
+    //
     // De bat dau, dau tien load tat ca user va info vao mot danh sach.
     // phuc vu muc dich dang nhap.
     //
