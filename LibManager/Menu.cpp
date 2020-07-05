@@ -7,9 +7,18 @@ void nonLoggedInMenu() {
     // Xu ly dang nhap.
 }
 
+// Menu chung cho cac loai tai khoan.
+void generalMenu() {
+    cout << "== Cac chuc nang co ban ==" << endl;
+    cout << CHANGE_PASSWORD_COMMAND_CODE << ". Thay doi mat khau tai khoan." << endl;
+    cout << CHANGE_INFO_COMMAND_CODE << ". Thay doi thong tin tai khoan." << endl;
+    cout << LOGOUT_COMMAND_CODE << ". Dang xuat khoi tai khoan." << endl;
+    cout << EXIT_COMMAND_CODE << ". Dang xuat va thoat khoi he thong." << endl;
+}
+
 // Menu cho admin
 void adminMenu() {
-    cout << "Hello, admin!";
+    cout << "== Cac chuc nang nang cao cho admin ==" << endl;
     /*cout << "=== Sua thong tin tai khoan   ===" << endl;
     cout << "1. Sua password" << endl;
     cout << "2. Sua thong tin ca nhan" << endl;
@@ -20,9 +29,9 @@ void adminMenu() {
 }
 
 void quanlyMenu() {
-    cout << "Hello, quan ly!";
+    cout << "== Cac chuc nang nang cao cho quan ly ==" << endl;
 }
 
 void chuyenvienMenu() {
-    cout << "Hello, chuyen vien!";
+    cout << "== Cac chuc nang nang cao cho chuyen vien ==" << endl;
 }

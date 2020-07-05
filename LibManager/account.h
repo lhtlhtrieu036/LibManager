@@ -94,6 +94,9 @@ userInfoList* getUserInfoList(int);
 // aka nap user tu list vao session.
 user_info* getUserInfo(userInfoList*, account*);
 
+// Ham doi password user.
+bool changeUserPassword(account*);
+
 //
 // Ham giai phong list user (khi thoat chuong trinh)
 //

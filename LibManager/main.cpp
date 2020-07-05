@@ -122,6 +122,11 @@ int main() {
         // Da dang nhap thanh cong.
         int command_code = -1;
         while (user_session_account != NULL && user_session_info != NULL) {
+            // Xoa man hinh.
+            system("cls");
+
+            // Load menu co ban.
+            generalMenu();
             if (isAdmin(user_session_info)) {
                 adminMenu();
                 // Bat su kien admin menu.
@@ -137,25 +142,42 @@ int main() {
                 // Bat su kien chuyen vien menu.
             }
 
-            cout << "Nhap lenh ban muon thuc hien: " << endl;
+            cout << "Nhap lenh ban muon thuc hien (so dung truoc moi menu): " << endl;
             cin >> command_code;
 
-            // Bat su kien dang nhap thanh cong va thoat.
-            if (command_code == LOGOUT_COMMAND_CODE) {
-                logUserOut(user_session_account, user_session_info);
-                cout << "Dang xuat thanh cong." << endl;
-                system("pause");
-                break;
-            }
 
-            // Bat su kien dang nhap thanh cong, dang xuat va thoat hoan toan.
-            if (command_code == EXIT_COMMAND_CODE) {
-                if (isLoggedIn(user_session_account, user_session_info))
+            switch (command_code)
+            {
+                // Bat su kien doi mat khau.
+                case CHANGE_PASSWORD_COMMAND_CODE: {
+                    if (changeUserPassword(user_session_account)) {
+                        logUserOut(user_session_account, user_session_info);
+                        break;
+                    }
+                    break;
+                }
+                // Bat su kien dang xuat.
+                case LOGOUT_COMMAND_CODE: {
                     logUserOut(user_session_account, user_session_info);
-                cout << "Da dang xuat, dang thoat chuong trinh.." << endl;
-                system("pause");
-                stop_executing = true;
+                    cout << "Dang xuat thanh cong. De thoat hoan toan, hay dang nhap lai va dung lenh " << EXIT_COMMAND_CODE << endl;
+                    break;
+                }
+
+                // Bat su kien dang xuat va thoat.
+                case EXIT_COMMAND_CODE: {
+                    if (isLoggedIn(user_session_account, user_session_info))
+                        logUserOut(user_session_account, user_session_info);
+                    cout << "Da dang xuat, dang thoat chuong trinh.." << endl;
+                    stop_executing = true;
+                    break;
+                }
+
+
+                default:
+                    cout << "Khong tim thay lenh " << command_code << endl;
+                    break;
             }
+            system("pause");
         }
     } while (true);
     
