@@ -138,13 +138,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="LinkedList.cpp" />
+    <ClCompile Include="account.cpp" />
+    <ClCompile Include="authentication.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Menu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="account.h" />
+    <ClInclude Include="authentication.h" />
+    <ClInclude Include="Book.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="theDocGia.h" />
     <ClInclude Include="include.h" />
-    <ClInclude Include="LinkedList.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
