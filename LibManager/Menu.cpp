@@ -7,6 +7,17 @@ void nonLoggedInMenu() {
     // Xu ly dang nhap.
 }
 
+// Menu xu ly sua doi thong tin.
+void editInfoMenu() {
+    cout << "== Thay doi thong tin ==" << endl;
+    cout << MENU_DOI_TEN_COMMAND_CODE << ". Doi ho va ten nguoi dung." << endl;
+    cout << MENU_DOI_NGAY_SINH_COMMAND_CODE << ". Doi ngay sinh." << endl;
+    cout << MENU_DOI_CMND_COMMAND_CODE << ". Doi CMND." << endl;
+    cout << MENU_DOI_DIA_CHI_COMMAND_CODE << ". Doi dia chi." << endl;
+    cout << MENU_DOI_GIOI_TINH_COMMAND_CODE << ". Chuyen gioi." << endl; // thay doi sau.
+    cout << "Nhap lenh can thay doi: " << endl;
+}
+
 // Menu chung cho cac loai tai khoan.
 void generalMenu() {
     cout << "== Cac chuc nang co ban ==" << endl;

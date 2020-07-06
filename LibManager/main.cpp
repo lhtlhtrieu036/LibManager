@@ -152,14 +152,13 @@ int main() {
             }
 
             cout << "Nhap lenh ban muon thuc hien (so dung truoc moi menu): " << endl;
-			if (!(cin >> command_code)) {
-				cin.clear(); // xoa loi
-				cin.ignore(); // xoa noi dung trong stream
-				continue;
-			}
+            if (!(cin >> command_code)) {
+                cin.clear(); // xoa loi
+                cin.ignore(); // xoa noi dung trong stream
+                continue;
+            }
 
-            switch (command_code)
-            {
+            switch (command_code) {
                 // Bat su kien doi mat khau.
                 case CHANGE_PASSWORD_COMMAND_CODE: {
                     if (changeUserPassword(user_session_account)) {
@@ -168,6 +167,14 @@ int main() {
                     }
                     break;
                 }
+
+                // Bat su kien doi thong tin.
+                case CHANGE_INFO_COMMAND_CODE: {
+                    cout << user_session_info->dia_Chi << endl;
+                    editInfoMenu();
+                    break;
+                }
+
                 // Bat su kien dang xuat.
                 case LOGOUT_COMMAND_CODE: {
                     logUserOut(user_session_account, user_session_info);
