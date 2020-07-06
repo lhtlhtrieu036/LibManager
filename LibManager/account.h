@@ -74,8 +74,8 @@ struct userInfoList {
 };
 #endif
 
-void read_user_data(ifstream& p, user_info& a);
-void read_Mang_User(ifstream& p, user_info* a, int& n);
+//void read_user_data(ifstream& p, user_info& a);
+//void read_Mang_User(ifstream& p, user_info* a, int& n);
 
 // Ham tao mot account node.
 // Ham nay duoc viet rieng, vi co the duoc tai su dung

@@ -152,8 +152,11 @@ int main() {
             }
 
             cout << "Nhap lenh ban muon thuc hien (so dung truoc moi menu): " << endl;
-            cin >> command_code;
-
+			if (!(cin >> command_code)) {
+				cin.clear(); // xoa loi
+				cin.ignore(); // xoa noi dung trong stream
+				continue;
+			}
 
             switch (command_code)
             {
