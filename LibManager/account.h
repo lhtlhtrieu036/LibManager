@@ -1,5 +1,6 @@
 #ifndef _ACCOUNT_H_
 #define _ACCOUNT_H_
+#include "include.h"
 
 // Username & password
 #define USERNAME_MAX_SIZE 30
@@ -41,6 +42,8 @@ struct account
 
 };
 
+void read_user_data(ifstream& p, user_info& a);
+void read_Mang_User(ifstream& p, user_info* a, int& n);
 
 
 #endif

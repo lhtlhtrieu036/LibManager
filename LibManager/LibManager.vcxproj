@@ -140,6 +140,7 @@
   <ItemGroup>
     <ClCompile Include="LinkedList.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="readUserData.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="account.h" />
