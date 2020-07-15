@@ -170,8 +170,8 @@ int main() {
 
                 // Bat su kien doi thong tin.
                 case CHANGE_INFO_COMMAND_CODE: {
-                    cout << user_session_info->dia_Chi << endl;
                     editInfoMenu();
+                    catchEditInfoMenu(user_session_account, user_session_info);
                     break;
                 }
 
@@ -202,7 +202,4 @@ int main() {
     
     
     return 0;
-
-
->>>>>>> 03ae4f3618100738223a38030e3f25498caf3ccb
 }
