@@ -62,159 +62,146 @@ void Terminate(accountList* users, userInfoList* infos, int totalAccounts) {
 }
 
 int main() {
-    ////
-    //// Thong tin demo
-    ////
-    //cout << "(Demo only): Tai khoan admin: admin/admiN@fit.hcmus" << endl;
-    //cout << "(Demo only): Tai khoan chuyen vien: thquan/quan@hcmus" << endl;
-    //system("pause");
-
-    ////
-    //// De bat dau, dau tien load tat ca user va info vao mot danh sach.
-    //// phuc vu muc dich dang nhap.
-    ////
     //
-    //int totalAccounts;
-    //accountList* users = NULL;
-    //userInfoList* infos = NULL;
-
-
-    //Initialise(users, infos, totalAccounts);
-
-    ////
-    //// Sau do cac bien sau se luu session (phien dang nhap) cua nguoi dung:
-    ////
-    //// user_session_account luu account credentials,
-    //// su dung khi can thay doi password.
-    ////
-    //// user_session_info luu info nguoi dung,
-    //// dung de tra cuu permission, thong tin cung nhu thay doi thong tin.
-    ////
-    //// Den day neu can kiem tra dang nhap: truy van xem truong
-    //// user_session_info = NULL => chua dang nhap, nguoc lai la da dang nhap/
-    ////
-
-    //account* user_session_account = NULL;
-    //user_info* user_session_info = NULL;
-    //bool stop_executing = false;
+    // Thong tin demo
     //
-    //// Bat nguoi dung dang nhap bang moi gia.
-    //do {
-    //    // Thoat hoan toan chuong trinh.
-    //    if (stop_executing) {
-    //        Terminate(users, infos, totalAccounts);
-    //        break;
-    //    }
+    cout << "(Demo only): Tai khoan admin: admin/admiN@fit.hcmus" << endl;
+    cout << "(Demo only): Tai khoan chuyen vien: thquan/quan@hcmus" << endl;
+    system("pause");
 
-    //    system("cls");
-    //    do {
-    //        user_session_account = logUserIn(users);
-    //        if (user_session_account == NULL) {
-    //            cout << "Sai tai khoan / mat khau. Xin thu lai!" << endl;
-    //        }
-    //        else {
-    //            user_session_info = getUserInfo(infos, user_session_account);
-
-    //            // Neu nguoi dung khong con active, thong bao va dang xuat.
-    //            if (!isActive(user_session_info)) {
-    //                cout << "Tai khoan cua ban da bi block. Vui long lien he admin de duoc giai quyet. Xin cam on." << endl;
-    //                logUserOut(user_session_account, user_session_info);
-    //                break;
-    //            }
-
-    //            cout << "Dang nhap thanh cong. Dang chuyen ban den menu nguoi dung phu hop..." << endl;
-    //        }
-    //        system("pause");
-    //        system("cls");
-    //    } while (user_session_account == NULL || user_session_info == NULL);
-
-    //    // Da dang nhap thanh cong.
-    //    int command_code = -1;
-    //    while (user_session_account != NULL && user_session_info != NULL) {
-    //        // Xoa man hinh.
-    //        system("cls");
-
-    //        // Load menu co ban.
-    //        generalMenu();
-    //        if (isAdmin(user_session_info)) {
-    //            adminMenu();
-    //            // Bat su kien admin menu.
-    //        }
-
-    //        else if (isQuanLy(user_session_info)) {
-    //            quanlyMenu();
-    //            // Bat su kien quan ly menu.
-    //        }
-
-    //        else {
-    //            chuyenvienMenu();
-    //            // Bat su kien chuyen vien menu.
-    //        }
-
-    //        cout << "Nhap lenh ban muon thuc hien (so dung truoc moi menu): " << endl;
-    //        if (!(cin >> command_code)) {
-    //            cin.clear(); // xoa loi
-    //            cin.ignore(); // xoa noi dung trong stream
-    //            continue;
-    //        }
-
-    //        switch (command_code) {
-    //            // Bat su kien doi mat khau.
-    //            case CHANGE_PASSWORD_COMMAND_CODE: {
-    //                if (changeUserPassword(user_session_account)) {
-    //                    logUserOut(user_session_account, user_session_info);
-    //                    break;
-    //                }
-    //                break;
-    //            }
-
-    //            // Bat su kien doi thong tin.
-    //            case CHANGE_INFO_COMMAND_CODE: {
-    //                cout << user_session_info->dia_Chi << endl;
-    //                editInfoMenu();
-    //                break;
-    //            }
-
-    //            // Bat su kien dang xuat.
-    //            case LOGOUT_COMMAND_CODE: {
-    //                logUserOut(user_session_account, user_session_info);
-    //                cout << "Dang xuat thanh cong. De thoat hoan toan, hay dang nhap lai va dung lenh " << EXIT_COMMAND_CODE << endl;
-    //                break;
-    //            }
-
-    //            // Bat su kien dang xuat va thoat.
-    //            case EXIT_COMMAND_CODE: {
-    //                if (isLoggedIn(user_session_account, user_session_info))
-    //                    logUserOut(user_session_account, user_session_info);
-    //                cout << "Da dang xuat, dang thoat chuong trinh.." << endl;
-    //                stop_executing = true;
-    //                break;
-    //            }
-
-
-    //            default:
-    //                cout << "Khong tim thay lenh " << command_code << endl;
-    //                break;
-    //        }
-    //        system("pause");
-    //    }
-    //} while (true);
     //
+    // De bat dau, dau tien load tat ca user va info vao mot danh sach.
+    // phuc vu muc dich dang nhap.
     //
-    //return 0;
+    
+    int totalAccounts;
+    accountList* users = NULL;
+    userInfoList* infos = NULL;
 
-bookList a;
-a.firstBook = NULL;
-a.lastBook = NULL;
-a.bookCount = 0;
-int soSach;
-enterBookInfo(a);
-cout << " nhap so loai sach muon nhap vao: "; cin >> soSach;
-for (int i = 0; i < soSach; i++)
-{
-	enterBookInfo(a);
-}
 
-cout_Book_List(a);
-return 0;
+    Initialise(users, infos, totalAccounts);
+
+    //
+    // Sau do cac bien sau se luu session (phien dang nhap) cua nguoi dung:
+    //
+    // user_session_account luu account credentials,
+    // su dung khi can thay doi password.
+    //
+    // user_session_info luu info nguoi dung,
+    // dung de tra cuu permission, thong tin cung nhu thay doi thong tin.
+    //
+    // Den day neu can kiem tra dang nhap: truy van xem truong
+    // user_session_info = NULL => chua dang nhap, nguoc lai la da dang nhap/
+    //
+
+    account* user_session_account = NULL;
+    user_info* user_session_info = NULL;
+    bool stop_executing = false;
+    
+    // Bat nguoi dung dang nhap bang moi gia.
+    do {
+        // Thoat hoan toan chuong trinh.
+        if (stop_executing) {
+            Terminate(users, infos, totalAccounts);
+            break;
+        }
+
+        system("cls");
+        do {
+            user_session_account = logUserIn(users);
+            if (user_session_account == NULL) {
+                cout << "Sai tai khoan / mat khau. Xin thu lai!" << endl;
+            }
+            else {
+                user_session_info = getUserInfo(infos, user_session_account);
+
+                // Neu nguoi dung khong con active, thong bao va dang xuat.
+                if (!isActive(user_session_info)) {
+                    cout << "Tai khoan cua ban da bi block. Vui long lien he admin de duoc giai quyet. Xin cam on." << endl;
+                    logUserOut(user_session_account, user_session_info);
+                    break;
+                }
+
+                cout << "Dang nhap thanh cong. Dang chuyen ban den menu nguoi dung phu hop..." << endl;
+            }
+            system("pause");
+            system("cls");
+        } while (user_session_account == NULL || user_session_info == NULL);
+
+        // Da dang nhap thanh cong.
+        int command_code = -1;
+        while (user_session_account != NULL && user_session_info != NULL) {
+            // Xoa man hinh.
+            system("cls");
+
+            // Load menu co ban.
+            generalMenu();
+            if (isAdmin(user_session_info)) {
+                adminMenu();
+                // Bat su kien admin menu.
+            }
+
+            else if (isQuanLy(user_session_info)) {
+                quanlyMenu();
+                // Bat su kien quan ly menu.
+            }
+
+            else {
+                chuyenvienMenu();
+                // Bat su kien chuyen vien menu.
+            }
+
+            cout << "Nhap lenh ban muon thuc hien (so dung truoc moi menu): " << endl;
+            if (!(cin >> command_code)) {
+                cin.clear(); // xoa loi
+                cin.ignore(); // xoa noi dung trong stream
+                continue;
+            }
+
+            switch (command_code) {
+                // Bat su kien doi mat khau.
+                case CHANGE_PASSWORD_COMMAND_CODE: {
+                    if (changeUserPassword(user_session_account)) {
+                        logUserOut(user_session_account, user_session_info);
+                        break;
+                    }
+                    break;
+                }
+
+                // Bat su kien doi thong tin.
+                case CHANGE_INFO_COMMAND_CODE: {
+                    cout << user_session_info->dia_Chi << endl;
+                    editInfoMenu();
+                    break;
+                }
+
+                // Bat su kien dang xuat.
+                case LOGOUT_COMMAND_CODE: {
+                    logUserOut(user_session_account, user_session_info);
+                    cout << "Dang xuat thanh cong. De thoat hoan toan, hay dang nhap lai va dung lenh " << EXIT_COMMAND_CODE << endl;
+                    break;
+                }
+
+                // Bat su kien dang xuat va thoat.
+                case EXIT_COMMAND_CODE: {
+                    if (isLoggedIn(user_session_account, user_session_info))
+                        logUserOut(user_session_account, user_session_info);
+                    cout << "Da dang xuat, dang thoat chuong trinh.." << endl;
+                    stop_executing = true;
+                    break;
+                }
+
+
+                default:
+                    cout << "Khong tim thay lenh " << command_code << endl;
+                    break;
+            }
+            system("pause");
+        }
+    } while (true);
+    
+    
+    return 0;
+
+
 }
