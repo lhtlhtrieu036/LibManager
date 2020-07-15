@@ -17,6 +17,7 @@
 #define MENU_DOI_DIA_CHI_COMMAND_CODE 4
 #define MENU_DOI_GIOI_TINH_COMMAND_CODE 5
 #define MENU_THOAT_DOI_COMMAND_CODE 6
+#define MENU_XEM_THONG_TIN_COMMAND_CODE 7
 
 // Chua dang nhap
 void nonLoggedInMenu();
@@ -35,3 +36,7 @@ void quanlyMenu();
 
 // Menu cho chuyen vien.
 void chuyenvienMenu();
+
+
+// Xu ly cho cac menu
+void catchEditInfoMenu(account*&, user_info*&);

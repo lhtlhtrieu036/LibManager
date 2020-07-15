@@ -19,9 +19,12 @@
 
 // Thong tin nguoi dung
 #define NAME_MAX 30
+#define NAME_MIN 10
 #define BIRTH_DAY 12
-#define CMND 10
-#define ADDRESS 50
+#define CMND_MIN 9
+#define CMND_MAX 10
+#define ADDRESS_MIN 10
+#define ADDRESS_MAX 50
 #define SEX 4
 
 // Cau truc cua mot tai khoan gom ID, username va password.
@@ -54,8 +57,8 @@ struct user_info
     int permissions;
     char ho_Ten[NAME_MAX];
     char ngay_Sinh[BIRTH_DAY];
-    char so_CMND[CMND];
-    char dia_Chi[ADDRESS];
+    char so_CMND[CMND_MAX];
+    char dia_Chi[ADDRESS_MAX];
     char gioi_Tinh[SEX];
     bool tinh_Trang;
 };
@@ -96,6 +99,9 @@ userInfoList* getUserInfoList(int);
 // Ham lay thong tin tai khoan - con tro den thong tin tai khoan.
 // aka nap user tu list vao session.
 user_info* getUserInfo(userInfoList*, account*);
+
+// Ham doi CMND user.
+bool editUserCMND(user_info*&);
 
 // Ham doi password user.
 bool changeUserPassword(account*);

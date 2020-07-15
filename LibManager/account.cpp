@@ -124,7 +124,7 @@ user_info* getUserInfo(userInfoList* infoList, account* credentials) {
 // Ham doi mat khau cua nguoi dung.
 bool changeUserPassword(account* user) {
     char currentPassword[PASSWORD_MAX_SIZE], newPassword[PASSWORD_MAX_SIZE], renewPassword[PASSWORD_MAX_SIZE];
-    cout << "Nhap mat khau hien tai cua ban: " << endl; 
+    cout << "Nhap mat khau hien tai cua ban: " << endl;
     cin >> currentPassword;
     cout << "Nhap mat khau moi cua ban (min = " << PASSWORD_MIN_SIZE << ", max = " << PASSWORD_MAX_SIZE << " ky tu): " << endl;
     cin >> newPassword;
@@ -149,7 +149,7 @@ bool changeUserPassword(account* user) {
         cout << "Do dai mat khau khong phu hop, xin hay thu lai." << endl;
         return false;
     }
-    
+
     // Doi mat khau va yeu cau nguoi dung dang nhap lai.
     // tuy nhien, action dang xuat se xu ly trong controller ngoai main.
     strcpy(user->pass_word, newPassword);
@@ -157,6 +157,21 @@ bool changeUserPassword(account* user) {
 
     return true;
 }
+
+//
+// Ham doi CMND nguoi dung.
+//
+bool editUserCMND(user_info*& user_session_info) {
+    char soCMND[CMND_MAX]; cin >> soCMND;
+
+    if (strlen(soCMND) >= CMND_MIN && strlen(soCMND) <= CMND_MAX) {
+        strcpy(user_session_info->so_CMND, soCMND);
+        return true;
+    }
+
+    return false;
+}
+
 
 //
 // Ham xoa phan tu dau cua list.
