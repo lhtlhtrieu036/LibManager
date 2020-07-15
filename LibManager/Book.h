@@ -16,8 +16,7 @@ struct Book {
     char book_Author[NAME_MAX];
     char book_published_year[BOOK_PUBLISHED_MAX];
     char book_publisher[BOOK_PUBLISHER_MAX];
-
-    char book_type[BOOK_TYPE_MAX];
+	char book_type[BOOK_TYPE_MAX];
     int price;
     int count;
 };
@@ -30,3 +29,23 @@ struct borrowBook {
     Book listISBN[MAX_BORROW];
     bool returned;
 };
+
+struct bookNode
+{
+	Book bookInfo;
+	bookNode* nextBook;
+	bookNode* prevBook;
+};
+
+struct bookList
+{
+	bookNode* firstBook;
+	bookNode* lastBook;
+	int bookCount;
+};
+
+bookNode* creatBookNode(Book newBook);
+void enterBookInfo(bookList& a);
+void deleteOneBook(bookList& a);
+void delete_ALL_book(bookList& a);
+void cout_Book_List(bookList a);
