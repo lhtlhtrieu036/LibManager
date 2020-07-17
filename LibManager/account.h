@@ -20,7 +20,7 @@
 // Thong tin nguoi dung
 #define NAME_MAX 30
 #define NAME_MIN 10
-#define BIRTH_DAY 12
+#define BIRTH_DAY 10
 #define CMND_MIN 9
 #define CMND_MAX 10
 #define ADDRESS_MIN 10
@@ -102,6 +102,18 @@ user_info* getUserInfo(userInfoList*, account*);
 
 // Ham doi CMND user.
 bool editUserCMND(user_info*&);
+
+// Ham doi ho ten user.
+bool editUserHoTen(user_info*&);
+
+// Ham doi dia chi user.
+bool editUserDiaChi(user_info*&);
+
+// Ham doi gioi tinh user.
+bool editUserGioiTinh(user_info*&);
+
+// Ham doi ngay sinh user.
+bool editUserNgaySinh(user_info*&);
 
 // Ham doi password user.
 bool changeUserPassword(account*);

@@ -77,22 +77,22 @@ userInfoList* getUserInfoList(int totalAccount) {
 
     // Doc tung block info vao cac node roi noi vao list.
     for (int i = 1; i <= totalAccount; ++i) {
-        user_info* newInfo = (user_info*)malloc(sizeof(user_info));
-        fread(newInfo, sizeof(user_info), 1, f);
+user_info* newInfo = (user_info*)malloc(sizeof(user_info));
+fread(newInfo, sizeof(user_info), 1, f);
 
-        userInfoNode* newInfoNode = createInfoNode(newInfo);
+userInfoNode* newInfoNode = createInfoNode(newInfo);
 
-        // Them info vao duoi list,
-        // neu list rong thi head = tail = newInfoNode.
-        if (newInfoList->head == NULL) {
-            newInfoList->head = newInfoNode;
-            newInfoList->tail = newInfoNode;
-        }
-        else {
-            newInfoList->tail->nextUser = newInfoNode;
-            newInfoNode->prevUser = newInfoList->tail;
-            newInfoList->tail = newInfoNode;
-        }
+// Them info vao duoi list,
+// neu list rong thi head = tail = newInfoNode.
+if (newInfoList->head == NULL) {
+    newInfoList->head = newInfoNode;
+    newInfoList->tail = newInfoNode;
+}
+else {
+    newInfoList->tail->nextUser = newInfoNode;
+    newInfoNode->prevUser = newInfoList->tail;
+    newInfoList->tail = newInfoNode;
+}
     }
 
     fclose(f);
@@ -162,7 +162,10 @@ bool changeUserPassword(account* user) {
 // Ham doi CMND nguoi dung.
 //
 bool editUserCMND(user_info*& user_session_info) {
-    char soCMND[CMND_MAX]; cin >> soCMND;
+    char soCMND[CMND_MAX]; 
+    
+    cin.ignore();
+    cin >> soCMND;
 
     if (strlen(soCMND) >= CMND_MIN && strlen(soCMND) <= CMND_MAX) {
         strcpy(user_session_info->so_CMND, soCMND);
@@ -172,6 +175,67 @@ bool editUserCMND(user_info*& user_session_info) {
     return false;
 }
 
+//
+// Ham doi ten nguoi dung.
+//
+bool editUserHoTen(user_info*& user_session_info) {
+    char hoTen[NAME_MAX]; 
+    
+    cin.ignore();
+    cin.getline(hoTen, NAME_MAX);
+
+    if (strlen(hoTen) >= NAME_MIN && strlen(hoTen) <= NAME_MAX) {
+        strcpy(user_session_info->ho_Ten, hoTen);
+        return true;
+    }
+
+    return false;
+}
+
+//
+// Ham doi dia chi nguoi dung.
+//
+bool editUserDiaChi(user_info*& user_session_info) {
+    char diaChi[ADDRESS_MAX];
+
+    cin.ignore();
+    cin.getline(diaChi, ADDRESS_MAX);
+
+    if (strlen(diaChi) >= ADDRESS_MIN && strlen(diaChi) <= ADDRESS_MAX) {
+        strcpy(user_session_info->dia_Chi, diaChi);
+        return true;
+    }
+    
+    return false;
+}
+
+//
+// Ham doi gioi tinh nguoi dung.
+//
+bool editUserGioiTinh(user_info*& user_session_info) {
+    char gioiTinh[SEX];
+
+    cin.ignore();
+    cin >> gioiTinh;
+
+    strcpy(user_session_info->gioi_Tinh, gioiTinh);
+
+    return true;
+}
+
+//
+// Ham doi ngay sinh nguoi dung.
+//
+bool editUserNgaySinh(user_info*& user_session_info) {
+    char ngaySinh[BIRTH_DAY];
+
+    cin.ignore();
+    cin >> ngaySinh;
+
+    strcpy(user_session_info->ngay_Sinh, ngaySinh);
+
+    return true;
+}
 
 //
 // Ham xoa phan tu dau cua list.

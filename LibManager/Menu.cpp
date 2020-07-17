@@ -59,45 +59,79 @@ void getInfoMenu(user_info* user_session_info) {
 }
 
 void catchEditInfoMenu(account*& account_session_info, user_info*& user_session_info) {
-        int editInfoCommand = -1; cin >> editInfoCommand;
-        switch (editInfoCommand) {
-            case MENU_XEM_THONG_TIN_COMMAND_CODE:
-                getInfoMenu(user_session_info);
-                break;
+    int editInfoCommand = -1; 
+    
+    // Bat loi nhap ky tu la vao command
+    if (!(cin >> editInfoCommand)) {
+        cin.clear();
+        cin.ignore();
+        cout << "Lenh khong hop le." << endl;
+        return;
+    }
 
-            case MENU_DOI_CMND_COMMAND_CODE:
-                cout << "So CMND hien tai cua ban la: " << user_session_info->so_CMND << endl;
-                cout << "Doi so CMND:" << endl;
-                if (editUserCMND(user_session_info)) {
-                    cout << "Da doi CMND thanh cong. Xin vui long dang nhap lai." << endl;
-                    logUserOut(account_session_info, user_session_info);
-                }
-                else cout << "CMND khong hop le." << endl;
+    switch (editInfoCommand) {
+        case MENU_XEM_THONG_TIN_COMMAND_CODE:
+            getInfoMenu(user_session_info);
+            break;
 
-                break;
+        case MENU_DOI_CMND_COMMAND_CODE:
+            cout << "So CMND hien tai cua ban la: " << user_session_info->so_CMND << endl;
+            cout << "Doi so CMND:" << endl;
             
-            case MENU_DOI_TEN_COMMAND_CODE:
-                cout << "Ten cua ban hien tai la: " << user_session_info->ho_Ten << endl;
-                cout << "Doi ten: " << endl;
-                break;
+            if (editUserCMND(user_session_info)) {
+                cout << "Da doi CMND thanh cong. Xin vui long dang nhap lai." << endl;
+                logUserOut(account_session_info, user_session_info);
+            }
+            else cout << "CMND khong hop le." << endl;
 
-            case MENU_DOI_DIA_CHI_COMMAND_CODE:
-                cout << "Dia chi cua ban hien tai la: " << user_session_info->dia_Chi << endl;
-                cout << "Doi dia chi: " << endl;
-                break;
+            break;
+            
+        case MENU_DOI_TEN_COMMAND_CODE:
+            cout << "Ten cua ban hien tai la: " << user_session_info->ho_Ten << endl;
+            cout << "Doi ten: " << endl;
+            
+            if (editUserHoTen(user_session_info)) {
+                cout << "Da doi ho va ten thanh cong. Xin vui long dang nhap lai." << endl;
+                logUserOut(account_session_info, user_session_info);
+            }
+            else cout << "Ho va ten khong hop le." << endl;
 
-            case MENU_DOI_GIOI_TINH_COMMAND_CODE:
-                cout << "Gioi tinh cua ban hien tai la: " << user_session_info->gioi_Tinh << endl;
-                cout << "Doi gioi tinh: " << endl;
-                break;
+            break;
 
-            case MENU_DOI_NGAY_SINH_COMMAND_CODE:
-                cout << "Ngay sinh cua ban hien tai la: " << user_session_info->ngay_Sinh << endl;
-                cout << "Doi ngay sinh: " << endl;
-                break;
+        case MENU_DOI_DIA_CHI_COMMAND_CODE:
+            cout << "Dia chi cua ban hien tai la: " << user_session_info->dia_Chi << endl;
+            cout << "Doi dia chi: " << endl;
 
-            default:
-                cout << "Khong tim thay chuc nang nay." << endl;
-        }
+            if (editUserDiaChi(user_session_info)) {
+                cout << "Da doi dia chi thanh cong. Xin vui long dang nhap lai." << endl;
+                logUserOut(account_session_info, user_session_info);
+            }
+            else cout << "Dia chi khong hop le." << endl;
+
+            break;
+
+        case MENU_DOI_GIOI_TINH_COMMAND_CODE:
+            cout << "Gioi tinh cua ban hien tai la: " << user_session_info->gioi_Tinh << endl;
+            cout << "Doi gioi tinh: " << endl;
+
+            editUserGioiTinh(user_session_info);
+            cout << "Da doi gioi tinh thanh cong. Xin vui long dang nhap lai." << endl;
+            logUserOut(account_session_info, user_session_info);
+
+            break;
+
+        case MENU_DOI_NGAY_SINH_COMMAND_CODE:
+            cout << "Ngay sinh cua ban hien tai la: " << user_session_info->ngay_Sinh << endl;
+            cout << "Doi ngay sinh: " << endl;
+
+            editUserNgaySinh(user_session_info);
+            cout << "Da doi ngay sinh thanh cong. Xin vui long dang nhap lai." << endl;
+            logUserOut(account_session_info, user_session_info);
+
+            break;
+
+        default:
+            cout << "Khong tim thay chuc nang nay." << endl;
+    }
     
 }
