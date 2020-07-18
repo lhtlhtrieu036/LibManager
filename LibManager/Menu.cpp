@@ -31,13 +31,8 @@ void generalMenu() {
 // Menu cho admin
 void adminMenu() {
     cout << "== Cac chuc nang nang cao cho admin ==" << endl;
-    /*cout << "=== Sua thong tin tai khoan   ===" << endl;
-    cout << "1. Sua password" << endl;
-    cout << "2. Sua thong tin ca nhan" << endl;
-    cout << "3. Tao nguoi dung tu danh sach .csv" << endl;
-    cout << "4. Chinh sua quyen cho nguoi dung" << endl;
-    cout << "=== Ket thuc phien lam viec ===" << endl;
-    cout << "5. Dang xuat khoi he thong." << endl;*/
+    cout << MENU_THEM_USER_COMMAND_CODE << ". Tao nguoi dung tu danh sach .csv" << endl;
+    cout << MENU_PHAN_QUYEN_USER_COMMAND_CODE << ". Phan quyen cho nguoi dung" << endl;
 }
 
 void quanlyMenu() {
@@ -79,8 +74,7 @@ void catchEditInfoMenu(account*& account_session_info, user_info*& user_session_
             cout << "Doi so CMND:" << endl;
             
             if (editUserCMND(user_session_info)) {
-                cout << "Da doi CMND thanh cong. Xin vui long dang nhap lai." << endl;
-                logUserOut(account_session_info, user_session_info);
+                cout << "Da doi CMND thanh cong. Xin vui long dang nhap lai de luu moi thay doi." << endl;
             }
             else cout << "CMND khong hop le." << endl;
 
@@ -91,8 +85,7 @@ void catchEditInfoMenu(account*& account_session_info, user_info*& user_session_
             cout << "Doi ten: " << endl;
             
             if (editUserHoTen(user_session_info)) {
-                cout << "Da doi ho va ten thanh cong. Xin vui long dang nhap lai." << endl;
-                logUserOut(account_session_info, user_session_info);
+                cout << "Da doi ho va ten thanh cong. Xin vui long dang nhap lai de luu moi thay doi." << endl;
             }
             else cout << "Ho va ten khong hop le." << endl;
 
@@ -103,8 +96,7 @@ void catchEditInfoMenu(account*& account_session_info, user_info*& user_session_
             cout << "Doi dia chi: " << endl;
 
             if (editUserDiaChi(user_session_info)) {
-                cout << "Da doi dia chi thanh cong. Xin vui long dang nhap lai." << endl;
-                logUserOut(account_session_info, user_session_info);
+                cout << "Da doi dia chi thanh cong. Xin vui long dang nhap lai de luu moi thay doi." << endl;
             }
             else cout << "Dia chi khong hop le." << endl;
 
@@ -115,8 +107,7 @@ void catchEditInfoMenu(account*& account_session_info, user_info*& user_session_
             cout << "Doi gioi tinh: " << endl;
 
             editUserGioiTinh(user_session_info);
-            cout << "Da doi gioi tinh thanh cong. Xin vui long dang nhap lai." << endl;
-            logUserOut(account_session_info, user_session_info);
+            cout << "Da doi gioi tinh thanh cong. Xin vui long dang nhap lai de luu moi thay doi." << endl;
 
             break;
 
@@ -125,13 +116,11 @@ void catchEditInfoMenu(account*& account_session_info, user_info*& user_session_
             cout << "Doi ngay sinh: " << endl;
 
             editUserNgaySinh(user_session_info);
-            cout << "Da doi ngay sinh thanh cong. Xin vui long dang nhap lai." << endl;
-            logUserOut(account_session_info, user_session_info);
+            cout << "Da doi ngay sinh thanh cong. Xin vui long dang nhap lai de luu moi thay doi." << endl;
 
             break;
 
         default:
             cout << "Khong tim thay chuc nang nay." << endl;
     }
-    
 }

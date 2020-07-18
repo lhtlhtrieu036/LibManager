@@ -118,6 +118,10 @@ bool editUserNgaySinh(user_info*&);
 // Ham doi password user.
 bool changeUserPassword(account*);
 
+// Ham them user.
+bool addUser(int&, accountList*&, userInfoList*&);
+
+
 //
 // Ham giai phong list user (khi thoat chuong trinh)
 //

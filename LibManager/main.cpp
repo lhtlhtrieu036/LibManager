@@ -138,7 +138,6 @@ int main() {
             generalMenu();
             if (isAdmin(user_session_info)) {
                 adminMenu();
-                // Bat su kien admin menu.
             }
 
             else if (isQuanLy(user_session_info)) {
@@ -191,6 +190,23 @@ int main() {
                     break;
                 }
 
+                case MENU_THEM_USER_COMMAND_CODE: {
+                    if (isAdmin(user_session_info)) {
+                        if (addUser(totalAccounts, users, infos)) {
+                            cout << "Da tao tai khoan moi thanh cong." << endl;
+                            cout << "Moi thay doi se duoc luu sau khi dang xuat va thoat khoi chuong trinh." << endl;
+
+                            cout << "Thong tin tai khoan moi duoc tao: " << endl;
+                            cout << "ID: " << infos->tail->info->ID << endl;
+                            cout << "Tai khoan: " << users->tail->credentials->user_name << endl;
+                            cout << "Mat khau: " << users->tail->credentials->pass_word << endl;
+                        }
+                        else cout << "Do dai mot trong so cac thong tin khong hop le." << endl;
+                        break;
+                    }
+
+                    // Neu khong tim thay se nhay xuong lenh default.
+                }
 
                 default:
                     cout << "Khong tim thay lenh " << command_code << endl;

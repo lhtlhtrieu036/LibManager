@@ -2,7 +2,6 @@
 #ifndef _INCLUDE_H_
 #define _INCLUDE_H_
 
-
 #ifndef INCLUDE_H
 #define INCLUDE_H
 #endif
@@ -14,7 +13,6 @@
 #include<iostream>
 #include<stdlib.h>
 #include<string.h>
-#include<fstream>
 
 // Header
 #include"account.h"

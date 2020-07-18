@@ -77,22 +77,22 @@ userInfoList* getUserInfoList(int totalAccount) {
 
     // Doc tung block info vao cac node roi noi vao list.
     for (int i = 1; i <= totalAccount; ++i) {
-user_info* newInfo = (user_info*)malloc(sizeof(user_info));
-fread(newInfo, sizeof(user_info), 1, f);
+        user_info* newInfo = (user_info*)malloc(sizeof(user_info));
+        fread(newInfo, sizeof(user_info), 1, f);
 
-userInfoNode* newInfoNode = createInfoNode(newInfo);
+        userInfoNode* newInfoNode = createInfoNode(newInfo);
 
-// Them info vao duoi list,
-// neu list rong thi head = tail = newInfoNode.
-if (newInfoList->head == NULL) {
-    newInfoList->head = newInfoNode;
-    newInfoList->tail = newInfoNode;
-}
-else {
-    newInfoList->tail->nextUser = newInfoNode;
-    newInfoNode->prevUser = newInfoList->tail;
-    newInfoList->tail = newInfoNode;
-}
+        // Them info vao duoi list,
+        // neu list rong thi head = tail = newInfoNode.
+        if (newInfoList->head == NULL) {
+            newInfoList->head = newInfoNode;
+            newInfoList->tail = newInfoNode;
+        }
+        else {
+            newInfoList->tail->nextUser = newInfoNode;
+            newInfoNode->prevUser = newInfoList->tail;
+            newInfoList->tail = newInfoNode;
+        }
     }
 
     fclose(f);
@@ -235,6 +235,55 @@ bool editUserNgaySinh(user_info*& user_session_info) {
     strcpy(user_session_info->ngay_Sinh, ngaySinh);
 
     return true;
+}
+
+//
+// Ham them nguoi dung vao danh sach.
+//
+bool addUser(int& totalAccount, accountList*& userList, userInfoList*& infoList) {
+    char username[USERNAME_MAX_SIZE];
+    char password[PASSWORD_MAX_SIZE];
+
+    cout << "Tai khoan moi: "; cin >> username;
+    cout << "Mat khau moi: "; cin >> password;
+
+    if (strlen(username) >= USERNAME_MIN_SIZE && strlen(username) <= USERNAME_MAX_SIZE &&
+        strlen(password) >= PASSWORD_MIN_SIZE && strlen(password) <= PASSWORD_MAX_SIZE) {
+        // Tao mot tai khoan moi.
+        account* newAccount = (account*)malloc(sizeof(account));
+        newAccount->ID = ++totalAccount;
+        strcpy(newAccount->user_name, username);
+        strcpy(newAccount->pass_word, password);
+
+        // Tao info nguoi dung, info se la he thong cho.
+        // Info nguoi dung se do nguoi dung tu thay doi.
+        user_info* newInfo = (user_info*)malloc(sizeof(user_info));
+        newInfo->ID = newAccount->ID;
+        strcpy(newInfo->ho_Ten, "Nguyen Van A");
+        strcpy(newInfo->dia_Chi, "Viet Nam");
+        strcpy(newInfo->ngay_Sinh, "01012001");
+        strcpy(newInfo->so_CMND, "000000000");
+        strcpy(newInfo->gioi_Tinh, "nam");
+        newInfo->permissions = USER_CVIEN;
+
+        // Tao node va gan vao duoi moi list.
+        accountNode* newAccountNode = createAccountNode(newAccount);
+        userInfoNode* newInfoNode = createInfoNode(newInfo);
+
+        // Gan account vao duoi list account.
+        newAccountNode->prevAccount = userList->tail;
+        userList->tail->nextAccount = newAccountNode;
+        userList->tail = newAccountNode;
+
+        // Gan info vao duoi list info.
+        newInfoNode->prevUser = infoList->tail;
+        infoList->tail->nextUser = newInfoNode;
+        infoList->tail = newInfoNode;
+
+        return true;
+    }
+
+    return false;
 }
 
 //

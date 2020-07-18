@@ -19,6 +19,9 @@
 #define MENU_THOAT_DOI_COMMAND_CODE 6
 #define MENU_XEM_THONG_TIN_COMMAND_CODE 7
 
+#define MENU_THEM_USER_COMMAND_CODE 8
+#define MENU_PHAN_QUYEN_USER_COMMAND_CODE 9
+
 // Chua dang nhap
 void nonLoggedInMenu();
 
@@ -36,7 +39,6 @@ void quanlyMenu();
 
 // Menu cho chuyen vien.
 void chuyenvienMenu();
-
 
 // Xu ly cho cac menu
 void catchEditInfoMenu(account*&, user_info*&);
