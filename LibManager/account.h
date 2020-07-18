@@ -100,6 +100,9 @@ userInfoList* getUserInfoList(int);
 // aka nap user tu list vao session.
 user_info* getUserInfo(userInfoList*, account*);
 
+// Ham lay thong tin tu ID.
+userInfoNode* getUserFromID(int, userInfoList*);
+
 // Ham doi CMND user.
 bool editUserCMND(user_info*&);
 
@@ -121,6 +124,8 @@ bool changeUserPassword(account*);
 // Ham them user.
 bool addUser(int&, accountList*&, userInfoList*&);
 
+// Ham phan quyen user.
+bool permissionUser(userInfoList*&);
 
 //
 // Ham giai phong list user (khi thoat chuong trinh)

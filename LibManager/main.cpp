@@ -65,7 +65,8 @@ int main() {
     //
     // Thong tin demo
     //
-    cout << "(Demo only): Tai khoan admin: admin/admiN@fit.hcmus" << endl;
+    cout << "(Demo only): Tai khoan admin: admin/admin@fit.hcmus" << endl;
+    cout << "(Demo only): Tai khoan quan ly: lttan/lttan@bqpvietnam" << endl;
     cout << "(Demo only): Tai khoan chuyen vien: thquan/quan@hcmus" << endl;
     system("pause");
 
@@ -194,7 +195,7 @@ int main() {
                     if (isAdmin(user_session_info)) {
                         if (addUser(totalAccounts, users, infos)) {
                             cout << "Da tao tai khoan moi thanh cong." << endl;
-                            cout << "Moi thay doi se duoc luu sau khi dang xuat va thoat khoi chuong trinh." << endl;
+                            cout << "Moi thay doi se duoc luu sau khi dang xuat va thoat khoi chuong trinh bang lenh " << EXIT_COMMAND_CODE << endl;
 
                             cout << "Thong tin tai khoan moi duoc tao: " << endl;
                             cout << "ID: " << infos->tail->info->ID << endl;
@@ -202,10 +203,26 @@ int main() {
                             cout << "Mat khau: " << users->tail->credentials->pass_word << endl;
                         }
                         else cout << "Do dai mot trong so cac thong tin khong hop le." << endl;
-                        break;
                     }
+                    else cout << "Ban khong co quyen thuc hien lenh nay." << endl;
+                    break;
+                }
 
-                    // Neu khong tim thay se nhay xuong lenh default.
+                case MENU_PHAN_QUYEN_USER_COMMAND_CODE: {
+                    if (isAdmin(user_session_info)) {
+                        if (permissionUser(infos)) {
+                            cout << "Da phan quyen thanh cong." << endl;
+                            cout << "Moi thay doi se duoc luu sau khi dang xuat va thoat khoi chuong trinh bang lenh " << EXIT_COMMAND_CODE << endl;
+                        }
+                        else {
+                            cout << "Khong the phan quyen cho user nay vi mot trong so cac ly do sau:" << endl;
+                            cout << "- khong ton tai quyen duoc phan cong." << endl;
+                            cout << "- nguoi dung duoc phan quyen khong ton tai." << endl;
+                            cout << "- phan quyen cho admin." << endl;
+                        }
+                    }
+                    else cout << "Ban khong co quyen thuc hien lenh nay." << endl;
+                    break;
                 }
 
                 default:

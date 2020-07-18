@@ -121,6 +121,18 @@ user_info* getUserInfo(userInfoList* infoList, account* credentials) {
     return NULL;
 }
 
+// Ham lay thong tin nguoi dung tu ID.
+userInfoNode* getUserFromID(int ID, userInfoList* list) {
+    userInfoNode* thisUser = list->head;
+    
+    while (thisUser != NULL) {
+        if (thisUser->info->ID == ID) return thisUser;
+        thisUser = thisUser->nextUser;
+    }
+
+    return NULL;
+}
+
 // Ham doi mat khau cua nguoi dung.
 bool changeUserPassword(account* user) {
     char currentPassword[PASSWORD_MAX_SIZE], newPassword[PASSWORD_MAX_SIZE], renewPassword[PASSWORD_MAX_SIZE];
@@ -284,6 +296,37 @@ bool addUser(int& totalAccount, accountList*& userList, userInfoList*& infoList)
     }
 
     return false;
+}
+
+//
+// Ham phan quyen cho user.
+//
+bool permissionUser(userInfoList*& infoList) {
+    int userID, newPermission;
+    cout << "ID nguoi dung can phan quyen: "; cin >> userID;
+    cout << "== Cac quyen hien co: ==" << endl;
+    cout << USER_QUANLY << ". Quan ly." << endl;
+    cout << USER_CVIEN << ". Chuyen vien." << endl;
+    cout << "Quyen moi cua nguoi dung: "; cin >> newPermission;
+
+    userInfoNode* userNode = getUserFromID(userID, infoList);
+
+    // Neu user khong ton tai, tra ve false.
+    if (userNode == NULL) 
+        return false;
+
+    // Neu user la admin, tra ve false.
+    if (isAdmin(userNode->info)) 
+        return false;
+
+    // Neu phan quyen la, tra ve false.
+    if (newPermission != USER_QUANLY && newPermission != USER_CVIEN)
+        return false;
+
+    // Phan quyen cho nguoi dung.
+    userNode->info->permissions = newPermission;
+
+    return true;
 }
 
 //
