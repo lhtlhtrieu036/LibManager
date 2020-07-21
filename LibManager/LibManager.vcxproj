@@ -149,9 +149,13 @@
     <ClInclude Include="account.h" />
     <ClInclude Include="authentication.h" />
     <ClInclude Include="Book.h" />
+    <ClInclude Include="main.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="theDocGia.h" />
     <ClInclude Include="include.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="docgia.dat" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

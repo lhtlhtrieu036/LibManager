@@ -1,5 +1,6 @@
 #include "include.h"
 #include "account.h"
+#include "main.h"
 
 
 // LUU Y:
@@ -16,18 +17,19 @@
 
 // Ham nap danh sach nguoi dung & danh sach thong tin nguoi dung
 // tu file vao linked list.
-void Initialise(accountList*& users, userInfoList*& infos, int& totalAccounts) {
+void Initialise(accountList*& users, userInfoList*& infos, danhSachDocGia*& dsDocGia, int& totalAccounts, int& totalDocGia) {
     users = getAccountList(totalAccounts);
     infos = getUserInfoList(totalAccounts);
+    dsDocGia = getDanhSachDocGiaList(totalDocGia);
 
-    if (users == NULL || infos == NULL) {
+    if (users == NULL || infos == NULL || dsDocGia == NULL) {
         cout << "Co van de xay ra voi file du lieu. Vui long tai lai chuong trinh.\n";
         exit(0);
     }
 }
 
 // Ham ghi cac danh sach tro lai file sau khi ket thuc.
-void Terminate(accountList* users, userInfoList* infos, int totalAccounts) {
+void Terminate(accountList*& users, userInfoList*& infos, danhSachDocGia*& dsDocGia, int totalAccounts, int totalDocGia) {
     // Ghi danh sach users tro lai file.
     FILE* f = fopen(ACCOUNT_FILE, "wb+");
     fseek(f, 0, SEEK_SET);
@@ -59,6 +61,7 @@ void Terminate(accountList* users, userInfoList* infos, int totalAccounts) {
     //
     freeAccountList(users);
     freeUserInfoList(infos);
+    freeDanhSachDocGia(dsDocGia);
 }
 
 int main() {
@@ -75,12 +78,13 @@ int main() {
     // phuc vu muc dich dang nhap.
     //
     
-    int totalAccounts;
+    int totalAccounts, totalDocGia;
     accountList* users = NULL;
     userInfoList* infos = NULL;
+    danhSachDocGia* dsDocGia = NULL;
 
 
-    Initialise(users, infos, totalAccounts);
+    Initialise(users, infos, dsDocGia, totalAccounts, totalDocGia);
 
     //
     // Sau do cac bien sau se luu session (phien dang nhap) cua nguoi dung:
@@ -103,7 +107,7 @@ int main() {
     do {
         // Thoat hoan toan chuong trinh.
         if (stop_executing) {
-            Terminate(users, infos, totalAccounts);
+            Terminate(users, infos, dsDocGia, totalAccounts, totalDocGia);
             break;
         }
 
@@ -137,19 +141,14 @@ int main() {
 
             // Load menu co ban.
             generalMenu();
+
+            // Neu la admin, load menu nang cao cho admin.
             if (isAdmin(user_session_info)) {
                 adminMenu();
             }
 
-            else if (isQuanLy(user_session_info)) {
-                quanlyMenu();
-                // Bat su kien quan ly menu.
-            }
-
-            else {
-                chuyenvienMenu();
-                // Bat su kien chuyen vien menu.
-            }
+            // Load menu quan ly doc gia.
+            quanLyDocGia();
 
             cout << "Nhap lenh ban muon thuc hien (so dung truoc moi menu): " << endl;
             if (!(cin >> command_code)) {
@@ -191,6 +190,7 @@ int main() {
                     break;
                 }
 
+                // Bat su kien them user.
                 case MENU_THEM_USER_COMMAND_CODE: {
                     if (isAdmin(user_session_info)) {
                         if (addUser(totalAccounts, users, infos)) {
@@ -207,7 +207,8 @@ int main() {
                     else cout << "Ban khong co quyen thuc hien lenh nay." << endl;
                     break;
                 }
-
+                
+                // Bat su kien phan quyen user (admin)
                 case MENU_PHAN_QUYEN_USER_COMMAND_CODE: {
                     if (isAdmin(user_session_info)) {
                         if (permissionUser(infos)) {
@@ -223,6 +224,14 @@ int main() {
                         }
                     }
                     else cout << "Ban khong co quyen thuc hien lenh nay." << endl;
+                    break;
+                }
+
+                case XEM_DOC_GIA_COMMAND_CODE: {
+                    cout << "== Danh sach doc gia ==" << endl;
+                    xemDanhSachDocGia(dsDocGia->docGiaDau);
+                    cout << "==        END        ==" << endl;
+                    cout << "Danh sach nay co " << totalDocGia << " doc gia." << endl;
                     break;
                 }
 

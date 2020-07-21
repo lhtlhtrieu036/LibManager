@@ -2,12 +2,16 @@
 
 #include"include.h"
 
+#define DOCGIA_FILE "docgia.dat"
+#define NAM 1
+#define NU  0
+
 struct theDocGia {
     int maDocGia;
     char ho_Ten[NAME_MAX];
     char so_CMND[CMND_MAX];
     char ngay_Sinh[BIRTH_DAY];
-    int gioiTinh;
+    int gioiTinh; // 1 : nam, 0 : nu
     char email[EMAIL_MAX];
     char diaChi[ADDRESS_MAX];
     // Them ngay lap the
@@ -30,6 +34,8 @@ struct danhSachDocGia {
 danhSachDocGia* createDanhSachDocGia();
 
 nodeDocGia* createDocGiaNode(theDocGia);
+
+danhSachDocGia* getDanhSachDocGiaList(int&);
 
 nodeDocGia* searchForDocGiaByCMND(const char*, danhSachDocGia*);
 

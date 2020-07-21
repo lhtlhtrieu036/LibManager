@@ -11,7 +11,8 @@
 #endif
 
 #include<iostream>
-#include<ctime>
+//#include<ctime>
+#include<time.h>
 #include<cstdlib>
 #include<cstring>
 

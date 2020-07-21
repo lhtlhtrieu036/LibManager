@@ -7,6 +7,7 @@
 #define LOGOUT_COMMAND_CODE  6969 // nonsense, se set gia tri khac trong tuong lai
 #define CHANGE_PASSWORD_COMMAND_CODE 9455 // P - A - S -S.
 #define CHANGE_INFO_COMMAND_CODE 1024 // nonsense, se set gia tri khac trong tuong lai.
+#define XEM_DOC_GIA_COMMAND_CODE 1111
 
 // Command menu thay doi thong tin nguoi dung.
 // Menu thong tin co the nhan trung gia tri voi menu ben tren,
@@ -34,11 +35,8 @@ void editInfoMenu();
 // Menu cho admin.
 void adminMenu();
 
-// Menu cho quan ly.
-void quanlyMenu();
-
-// Menu cho chuyen vien.
-void chuyenvienMenu();
+// Menu quan ly doc gia.
+void quanLyDocGia();
 
 // Xu ly cho cac menu
 void catchEditInfoMenu(account*&, user_info*&);

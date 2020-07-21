@@ -35,12 +35,9 @@ void adminMenu() {
     cout << MENU_PHAN_QUYEN_USER_COMMAND_CODE << ". Phan quyen cho nguoi dung." << endl;
 }
 
-void quanlyMenu() {
-    cout << "== Cac chuc nang nang cao cho quan ly ==" << endl;
-}
-
-void chuyenvienMenu() {
-    cout << "== Cac chuc nang nang cao cho chuyen vien ==" << endl;
+void quanLyDocGia() {
+    cout << "== Quan ly doc gia == " << endl;
+    cout << XEM_DOC_GIA_COMMAND_CODE << ". Xem danh sach doc gia." << endl;
 }
 
 // Controller (xu ly) cho cac menu
