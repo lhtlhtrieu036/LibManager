@@ -15,7 +15,6 @@
     <ClInclude Include="Book.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="authentication.h" />
-    <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="docgia.dat" />
