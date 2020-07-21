@@ -219,6 +219,7 @@ int main() {
                             cout << "- khong ton tai quyen duoc phan cong." << endl;
                             cout << "- nguoi dung duoc phan quyen khong ton tai." << endl;
                             cout << "- phan quyen cho admin." << endl;
+                            cout << "- lenh phan quyen bi huy." << endl;
                         }
                     }
                     else cout << "Ban khong co quyen thuc hien lenh nay." << endl;

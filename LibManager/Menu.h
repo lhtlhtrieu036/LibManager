@@ -42,3 +42,6 @@ void chuyenvienMenu();
 
 // Xu ly cho cac menu
 void catchEditInfoMenu(account*&, user_info*&);
+
+// Ham xac nhan hanh dong cua nguoi dung.
+bool confirmationBox();

@@ -31,8 +31,8 @@ void generalMenu() {
 // Menu cho admin
 void adminMenu() {
     cout << "== Cac chuc nang nang cao cho admin ==" << endl;
-    cout << MENU_THEM_USER_COMMAND_CODE << ". Tao nguoi dung tu danh sach .csv" << endl;
-    cout << MENU_PHAN_QUYEN_USER_COMMAND_CODE << ". Phan quyen cho nguoi dung" << endl;
+    cout << MENU_THEM_USER_COMMAND_CODE << ". Tao nguoi dung moi." << endl;
+    cout << MENU_PHAN_QUYEN_USER_COMMAND_CODE << ". Phan quyen cho nguoi dung." << endl;
 }
 
 void quanlyMenu() {
@@ -123,4 +123,26 @@ void catchEditInfoMenu(account*& account_session_info, user_info*& user_session_
         default:
             cout << "Khong tim thay chuc nang nay." << endl;
     }
+}
+
+// Ham xac nhan xem nguoi dung co muon thuc hien hanh dong hay khong.
+// Noi cach khac, ham nay giup nguoi dung thoat khoi mot hanh dong/
+// bo khong lam tiep mot hanh dong.
+bool confirmationBox() {
+    cout << "Ban co muon thuc hien hanh dong nay?" << endl;
+    cout << "1. Co, tiep tuc." << endl;
+    cout << "2. Khong, huy." << endl;
+
+    int answer = -1;
+    do {
+        if (!(cin >> answer)) {
+            cin.clear();
+            cin.ignore();
+            continue;
+        }
+    } while (answer != 1 && answer != 2);
+    
+    if (answer == 2) cout << "Ban da huy hanh dong nay." << endl;
+
+    return answer == 1;
 }

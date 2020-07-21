@@ -6,6 +6,7 @@
     <ClCompile Include="authentication.cpp" />
     <ClCompile Include="account.cpp" />
     <ClCompile Include="book.cpp" />
+    <ClCompile Include="theDocGia.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="account.h" />

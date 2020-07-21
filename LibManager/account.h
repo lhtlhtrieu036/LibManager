@@ -23,6 +23,8 @@
 #define BIRTH_DAY 10
 #define CMND_MIN 9
 #define CMND_MAX 10
+#define EMAIL_MIN 10
+#define EMAIL_MAX 30
 #define ADDRESS_MIN 10
 #define ADDRESS_MAX 50
 #define SEX 4

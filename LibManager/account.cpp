@@ -162,12 +162,15 @@ bool changeUserPassword(account* user) {
         return false;
     }
 
-    // Doi mat khau va yeu cau nguoi dung dang nhap lai.
-    // tuy nhien, action dang xuat se xu ly trong controller ngoai main.
-    strcpy(user->pass_word, newPassword);
-    cout << "Da doi mat khau thanh cong, vui long dang nhap lai." << endl;
+    if (confirmationBox()) {
+        // Doi mat khau va yeu cau nguoi dung dang nhap lai.
+        // tuy nhien, action dang xuat se xu ly trong controller ngoai main.
+        strcpy(user->pass_word, newPassword);
+        cout << "Da doi mat khau thanh cong, vui long dang nhap lai." << endl;
 
-    return true;
+        return true;
+    }
+    return false;
 }
 
 //
@@ -180,8 +183,10 @@ bool editUserCMND(user_info*& user_session_info) {
     cin >> soCMND;
 
     if (strlen(soCMND) >= CMND_MIN && strlen(soCMND) <= CMND_MAX) {
-        strcpy(user_session_info->so_CMND, soCMND);
-        return true;
+        if (confirmationBox()) {
+            strcpy(user_session_info->so_CMND, soCMND);
+            return true;
+        }
     }
 
     return false;
@@ -197,8 +202,10 @@ bool editUserHoTen(user_info*& user_session_info) {
     cin.getline(hoTen, NAME_MAX);
 
     if (strlen(hoTen) >= NAME_MIN && strlen(hoTen) <= NAME_MAX) {
-        strcpy(user_session_info->ho_Ten, hoTen);
-        return true;
+        if (confirmationBox()) {
+            strcpy(user_session_info->ho_Ten, hoTen);
+            return true;
+        }
     }
 
     return false;
@@ -214,8 +221,10 @@ bool editUserDiaChi(user_info*& user_session_info) {
     cin.getline(diaChi, ADDRESS_MAX);
 
     if (strlen(diaChi) >= ADDRESS_MIN && strlen(diaChi) <= ADDRESS_MAX) {
-        strcpy(user_session_info->dia_Chi, diaChi);
-        return true;
+        if (confirmationBox()) {
+            strcpy(user_session_info->dia_Chi, diaChi);
+            return true;
+        }
     }
     
     return false;
@@ -230,9 +239,12 @@ bool editUserGioiTinh(user_info*& user_session_info) {
     cin.ignore();
     cin >> gioiTinh;
 
-    strcpy(user_session_info->gioi_Tinh, gioiTinh);
+    if (confirmationBox()) {
+        strcpy(user_session_info->gioi_Tinh, gioiTinh);
 
-    return true;
+        return true;
+    }
+    return false;
 }
 
 //
@@ -244,9 +256,13 @@ bool editUserNgaySinh(user_info*& user_session_info) {
     cin.ignore();
     cin >> ngaySinh;
 
-    strcpy(user_session_info->ngay_Sinh, ngaySinh);
+    if (confirmationBox()) {
+        strcpy(user_session_info->ngay_Sinh, ngaySinh);
 
-    return true;
+        return true;
+    }
+
+    return false;
 }
 
 //
@@ -261,6 +277,8 @@ bool addUser(int& totalAccount, accountList*& userList, userInfoList*& infoList)
 
     if (strlen(username) >= USERNAME_MIN_SIZE && strlen(username) <= USERNAME_MAX_SIZE &&
         strlen(password) >= PASSWORD_MIN_SIZE && strlen(password) <= PASSWORD_MAX_SIZE) {
+        if (!confirmationBox()) return false;
+
         // Tao mot tai khoan moi.
         account* newAccount = (account*)malloc(sizeof(account));
         newAccount->ID = ++totalAccount;
@@ -322,6 +340,9 @@ bool permissionUser(userInfoList*& infoList) {
     // Neu phan quyen la, tra ve false.
     if (newPermission != USER_QUANLY && newPermission != USER_CVIEN)
         return false;
+
+    
+    if (!confirmationBox()) return false;
 
     // Phan quyen cho nguoi dung.
     userNode->info->permissions = newPermission;
