@@ -37,7 +37,9 @@ nodeDocGia* createDocGiaNode(theDocGia);
 
 danhSachDocGia* getDanhSachDocGiaList(int&);
 
-nodeDocGia* searchForDocGiaByCMND(const char*, danhSachDocGia*);
+bool isNam(theDocGia);
+
+void searchForDocGiaByCMND(const char*, danhSachDocGia*);
 
 void searchForDocGiaByHoTen(const char*, danhSachDocGia*);
 
@@ -46,5 +48,7 @@ void deleteDocGiaDau(danhSachDocGia*&);
 void freeDanhSachDocGia(danhSachDocGia*&);
 
 void xemDanhSachDocGia(nodeDocGia*);
+
+void thongKeTheoGioiTinh(danhSachDocGia*, int);
 
 void inDocGia(theDocGia);

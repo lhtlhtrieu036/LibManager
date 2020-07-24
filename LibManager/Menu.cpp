@@ -1,12 +1,5 @@
 #include"include.h"
 
-// Chua dang nhap.
-void nonLoggedInMenu() {
-    
-
-    // Xu ly dang nhap.
-}
-
 // Menu xu ly sua doi thong tin.
 void editInfoMenu() {
     cout << "== Thay doi thong tin ==" << endl;
@@ -38,9 +31,25 @@ void adminMenu() {
 void quanLyDocGia() {
     cout << "== Quan ly doc gia == " << endl;
     cout << XEM_DOC_GIA_COMMAND_CODE << ". Xem danh sach doc gia." << endl;
+
+    // Them chuc nang them doc gia.
+    // Them chuc nang xoa doc gia.
+
+    cout << TIM_DOC_GIA_CMND_COMMAND_CODE << ". Tim doc gia theo CMND." << endl;
+    cout << TIM_DOC_GIA_HO_TEN_COMMAND_CODE << ". Tim doc gia theo Ho ten." << endl;
+}
+
+void thongKeCoBan(user_info* user_session_info) {
+    cout << "== Thong ke co ban ==" << endl;
+
+    if (!isChuyenVien(user_session_info)) {
+        cout << THONG_KE_SO_LUONG_DOC_GIA_COMMAND_CODE << ". Thong ke so luong doc gia." << endl;
+        cout << THONG_KE_DOC_GIA_GIOI_TINH_COMMAND_CODE << ". Thong ke doc gia theo gioi tinh." << endl;
+    }
 }
 
 // Controller (xu ly) cho cac menu
+
 void getInfoMenu(user_info* user_session_info) {
     cout << "== Thong tin cua ban ==" << endl;
     cout << "Ho va ten: " << user_session_info->ho_Ten << endl;

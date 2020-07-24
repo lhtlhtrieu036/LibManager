@@ -45,23 +45,38 @@ danhSachDocGia* getDanhSachDocGiaList(int& totalDocGia) {
     return newList;
 }
 
-nodeDocGia* searchForDocGiaByCMND(const char* CMND, danhSachDocGia* list) {
+bool isNam(theDocGia docGia) {
+    return docGia.gioiTinh == 1;
+}
+
+void searchForDocGiaByCMND(const char* CMND, danhSachDocGia* list) {
     nodeDocGia* thisNode = list->docGiaDau;
+    bool foundDocGia = false;
     while (thisNode != NULL) {
-        if (strcmp(thisNode->thongTinDocGia.so_CMND, CMND) == 0)
-            return thisNode;
+        if (strcmp(thisNode->thongTinDocGia.so_CMND, CMND) == 0) {
+            inDocGia(thisNode->thongTinDocGia);
+            foundDocGia = true;
+            break;
+        }
+
+        thisNode = thisNode->docGiaTiepTheo;
+            
     }
-    return NULL;
+    
+    if (!foundDocGia) cout << "Khong tim thay doc gia co CMND " << CMND << endl;
 }
 
 void searchForDocGiaByHoTen(const char* HoTen, danhSachDocGia* list) {
     nodeDocGia* thisNode = list->docGiaDau;
     bool foundDocGia = false;
     while (thisNode != NULL) {
-        if (strcmp(thisNode->thongTinDocGia.ho_Ten, HoTen) == 0) {
+        if (strcmp(_strlwr(thisNode->thongTinDocGia.ho_Ten), HoTen) == 0) {
             inDocGia(thisNode->thongTinDocGia);
             foundDocGia = true;
+            break;
         }
+
+        thisNode = thisNode->docGiaTiepTheo;
     }
 
     if (!foundDocGia) cout << "Khong tim thay doc gia co ten " << HoTen << endl;
@@ -74,6 +89,22 @@ void xemDanhSachDocGia(nodeDocGia* docGia) {
 
         xemDanhSachDocGia(docGia->docGiaTiepTheo);
     }
+    else cout << "Hien tai khong co doc gia nao trong danh sach." << endl;
+}
+
+void thongKeTheoGioiTinh(danhSachDocGia* dsDocGia, int tongDocGia) {
+    nodeDocGia* thisNode = dsDocGia->docGiaDau;
+    int docGiaNam = 0;
+
+    while (thisNode != NULL) {
+        if (isNam(thisNode->thongTinDocGia)) ++docGiaNam;
+        thisNode = thisNode->docGiaTiepTheo;
+    }
+
+    cout << "Thong ke theo gioi tinh:" << endl;
+    cout << "Co tong cong " << tongDocGia << " doc gia, trong do: " << endl;
+    cout << docGiaNam << " nguoi la NAM." << endl;
+    cout << tongDocGia - docGiaNam << " nguoi la NU." << endl;
 }
 
 void inDocGia(theDocGia thongTin) {

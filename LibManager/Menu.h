@@ -7,7 +7,16 @@
 #define LOGOUT_COMMAND_CODE  6969 // nonsense, se set gia tri khac trong tuong lai
 #define CHANGE_PASSWORD_COMMAND_CODE 9455 // P - A - S -S.
 #define CHANGE_INFO_COMMAND_CODE 1024 // nonsense, se set gia tri khac trong tuong lai.
-#define XEM_DOC_GIA_COMMAND_CODE 1111
+
+// COMMAND CODE for Doc gia
+#define XEM_DOC_GIA_COMMAND_CODE 2100
+#define TIM_DOC_GIA_CMND_COMMAND_CODE 2500
+#define TIM_DOC_GIA_HO_TEN_COMMAND_CODE 2600
+
+
+// COMMAND CODE for Thong ke
+#define THONG_KE_SO_LUONG_DOC_GIA_COMMAND_CODE 6300
+#define THONG_KE_DOC_GIA_GIOI_TINH_COMMAND_CODE 6400
 
 // Command menu thay doi thong tin nguoi dung.
 // Menu thong tin co the nhan trung gia tri voi menu ben tren,
@@ -37,6 +46,9 @@ void adminMenu();
 
 // Menu quan ly doc gia.
 void quanLyDocGia();
+
+// Menu thong ke co ban.
+void thongKeCoBan(user_info*);
 
 // Xu ly cho cac menu
 void catchEditInfoMenu(account*&, user_info*&);
