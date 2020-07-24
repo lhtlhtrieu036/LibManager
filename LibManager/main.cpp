@@ -1,5 +1,4 @@
 #include "include.h"
-#include "account.h"
 
 
 // LUU Y:
@@ -16,18 +15,19 @@
 
 // Ham nap danh sach nguoi dung & danh sach thong tin nguoi dung
 // tu file vao linked list.
-void Initialise(accountList*& users, userInfoList*& infos, int& totalAccounts) {
+void Initialise(accountList*& users, userInfoList*& infos, danhSachDocGia*& dsDocGia, int& totalAccounts, int& totalDocGia) {
     users = getAccountList(totalAccounts);
     infos = getUserInfoList(totalAccounts);
+    dsDocGia = getDanhSachDocGiaList(totalDocGia);
 
-    if (users == NULL || infos == NULL) {
+    if (users == NULL || infos == NULL || dsDocGia == NULL) {
         cout << "Co van de xay ra voi file du lieu. Vui long tai lai chuong trinh.\n";
         exit(0);
     }
 }
 
 // Ham ghi cac danh sach tro lai file sau khi ket thuc.
-void Terminate(accountList* users, userInfoList* infos, int totalAccounts) {
+void Terminate(accountList*& users, userInfoList*& infos, danhSachDocGia*& dsDocGia, int totalAccounts, int totalDocGia) {
     // Ghi danh sach users tro lai file.
     FILE* f = fopen(ACCOUNT_FILE, "wb+");
     fseek(f, 0, SEEK_SET);
@@ -59,13 +59,15 @@ void Terminate(accountList* users, userInfoList* infos, int totalAccounts) {
     //
     freeAccountList(users);
     freeUserInfoList(infos);
+    freeDanhSachDocGia(dsDocGia);
 }
 
 int main() {
     //
     // Thong tin demo
     //
-    cout << "(Demo only): Tai khoan admin: admin/admiN@fit.hcmus" << endl;
+    cout << "(Demo only): Tai khoan admin: admin/admin@fit.hcmus" << endl;
+    cout << "(Demo only): Tai khoan quan ly: lttan/lttan@bqpvietnam" << endl;
     cout << "(Demo only): Tai khoan chuyen vien: thquan/quan@hcmus" << endl;
     system("pause");
 
@@ -74,12 +76,13 @@ int main() {
     // phuc vu muc dich dang nhap.
     //
     
-    int totalAccounts;
+    int totalAccounts, totalDocGia;
     accountList* users = NULL;
     userInfoList* infos = NULL;
+    danhSachDocGia* dsDocGia = NULL;
 
 
-    Initialise(users, infos, totalAccounts);
+    Initialise(users, infos, dsDocGia, totalAccounts, totalDocGia);
 
     //
     // Sau do cac bien sau se luu session (phien dang nhap) cua nguoi dung:
@@ -102,7 +105,7 @@ int main() {
     do {
         // Thoat hoan toan chuong trinh.
         if (stop_executing) {
-            Terminate(users, infos, totalAccounts);
+            Terminate(users, infos, dsDocGia, totalAccounts, totalDocGia);
             break;
         }
 
@@ -136,20 +139,14 @@ int main() {
 
             // Load menu co ban.
             generalMenu();
+
+            // Neu la admin, load menu nang cao cho admin.
             if (isAdmin(user_session_info)) {
                 adminMenu();
-                // Bat su kien admin menu.
             }
 
-            else if (isQuanLy(user_session_info)) {
-                quanlyMenu();
-                // Bat su kien quan ly menu.
-            }
-
-            else {
-                chuyenvienMenu();
-                // Bat su kien chuyen vien menu.
-            }
+            // Load menu quan ly doc gia.
+            quanLyDocGia();
 
             cout << "Nhap lenh ban muon thuc hien (so dung truoc moi menu): " << endl;
             if (!(cin >> command_code)) {
@@ -170,8 +167,8 @@ int main() {
 
                 // Bat su kien doi thong tin.
                 case CHANGE_INFO_COMMAND_CODE: {
-                    cout << user_session_info->dia_Chi << endl;
                     editInfoMenu();
+                    catchEditInfoMenu(user_session_account, user_session_info);
                     break;
                 }
 
@@ -191,6 +188,50 @@ int main() {
                     break;
                 }
 
+                // Bat su kien them user.
+                case MENU_THEM_USER_COMMAND_CODE: {
+                    if (isAdmin(user_session_info)) {
+                        if (addUser(totalAccounts, users, infos)) {
+                            cout << "Da tao tai khoan moi thanh cong." << endl;
+                            cout << "Moi thay doi se duoc luu sau khi dang xuat va thoat khoi chuong trinh bang lenh " << EXIT_COMMAND_CODE << endl;
+
+                            cout << "Thong tin tai khoan moi duoc tao: " << endl;
+                            cout << "ID: " << infos->tail->info->ID << endl;
+                            cout << "Tai khoan: " << users->tail->credentials->user_name << endl;
+                            cout << "Mat khau: " << users->tail->credentials->pass_word << endl;
+                        }
+                        else cout << "Do dai mot trong so cac thong tin khong hop le." << endl;
+                    }
+                    else cout << "Ban khong co quyen thuc hien lenh nay." << endl;
+                    break;
+                }
+                
+                // Bat su kien phan quyen user (admin)
+                case MENU_PHAN_QUYEN_USER_COMMAND_CODE: {
+                    if (isAdmin(user_session_info)) {
+                        if (permissionUser(infos)) {
+                            cout << "Da phan quyen thanh cong." << endl;
+                            cout << "Moi thay doi se duoc luu sau khi dang xuat va thoat khoi chuong trinh bang lenh " << EXIT_COMMAND_CODE << endl;
+                        }
+                        else {
+                            cout << "Khong the phan quyen cho user nay vi mot trong so cac ly do sau:" << endl;
+                            cout << "- khong ton tai quyen duoc phan cong." << endl;
+                            cout << "- nguoi dung duoc phan quyen khong ton tai." << endl;
+                            cout << "- phan quyen cho admin." << endl;
+                            cout << "- lenh phan quyen bi huy." << endl;
+                        }
+                    }
+                    else cout << "Ban khong co quyen thuc hien lenh nay." << endl;
+                    break;
+                }
+
+                case XEM_DOC_GIA_COMMAND_CODE: {
+                    cout << "== Danh sach doc gia ==" << endl;
+                    xemDanhSachDocGia(dsDocGia->docGiaDau);
+                    cout << "==        END        ==" << endl;
+                    cout << "Danh sach nay co " << totalDocGia << " doc gia." << endl;
+                    break;
+                }
 
                 default:
                     cout << "Khong tim thay lenh " << command_code << endl;
@@ -202,6 +243,4 @@ int main() {
     
     
     return 0;
-
-
 }

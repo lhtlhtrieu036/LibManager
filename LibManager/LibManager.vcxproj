@@ -143,6 +143,7 @@
     <ClCompile Include="book.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="theDocGia.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="account.h" />
@@ -151,6 +152,9 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="theDocGia.h" />
     <ClInclude Include="include.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="docgia.dat" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

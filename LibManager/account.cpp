@@ -121,10 +121,22 @@ user_info* getUserInfo(userInfoList* infoList, account* credentials) {
     return NULL;
 }
 
+// Ham lay thong tin nguoi dung tu ID.
+userInfoNode* getUserFromID(int ID, userInfoList* list) {
+    userInfoNode* thisUser = list->head;
+    
+    while (thisUser != NULL) {
+        if (thisUser->info->ID == ID) return thisUser;
+        thisUser = thisUser->nextUser;
+    }
+
+    return NULL;
+}
+
 // Ham doi mat khau cua nguoi dung.
 bool changeUserPassword(account* user) {
     char currentPassword[PASSWORD_MAX_SIZE], newPassword[PASSWORD_MAX_SIZE], renewPassword[PASSWORD_MAX_SIZE];
-    cout << "Nhap mat khau hien tai cua ban: " << endl; 
+    cout << "Nhap mat khau hien tai cua ban: " << endl;
     cin >> currentPassword;
     cout << "Nhap mat khau moi cua ban (min = " << PASSWORD_MIN_SIZE << ", max = " << PASSWORD_MAX_SIZE << " ky tu): " << endl;
     cin >> newPassword;
@@ -149,11 +161,191 @@ bool changeUserPassword(account* user) {
         cout << "Do dai mat khau khong phu hop, xin hay thu lai." << endl;
         return false;
     }
+
+    if (confirmationBox()) {
+        // Doi mat khau va yeu cau nguoi dung dang nhap lai.
+        // tuy nhien, action dang xuat se xu ly trong controller ngoai main.
+        strcpy(user->pass_word, newPassword);
+        cout << "Da doi mat khau thanh cong, vui long dang nhap lai." << endl;
+
+        return true;
+    }
+    return false;
+}
+
+//
+// Ham doi CMND nguoi dung.
+//
+bool editUserCMND(user_info*& user_session_info) {
+    char soCMND[CMND_MAX]; 
     
-    // Doi mat khau va yeu cau nguoi dung dang nhap lai.
-    // tuy nhien, action dang xuat se xu ly trong controller ngoai main.
-    strcpy(user->pass_word, newPassword);
-    cout << "Da doi mat khau thanh cong, vui long dang nhap lai." << endl;
+    cin.ignore();
+    cin >> soCMND;
+
+    if (strlen(soCMND) >= CMND_MIN && strlen(soCMND) <= CMND_MAX) {
+        if (confirmationBox()) {
+            strcpy(user_session_info->so_CMND, soCMND);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+//
+// Ham doi ten nguoi dung.
+//
+bool editUserHoTen(user_info*& user_session_info) {
+    char hoTen[NAME_MAX]; 
+    
+    cin.ignore();
+    cin.getline(hoTen, NAME_MAX);
+
+    if (strlen(hoTen) >= NAME_MIN && strlen(hoTen) <= NAME_MAX) {
+        if (confirmationBox()) {
+            strcpy(user_session_info->ho_Ten, hoTen);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+//
+// Ham doi dia chi nguoi dung.
+//
+bool editUserDiaChi(user_info*& user_session_info) {
+    char diaChi[ADDRESS_MAX];
+
+    cin.ignore();
+    cin.getline(diaChi, ADDRESS_MAX);
+
+    if (strlen(diaChi) >= ADDRESS_MIN && strlen(diaChi) <= ADDRESS_MAX) {
+        if (confirmationBox()) {
+            strcpy(user_session_info->dia_Chi, diaChi);
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+//
+// Ham doi gioi tinh nguoi dung.
+//
+bool editUserGioiTinh(user_info*& user_session_info) {
+    char gioiTinh[SEX];
+
+    cin.ignore();
+    cin >> gioiTinh;
+
+    if (confirmationBox()) {
+        strcpy(user_session_info->gioi_Tinh, gioiTinh);
+
+        return true;
+    }
+    return false;
+}
+
+//
+// Ham doi ngay sinh nguoi dung.
+//
+bool editUserNgaySinh(user_info*& user_session_info) {
+    char ngaySinh[BIRTH_DAY];
+
+    cin.ignore();
+    cin >> ngaySinh;
+
+    if (confirmationBox()) {
+        strcpy(user_session_info->ngay_Sinh, ngaySinh);
+
+        return true;
+    }
+
+    return false;
+}
+
+//
+// Ham them nguoi dung vao danh sach.
+//
+bool addUser(int& totalAccount, accountList*& userList, userInfoList*& infoList) {
+    char username[USERNAME_MAX_SIZE];
+    char password[PASSWORD_MAX_SIZE];
+
+    cout << "Tai khoan moi: "; cin >> username;
+    cout << "Mat khau moi: "; cin >> password;
+
+    if (strlen(username) >= USERNAME_MIN_SIZE && strlen(username) <= USERNAME_MAX_SIZE &&
+        strlen(password) >= PASSWORD_MIN_SIZE && strlen(password) <= PASSWORD_MAX_SIZE) {
+        if (!confirmationBox()) return false;
+
+        // Tao mot tai khoan moi.
+        account* newAccount = (account*)malloc(sizeof(account));
+        newAccount->ID = ++totalAccount;
+        strcpy(newAccount->user_name, username);
+        strcpy(newAccount->pass_word, password);
+
+        // Tao info nguoi dung, info se la he thong cho.
+        // Info nguoi dung se do nguoi dung tu thay doi.
+        user_info* newInfo = (user_info*)malloc(sizeof(user_info));
+        newInfo->ID = newAccount->ID;
+        strcpy(newInfo->ho_Ten, "Nguyen Van A");
+        strcpy(newInfo->dia_Chi, "Viet Nam");
+        strcpy(newInfo->ngay_Sinh, "01012001");
+        strcpy(newInfo->so_CMND, "000000000");
+        strcpy(newInfo->gioi_Tinh, "nam");
+        newInfo->permissions = USER_CVIEN;
+
+        // Tao node va gan vao duoi moi list.
+        accountNode* newAccountNode = createAccountNode(newAccount);
+        userInfoNode* newInfoNode = createInfoNode(newInfo);
+
+        // Gan account vao duoi list account.
+        newAccountNode->prevAccount = userList->tail;
+        userList->tail->nextAccount = newAccountNode;
+        userList->tail = newAccountNode;
+
+        // Gan info vao duoi list info.
+        newInfoNode->prevUser = infoList->tail;
+        infoList->tail->nextUser = newInfoNode;
+        infoList->tail = newInfoNode;
+
+        return true;
+    }
+
+    return false;
+}
+
+//
+// Ham phan quyen cho user.
+//
+bool permissionUser(userInfoList*& infoList) {
+    int userID, newPermission;
+    cout << "ID nguoi dung can phan quyen: "; cin >> userID;
+    cout << "== Cac quyen hien co: ==" << endl;
+    cout << USER_QUANLY << ". Quan ly." << endl;
+    cout << USER_CVIEN << ". Chuyen vien." << endl;
+    cout << "Quyen moi cua nguoi dung: "; cin >> newPermission;
+
+    userInfoNode* userNode = getUserFromID(userID, infoList);
+
+    // Neu user khong ton tai, tra ve false.
+    if (userNode == NULL) 
+        return false;
+
+    // Neu user la admin, tra ve false.
+    if (isAdmin(userNode->info)) 
+        return false;
+
+    // Neu phan quyen la, tra ve false.
+    if (newPermission != USER_QUANLY && newPermission != USER_CVIEN)
+        return false;
+
+    
+    if (!confirmationBox()) return false;
+
+    // Phan quyen cho nguoi dung.
+    userNode->info->permissions = newPermission;
 
     return true;
 }
