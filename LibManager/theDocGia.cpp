@@ -199,7 +199,7 @@ int themDocGiaTuCSV(FILE* csvFile, danhSachDocGia*& list, int& totalDocGia) {
                     time_t now = time(NULL);
 
                     // Chen ma doc gia va ngay lap the.
-                    newDocGia.maDocGia = ++totalDocGia;
+                    newDocGia.maDocGia = getMaxID(list) + 1;
                     newDocGia.ngayLapThe = now;
 
                     // Ngay het han la 2 nam ke tu ngay lap the.
@@ -237,6 +237,7 @@ int themDocGiaTuCSV(FILE* csvFile, danhSachDocGia*& list, int& totalDocGia) {
                         list->docGiaCuoi = newNodeDocGia;
                     }
                     ++added;
+                    ++totalDocGia;
                 }
                 else {
                     cout << "Da co loi xay ra o dong so " << lineNumber << endl;
@@ -253,6 +254,16 @@ int themDocGiaTuCSV(FILE* csvFile, danhSachDocGia*& list, int& totalDocGia) {
     }
 
     return added;
+}
+
+int getMaxID(danhSachDocGia* dsDocGia) {
+    int maxID = 0;
+    nodeDocGia* docGia = dsDocGia->docGiaDau;
+    while (docGia != NULL) {
+        maxID = max(maxID, docGia->thongTinDocGia.maDocGia);
+        docGia = docGia->docGiaTiepTheo;
+    }
+    return maxID;
 }
 
 nodeDocGia* searchForDocGiaByCMND(const char* CMND, danhSachDocGia* list) {

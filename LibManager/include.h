@@ -11,6 +11,7 @@
 #endif
 
 #include<iostream>
+#include<algorithm>
 #include<ctime>
 #include<cstdlib>
 #include<cstring>

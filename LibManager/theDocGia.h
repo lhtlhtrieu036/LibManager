@@ -65,6 +65,8 @@ void searchForDocGiaByHoTen(const char*, danhSachDocGia*);
 
 int themDocGiaTuCSV(FILE*, danhSachDocGia*&, int&);
 
+int getMaxID(danhSachDocGia*);
+
 void deleteDocGiaDau(danhSachDocGia*&);
 
 void deleteDocGiaCuoi(danhSachDocGia*&);
