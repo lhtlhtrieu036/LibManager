@@ -259,10 +259,11 @@ int main() {
                     if (isCSV(fileName)) {
                         FILE* f = fopen(fileName, "r+");
 
-                        if (f != NULL) {
-                            int totalAdded = themDocGiaTuCSV(f, dsDocGia, totalDocGia);
-                            cout << "Da them thanh cong " << totalAdded << " doc gia." << endl;
-                        }
+                        if (f != NULL)
+                            if (confirmationBox()) {
+                                int totalAdded = themDocGiaTuCSV(f, dsDocGia, totalDocGia);
+                                cout << "Da them thanh cong " << totalAdded << " doc gia." << endl;
+                            } else cout << "Lenh nhap doc gia da bi huy." << endl;
                         else cout << "File khong ton tai." << endl;
                     }
                     else cout << "File ban vua nhap khong phai la file .csv" << endl;
