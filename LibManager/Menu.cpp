@@ -33,6 +33,7 @@ void quanLyDocGia() {
     cout << XEM_DOC_GIA_COMMAND_CODE << ". Xem danh sach doc gia." << endl;
 
     // Them chuc nang them doc gia.
+    cout << THEM_DOC_GIA_CSV_COMMAND_CODE << ". Them doc gia tu file .csv." << endl;
     // Them chuc nang xoa doc gia.
 
     cout << TIM_DOC_GIA_CMND_COMMAND_CODE << ". Tim doc gia theo CMND." << endl;

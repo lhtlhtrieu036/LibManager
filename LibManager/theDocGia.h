@@ -39,9 +39,15 @@ danhSachDocGia* getDanhSachDocGiaList(int&);
 
 bool isNam(theDocGia);
 
-void searchForDocGiaByCMND(const char*, danhSachDocGia*);
+bool isCSV(char const*);
+
+bool validateDocGiaInfo(theDocGia, danhSachDocGia*);
+
+nodeDocGia* searchForDocGiaByCMND(const char*, danhSachDocGia*);
 
 void searchForDocGiaByHoTen(const char*, danhSachDocGia*);
+
+void themDocGiaTuCSV(FILE*, danhSachDocGia*&, int&);
 
 void deleteDocGiaDau(danhSachDocGia*&);
 

@@ -54,8 +54,22 @@ void Terminate(accountList*& users, userInfoList*& infos, danhSachDocGia*& dsDoc
     }
     fclose(f);
 
+    // Ghi doc gia tro lai file.
+    f = fopen(DOCGIA_FILE, "wb+");
+
+    // Ghi tong so doc gia.
+    fwrite(&totalDocGia, sizeof(int), 1, f);
+
+    // Ghi tung doc gia.
+    nodeDocGia* docGia = dsDocGia->docGiaDau;
+    while (docGia != NULL) {
+        fwrite(&docGia->thongTinDocGia, sizeof(theDocGia), 1, f);
+        docGia = docGia->docGiaTiepTheo;
+    }
+    fclose(f);
+
     //
-    // Xoa user list va user info list.
+    // Xoa cac danh sach.
     //
     freeAccountList(users);
     freeUserInfoList(infos);
@@ -76,7 +90,7 @@ int main() {
     // phuc vu muc dich dang nhap.
     //
     
-    int totalAccounts, totalDocGia;
+    int totalAccounts = 0, totalDocGia = 0;
     accountList* users = NULL;
     userInfoList* infos = NULL;
     danhSachDocGia* dsDocGia = NULL;
@@ -236,11 +250,28 @@ int main() {
                     break;
                 }
 
+                case THEM_DOC_GIA_CSV_COMMAND_CODE: {
+                    cout << "Nhap file .csv chua thong tin cac doc gia: ";
+                    char fileName[1024]; cin >> fileName;
+
+                    if (isCSV(fileName)) {
+                        FILE* f = fopen(fileName, "r+");
+
+                        if (f != NULL) themDocGiaTuCSV(f, dsDocGia, totalDocGia);
+                        else cout << "File khong ton tai." << endl;
+                    }
+                    else cout << "File ban vua nhap khong phai la file .csv" << endl;
+
+                    break;
+                }
+
                 case TIM_DOC_GIA_CMND_COMMAND_CODE: {
                     cout << "Nhap CMND cua doc gia can tim:" << endl;
                     char CMND[CMND_MAX]; cin >> CMND;
 
-                    searchForDocGiaByCMND(CMND, dsDocGia);
+                    nodeDocGia* docGia = searchForDocGiaByCMND(CMND, dsDocGia);
+                    if (docGia == NULL) cout << "Khong tim thay doc gia co CMND " << CMND << endl;
+                    else inDocGia(docGia->thongTinDocGia);
 
                     break;
                 }
