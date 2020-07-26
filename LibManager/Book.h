@@ -46,8 +46,6 @@ struct bookList
 	int bookCount;
 };
 
-
-
 bookNode* creatBookNode(Book newBook);
 bookNode* isBookExist(char* ISBN, bookList list);
 void enterBookInfo(bookList& a);

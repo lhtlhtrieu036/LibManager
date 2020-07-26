@@ -11,6 +11,8 @@
 // COMMAND CODE for Doc gia
 #define XEM_DOC_GIA_COMMAND_CODE 2100
 #define THEM_DOC_GIA_CSV_COMMAND_CODE 2200
+#define DOI_THONG_TIN_DOC_GIA_COMMAND_CODE 2300
+#define XOA_DOC_GIA_COMMAND_CODE 2400
 #define TIM_DOC_GIA_CMND_COMMAND_CODE 2500
 #define TIM_DOC_GIA_HO_TEN_COMMAND_CODE 2600
 
@@ -29,11 +31,19 @@
 #define MENU_THOAT_DOI_COMMAND_CODE 6
 #define MENU_XEM_THONG_TIN_COMMAND_CODE 7
 
+// Command menu thay doi thong tin doc gia
+// Tuong tu menu ben tren, khong so trung.
+#define MENU_DOI_TEN_DOC_GIA_COMMAND_CODE 1
+#define MENU_DOI_CMND_DOC_GIA_COMMAND_CODE 2
+#define MENU_DOI_NGAY_SINH_DOC_GIA_COMMAND_CODE 3
+#define MENU_DOI_GIOI_TINH_DOC_GIA_COMMAND_CODE 4
+#define MENU_DOI_EMAIL_DOC_GIA_COMMAND_CODE 5
+#define MENU_DOI_DIA_CHI_DOC_GIA_COMMAND_CODE 6
+
+// Command menu them user va phan quyen.
+// (Menu danh rieng cho admin)
 #define MENU_THEM_USER_COMMAND_CODE 8
 #define MENU_PHAN_QUYEN_USER_COMMAND_CODE 9
-
-// Chua dang nhap
-void nonLoggedInMenu();
 
 // Menu co ban.
 void generalMenu();
@@ -45,13 +55,19 @@ void editInfoMenu();
 void adminMenu();
 
 // Menu quan ly doc gia.
-void quanLyDocGia();
+void quanLyDocGia(user_info*);
+
+// Menu thay doi thong tin doc gia.
+void editInfoDocGia();
 
 // Menu thong ke co ban.
 void thongKeCoBan(user_info*);
 
-// Xu ly cho cac menu
+// Xu ly cho cac menu thay doi thong tin nguoi dung.
 void catchEditInfoMenu(account*&, user_info*&);
+
+// Xu ly cho menu thay doi thong tin doc gia.
+void catchEditInfoDocGia(nodeDocGia*&, danhSachDocGia*&);
 
 // Ham xac nhan hanh dong cua nguoi dung.
 bool confirmationBox();

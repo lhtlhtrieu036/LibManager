@@ -160,7 +160,7 @@ int main() {
             }
 
             // Load menu quan ly doc gia.
-            quanLyDocGia();
+            quanLyDocGia(user_session_info);
 
             thongKeCoBan(user_session_info);
 
@@ -182,21 +182,21 @@ int main() {
                     break;
                 }
 
-                                                 // Bat su kien doi thong tin.
+                // Bat su kien doi thong tin.
                 case CHANGE_INFO_COMMAND_CODE: {
                     editInfoMenu();
                     catchEditInfoMenu(user_session_account, user_session_info);
                     break;
                 }
 
-                                             // Bat su kien dang xuat.
+                // Bat su kien dang xuat.
                 case LOGOUT_COMMAND_CODE: {
                     logUserOut(user_session_account, user_session_info);
                     cout << "Dang xuat thanh cong. De thoat hoan toan, hay dang nhap lai va dung lenh " << EXIT_COMMAND_CODE << endl;
                     break;
                 }
 
-                                        // Bat su kien dang xuat va thoat.
+                // Bat su kien dang xuat va thoat.
                 case EXIT_COMMAND_CODE: {
                     if (isLoggedIn(user_session_account, user_session_info))
                         logUserOut(user_session_account, user_session_info);
@@ -205,7 +205,7 @@ int main() {
                     break;
                 }
 
-                                      // Bat su kien them user.
+                // Bat su kien them user.
                 case MENU_THEM_USER_COMMAND_CODE: {
                     if (isAdmin(user_session_info)) {
                         if (addUser(totalAccounts, users, infos)) {
@@ -223,7 +223,7 @@ int main() {
                     break;
                 }
 
-                                                // Bat su kien phan quyen user (admin)
+                // Bat su kien phan quyen user (admin)
                 case MENU_PHAN_QUYEN_USER_COMMAND_CODE: {
                     if (isAdmin(user_session_info)) {
                         if (permissionUser(infos)) {
@@ -241,7 +241,8 @@ int main() {
                     else cout << "Ban khong co quyen thuc hien lenh nay." << endl;
                     break;
                 }
-
+                
+                // Bat su kien xem doc gia
                 case XEM_DOC_GIA_COMMAND_CODE: {
                     cout << "== Danh sach doc gia ==" << endl;
                     xemDanhSachDocGia(dsDocGia->docGiaDau);
@@ -250,6 +251,7 @@ int main() {
                     break;
                 }
 
+                // Bat su kien them doc gia tu file .csv
                 case THEM_DOC_GIA_CSV_COMMAND_CODE: {
                     cout << "Nhap file .csv chua thong tin cac doc gia: ";
                     char fileName[1024]; cin >> fileName;
@@ -257,14 +259,59 @@ int main() {
                     if (isCSV(fileName)) {
                         FILE* f = fopen(fileName, "r+");
 
-                        if (f != NULL) themDocGiaTuCSV(f, dsDocGia, totalDocGia);
+                        if (f != NULL) {
+                            int totalAdded = themDocGiaTuCSV(f, dsDocGia, totalDocGia);
+                            cout << "Da them thanh cong " << totalAdded << " doc gia." << endl;
+                        }
                         else cout << "File khong ton tai." << endl;
                     }
                     else cout << "File ban vua nhap khong phai la file .csv" << endl;
 
                     break;
                 }
+                
+                // Bat su kien doi thong tin doc gia.
+                case DOI_THONG_TIN_DOC_GIA_COMMAND_CODE: {
+                    cout << "Nhap ID doc gia can thay doi thong tin: " << endl;
+                    int idDocGia;
+                    if (!(cin >> idDocGia)) {
+                        cin.clear();
+                        cin.ignore();
+                        break;
+                    }
 
+                    // Tim doc gia co ID.
+                    nodeDocGia* docGia = searchForDocGiaByID(idDocGia, dsDocGia);
+
+                    if (docGia != NULL) {
+                        // Hien menu
+                        editInfoDocGia();
+
+                        // Bat su kien.
+                        catchEditInfoDocGia(docGia, dsDocGia);
+                    }
+                    else cout << "Doc gia khong ton tai." << endl;
+                    break;
+                }
+
+                // Bat su kien xoa doc gia
+                case XOA_DOC_GIA_COMMAND_CODE: {
+                    if (!isChuyenVien(user_session_info)) {
+                        cout << "Nhap ID cua doc gia can xoa: " << endl;
+                        int ID; cin >> ID;
+
+                        if (deleteDocGia(ID, dsDocGia, totalDocGia)) {
+                            cout << "Da xoa doc gia thanh cong." << endl;
+                        } else {
+                            cout << "Xoa doc gia khong thanh cong vi mot trong cac ly do sau: " << endl;
+                            cout << "- Doc gia khong ton tai." << endl;
+                            cout << "- Lenh xoa bi huy." << endl;
+                        }
+                    } else cout << "Ban khong co quyen thuc hien lenh nay." << endl;
+                    break;
+                }
+
+                // Bat su kien tim doc gia co CMND
                 case TIM_DOC_GIA_CMND_COMMAND_CODE: {
                     cout << "Nhap CMND cua doc gia can tim:" << endl;
                     char CMND[CMND_MAX]; cin >> CMND;
@@ -276,6 +323,7 @@ int main() {
                     break;
                 }
 
+                // Bat su kien tim doc gia co ho ten.
                 case TIM_DOC_GIA_HO_TEN_COMMAND_CODE: {
                     cout << "Nhap ho ten cua doc gia can tim:" << endl;
                     char hoTen[NAME_MAX];
@@ -286,6 +334,7 @@ int main() {
                     break;
                 }
 
+                // Bat su kien thong ke so luong doc gia.
                 case THONG_KE_SO_LUONG_DOC_GIA_COMMAND_CODE:
                     if (!isChuyenVien(user_session_info)) {
                         cout << "Thong ke so luong doc gia:" << endl;
@@ -294,6 +343,7 @@ int main() {
                     else cout << "Ban khong co quyen thuc hien chuc nang nay." << endl;
                     break;
 
+                // Bat su kien thong ke doc gia theo gioi tinh.
                 case THONG_KE_DOC_GIA_GIOI_TINH_COMMAND_CODE: {
                     if (!isChuyenVien(user_session_info)) thongKeTheoGioiTinh(dsDocGia, totalDocGia);
                     else cout << "Ban khong co quyen thuc hien chuc nang nay." << endl;

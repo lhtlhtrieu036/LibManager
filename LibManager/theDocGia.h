@@ -43,13 +43,33 @@ bool isCSV(char const*);
 
 bool validateDocGiaInfo(theDocGia, danhSachDocGia*);
 
+bool editTenDocGia(nodeDocGia*&);
+
+bool editCMNDDocGia(nodeDocGia*&, danhSachDocGia*&);
+
+bool editNgaySinhDocGia(nodeDocGia*&);
+
+bool editEmailDocGia(nodeDocGia*&);
+
+bool editDiaChiDocGia(nodeDocGia*&);
+
+bool editGioiTinhDocGia(nodeDocGia*&);
+
+bool deleteDocGia(int ID, danhSachDocGia*&, int&);
+
 nodeDocGia* searchForDocGiaByCMND(const char*, danhSachDocGia*);
+
+nodeDocGia* searchForDocGiaByID(int, danhSachDocGia*);
 
 void searchForDocGiaByHoTen(const char*, danhSachDocGia*);
 
-void themDocGiaTuCSV(FILE*, danhSachDocGia*&, int&);
+int themDocGiaTuCSV(FILE*, danhSachDocGia*&, int&);
 
 void deleteDocGiaDau(danhSachDocGia*&);
+
+void deleteDocGiaCuoi(danhSachDocGia*&);
+
+void deleteDocGiaGiua(nodeDocGia*&);
 
 void freeDanhSachDocGia(danhSachDocGia*&);
 

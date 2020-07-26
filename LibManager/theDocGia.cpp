@@ -63,12 +63,122 @@ bool validateDocGiaInfo(theDocGia newDocGia, danhSachDocGia* listDocGia) {
         searchForDocGiaByCMND(newDocGia.so_CMND, listDocGia) == NULL;
 }
 
-void themDocGiaTuCSV(FILE* csvFile, danhSachDocGia*& list, int& totalDocGia) {
-    if (csvFile == NULL) return;
+bool editTenDocGia(nodeDocGia*& docGia) {
+    char newName[NAME_MAX];
+    cin.ignore();
+    cin.getline(newName, NAME_MAX);
+
+    if (strlen(newName) >= NAME_MIN && strlen(newName) <= NAME_MAX) {
+        if (confirmationBox()) {
+            strcpy(docGia->thongTinDocGia.ho_Ten, newName);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool editCMNDDocGia(nodeDocGia*& docGia, danhSachDocGia*& dsDocGia) {
+    char CMND[CMND_MAX];
+    cin.ignore();
+    cin >> CMND;
+
+    if (strlen(CMND) <= CMND_MAX && strlen(CMND) >= CMND_MIN &&
+        searchForDocGiaByCMND(CMND, dsDocGia) == NULL) {
+        if (confirmationBox()) {
+            strcpy(docGia->thongTinDocGia.so_CMND, CMND);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool editNgaySinhDocGia(nodeDocGia*& docGia) {
+    char ngaySinh[BIRTH_DAY];
+    cin.ignore();
+    cin >> ngaySinh;
+
+    if (confirmationBox()) {
+        strcpy(docGia->thongTinDocGia.ngay_Sinh, ngaySinh);
+        return true;
+    }
+
+    return false;
+}
+
+bool editEmailDocGia(nodeDocGia*& docGia) {
+    char email[EMAIL_MAX];
+    cin.ignore();
+    cin >> email;
+
+    if (strlen(email) <= EMAIL_MAX && strlen(email) >= EMAIL_MIN) {
+        if (confirmationBox()) {
+            strcpy(docGia->thongTinDocGia.email, email);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool editDiaChiDocGia(nodeDocGia*& docGia) {
+    char diaChi[ADDRESS_MAX];
+    cin.ignore();
+    cin.getline(diaChi, ADDRESS_MAX);
+
+    if (strlen(diaChi) <= ADDRESS_MAX && strlen(diaChi) >= ADDRESS_MIN) {
+        if (confirmationBox()) {
+            strcpy(docGia->thongTinDocGia.diaChi, diaChi);
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool editGioiTinhDocGia(nodeDocGia*& docGia) {
+    int gioiTinh;
+    cin >> gioiTinh;
+
+    if (gioiTinh == 0 || gioiTinh == 1) {
+        if (confirmationBox()) {
+            docGia->thongTinDocGia.gioiTinh = gioiTinh;
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool deleteDocGia(int ID, danhSachDocGia*& dsDocGia, int& totalDocGia) {
+    nodeDocGia* docGia = searchForDocGiaByID(ID, dsDocGia);
+
+    if (docGia != NULL) {
+        if (confirmationBox()) {
+            if (docGia == dsDocGia->docGiaDau)
+                deleteDocGiaDau(dsDocGia);
+            else if (docGia == dsDocGia->docGiaCuoi)
+                deleteDocGiaCuoi(dsDocGia);
+            else
+                deleteDocGiaGiua(docGia);
+
+            --totalDocGia;
+            return true;
+        }        
+    }
+
+    return false;
+}
+
+int themDocGiaTuCSV(FILE* csvFile, danhSachDocGia*& list, int& totalDocGia) {
+    if (csvFile == NULL) return 0;
 
     char buffer[1024];
     int index = 0;
     int lineNumber = 1;
+    int added = 0;
+    
     while (fgets(buffer, 1024, csvFile)) {
         theDocGia newDocGia;
         // Doc 1 dong.
@@ -125,7 +235,8 @@ void themDocGiaTuCSV(FILE* csvFile, danhSachDocGia*& list, int& totalDocGia) {
                         list->docGiaCuoi->docGiaTiepTheo = newNodeDocGia;
                         newNodeDocGia->docGiaPhiaTruoc = list->docGiaCuoi;
                         list->docGiaCuoi = newNodeDocGia;
-                    }       
+                    }
+                    ++added;
                 }
                 else {
                     cout << "Da co loi xay ra o dong so " << lineNumber << endl;
@@ -140,12 +251,25 @@ void themDocGiaTuCSV(FILE* csvFile, danhSachDocGia*& list, int& totalDocGia) {
             }
         }
     }
+
+    return added;
 }
 
 nodeDocGia* searchForDocGiaByCMND(const char* CMND, danhSachDocGia* list) {
     nodeDocGia* thisNode = list->docGiaDau;
     while (thisNode != NULL) {
         if (strcmp(thisNode->thongTinDocGia.so_CMND, CMND) == 0)
+            return thisNode;
+        thisNode = thisNode->docGiaTiepTheo;
+    }
+
+    return NULL;
+}
+
+nodeDocGia* searchForDocGiaByID(int ID, danhSachDocGia* list) {
+    nodeDocGia* thisNode = list->docGiaDau;
+    while (thisNode != NULL) {
+        if (thisNode->thongTinDocGia.maDocGia == ID) 
             return thisNode;
         thisNode = thisNode->docGiaTiepTheo;
     }
@@ -212,15 +336,34 @@ void inDocGia(theDocGia thongTin) {
 void deleteDocGiaDau(danhSachDocGia*& list) {
     nodeDocGia* headNode = list->docGiaDau;
 
-    if (headNode->docGiaTiepTheo == NULL)
-        list->docGiaDau = NULL;
-    else list->docGiaDau = headNode->docGiaTiepTheo;
+    if (headNode->docGiaTiepTheo != NULL) {
+        headNode->docGiaTiepTheo->docGiaPhiaTruoc = NULL;
+        list->docGiaDau = headNode->docGiaTiepTheo;
+    } else list->docGiaDau = NULL;
+        
 
     free(headNode);
+}
+
+void deleteDocGiaCuoi(danhSachDocGia*& list) {
+    nodeDocGia* tailNode = list->docGiaCuoi;
+
+    tailNode->docGiaPhiaTruoc->docGiaTiepTheo = NULL;
+    list->docGiaCuoi = tailNode->docGiaPhiaTruoc;
+
+    free(tailNode);
+}
+
+void deleteDocGiaGiua(nodeDocGia*& node) {
+    node->docGiaPhiaTruoc->docGiaTiepTheo = node->docGiaTiepTheo;
+    node->docGiaTiepTheo->docGiaPhiaTruoc = node->docGiaPhiaTruoc;
+    
+    free(node);
 }
 
 void freeDanhSachDocGia(danhSachDocGia*& list) {
     while (list->docGiaDau != NULL)
         deleteDocGiaDau(list);
+    
     free(list);
 }
