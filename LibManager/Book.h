@@ -59,3 +59,10 @@ void deleteSachDauList(bookList*&);
 void deleteSachCuoiList(bookList*&);
 void deleteSachGiuaList(bookNode*&);
 void freeBookList(bookList*&);
+
+bool editBookName(bookNode*&);
+bool editAuthorName(bookNode*&);
+bool editPublisherName(bookNode*&);
+bool editPublishedYear(bookNode*&);
+bool editBookType(bookNode*&);
+bool editBookPrice(bookNode*&);

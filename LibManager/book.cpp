@@ -249,3 +249,83 @@ void freeBookList(bookList*& dsSach) {
         deleteSachDauList(dsSach);
     free(dsSach);
 }
+
+bool editBookName(bookNode*& thisBook) {
+    char newBookName[BOOK_NAME_MAX];
+    cout << "Nhap ten moi cho sach: " << endl;
+    cin.ignore(); cin.getline(newBookName, BOOK_NAME_MAX);
+
+    if (confirmationBox()) {
+        strcpy(thisBook->bookInfo.book_Name, newBookName);
+        return true;
+    }
+
+    return false;
+}
+
+bool editAuthorName(bookNode*& thisBook) {
+    char newAuthorName[BOOK_NAME_MAX];
+    cout << "Nhap ten tac gia moi: " << endl;
+    cin.ignore(); cin.getline(newAuthorName, NAME_MAX);
+
+    if (confirmationBox()) {
+        strcpy(thisBook->bookInfo.book_Author, newAuthorName);
+        return true;
+    }
+
+    return false;
+}
+
+bool editPublisherName(bookNode*& thisBook) {
+    char newPublisherName[BOOK_PUBLISHER_MAX];
+    cout << "Nhap ten NXB moi: " << endl;
+    cin.ignore(); cin.getline(newPublisherName, BOOK_PUBLISHER_MAX);
+
+    if (confirmationBox()) {
+        strcpy(thisBook->bookInfo.book_publisher, newPublisherName);
+        return true;
+    }
+
+    return false;
+}
+
+bool editPublishedYear(bookNode*& thisBook) {
+    char newYear[BOOK_PUBLISHED_MAX];
+    cin >> newYear;
+
+    if (confirmationBox()) {
+        strcpy(thisBook->bookInfo.book_published_year, newYear);
+        return true;
+    }
+
+    return false;
+}
+
+bool editBookType(bookNode*& thisBook) {
+    char newBookType[BOOK_TYPE_MAX];
+    cin.ignore(); cin.getline(newBookType, BOOK_TYPE_MAX);
+
+    if (confirmationBox()) {
+        strcpy(thisBook->bookInfo.book_type, newBookType);
+        return true;
+    }
+
+    return false;
+}
+
+bool editBookPrice(bookNode*& thisBook) {
+    int newBookPrice;
+
+    if (!(cin >> newBookPrice)) {
+        cin.clear();
+        cin.ignore();
+        return false;
+    }
+
+    if (confirmationBox()) {
+        thisBook->bookInfo.price = newBookPrice;
+        return true;
+    }
+
+    return false;
+}

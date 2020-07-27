@@ -63,6 +63,16 @@ void editInfoDocGia() {
     cout << MENU_DOI_DIA_CHI_DOC_GIA_COMMAND_CODE << ". Doi dia chi doc gia." << endl;
 }
 
+void editInfoBook() {
+    cout << "== Thay doi thong tin sach ==" << endl;
+    cout << MENU_DOI_TEN_SACH_COMMAND_CODE << ". Doi ten sach." << endl;
+    cout << MENU_DOI_TAC_GIA_SACH_COMMAND_CODE << ". Doi tac gia sach." << endl;
+    cout << MENU_DOI_NAM_XUAT_BAN_SACH_COMMAND_CODE << ". Doi nam xuat ban sach." << endl;
+    cout << MENU_DOI_NHA_XUAT_BAN_SACH_COMMAND_CODE << ". Doi nha xuat ban sach." << endl;
+    cout << MENU_DOI_THE_LOAI_SACH_COMMAND_CODE << ". Doi the loai sach." << endl;
+    cout << MENU_DOI_GIA_SACH_COMMAND_CODE << ". Doi gia sach." << endl;
+}
+
 void thongKeCoBan(user_info* user_session_info) {
     cout << "== Thong ke co ban ==" << endl;
 
@@ -260,6 +270,89 @@ void catchEditInfoDocGia(nodeDocGia*& docGia, danhSachDocGia*& dsDocGia) {
 
         default:
             cout << "Khong tim thay lenh " << command << endl;
+    }
+}
+
+void catchEditInfoBook(bookNode*& thisBook, bookList*& dsSach) {
+    int command_code = -1;
+    cout << "Chon phan thong tin can chinh sua: " << endl;
+    if (!(cin >> command_code)) {
+        cin.clear();
+        cin.ignore();
+        cout << "Lenh khong hop le." << endl;
+        return;
+    }
+
+    switch (command_code) {
+        case MENU_DOI_TEN_SACH_COMMAND_CODE: {
+            cout << "Ten sach hien tai la " << thisBook->bookInfo.book_Name << endl;
+            cout << "Doi ten sach: " << endl;
+            
+            if (editBookName(thisBook))
+                cout << "Da doi ten sach thanh cong." << endl;
+            else cout << "Doi ten sach that bai." << endl;
+
+            break;
+        }
+
+        case MENU_DOI_TAC_GIA_SACH_COMMAND_CODE: {
+            cout << "Tac gia sach hien tai la " << thisBook->bookInfo.book_Author << endl;
+            cout << "Doi tac gia: " << endl;
+
+            if (editAuthorName(thisBook))
+                cout << "Da doi tac gia thanh cong. " << endl;
+            else cout << "Doi tac gia that bai." << endl;
+            break;
+        }
+
+        case MENU_DOI_NHA_XUAT_BAN_SACH_COMMAND_CODE: {
+            cout << "Nha xuat ban hien tai la " << thisBook->bookInfo.book_publisher << endl;
+            cout << "Doi NXB: " << endl;
+
+            if (editPublisherName(thisBook))
+                cout << "Da doi NXB thanh cong." << endl;
+            else cout << "Doi NXB that bai." << endl;
+
+            break;
+        }
+
+        case MENU_DOI_NAM_XUAT_BAN_SACH_COMMAND_CODE: {
+            cout << "Nam xuat ban sach hien tai la " << thisBook->bookInfo.book_published_year << endl;
+            cout << "Doi nam xuat ban sach: " << endl;
+
+            if (editPublishedYear(thisBook))
+                cout << "Da doi nam xuat ban thanh cong." << endl;
+            else cout << "Doi nam xuat ban that bai." << endl;
+            break;
+        }
+
+        case MENU_DOI_THE_LOAI_SACH_COMMAND_CODE: {
+            cout << "The loai sach hien tai la " << thisBook->bookInfo.book_type << endl;
+            cout << "Doi the loai sach: " << endl;
+
+            if (editBookType(thisBook))
+                cout << "Da doi the loai sach thanh cong." << endl;
+            else cout << "Doi the loai sach that bai." << endl;
+
+            break;
+        }
+
+        case MENU_DOI_GIA_SACH_COMMAND_CODE: {
+            cout << "Gia sach hien tai la " << thisBook->bookInfo.price << endl;
+            cout << "Cap nhat gia sach: " << endl;
+
+            if (editBookPrice(thisBook))
+                cout << "Da doi gia sach thanh cong." << endl;
+            else {
+                cout << "Doi gia sach that bai vi mot trong cac nguyen nhan sau:" << endl;
+                cout << "- Gia sach am" << endl;
+                cout << "- Lenh doi gia sach bi huy." << endl;
+            }
+
+            break;
+        }
+        default:
+            cout << "Khong tim thay lenh " << command_code << endl;
     }
 }
 

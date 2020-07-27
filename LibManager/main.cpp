@@ -377,6 +377,23 @@ int main(int argc, char** argv) {
                     break;
                 }
 
+                case DOI_THONG_TIN_SACH_COMMAND_CODE: {
+                    if (!isChuyenVien(user_session_info)) {
+                        cout << "Nhap ISBN cua sach can doi thong tin: ";
+                        char ISBN[ISBN_MAX]; cin >> ISBN;
+
+                        bookNode* thisBook = searchBookByISBN(ISBN, dsSach);
+                        if (thisBook != NULL) {
+                            // Hien menu chinh sua thong tin sach.
+                            editInfoBook();
+
+                            catchEditInfoBook(thisBook, dsSach);
+                        } else cout << "Sach co ISBN " << ISBN << " khong ton tai." << endl;
+                    } else cout << "Ban khong co quyen thuc hien lenh nay." << endl;
+
+                    break;
+                }
+
                 // Bat su kien xoa thong tin sach.
                 case XOA_SACH_COMMAND_CODE: {
                     if (!isChuyenVien(user_session_info)) {
