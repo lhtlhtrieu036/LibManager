@@ -18,16 +18,18 @@ nodeDocGia* createDocGiaNode(theDocGia thongTinDocGia) {
 }
 
 // Ham doc danh sach doc gia vao mot doubly-linked-list.
-danhSachDocGia* getDanhSachDocGiaList(int& totalDocGia) {
+danhSachDocGia* getDanhSachDocGiaList() {
     FILE* f = fopen(DOCGIA_FILE, "rb+");
 
     if (f == NULL) return NULL;
 
-    fseek(f, 0, SEEK_SET);
-    fread(&totalDocGia, sizeof(int), 1, f);
-    
     danhSachDocGia* newList = createDanhSachDocGia();
-    for (int i = 1; i <= totalDocGia; ++i) {
+
+    fseek(f, 0, SEEK_SET);
+    fread(&newList->totalDocGia, sizeof(int), 1, f);
+    
+    
+    for (int i = 1; i <= newList->totalDocGia; ++i) {
         theDocGia* newTheDocGia = (theDocGia*)malloc(sizeof(theDocGia));
         fread(newTheDocGia, sizeof(theDocGia), 1, f);
         nodeDocGia* newTheDocGiaNode = createDocGiaNode(*newTheDocGia);
@@ -151,7 +153,7 @@ bool editGioiTinhDocGia(nodeDocGia*& docGia) {
     return false;
 }
 
-bool deleteDocGia(int ID, danhSachDocGia*& dsDocGia, int& totalDocGia) {
+bool deleteDocGia(int ID, danhSachDocGia*& dsDocGia) {
     nodeDocGia* docGia = searchForDocGiaByID(ID, dsDocGia);
 
     if (docGia != NULL) {
@@ -163,7 +165,7 @@ bool deleteDocGia(int ID, danhSachDocGia*& dsDocGia, int& totalDocGia) {
             else
                 deleteDocGiaGiua(docGia);
 
-            --totalDocGia;
+            --dsDocGia->totalDocGia;
             return true;
         }        
     }
@@ -171,7 +173,7 @@ bool deleteDocGia(int ID, danhSachDocGia*& dsDocGia, int& totalDocGia) {
     return false;
 }
 
-int themDocGiaTuCSV(FILE* csvFile, danhSachDocGia*& list, int& totalDocGia) {
+int themDocGiaTuCSV(FILE* csvFile, danhSachDocGia*& list) {
     if (csvFile == NULL) return 0;
 
     char buffer[1024];
@@ -254,7 +256,7 @@ int themDocGiaTuCSV(FILE* csvFile, danhSachDocGia*& list, int& totalDocGia) {
 
                     cout << "Da them doc gia " << newNodeDocGia->thongTinDocGia.ho_Ten << endl;
                     ++added;
-                    ++totalDocGia;
+                    ++list->totalDocGia;
                 }
                 else {
                     cout << "Da co loi xay ra o dong so " << lineNumber << endl;
@@ -333,7 +335,7 @@ void xemDanhSachDocGia(nodeDocGia* docGia) {
     else cout << "Hien tai khong co doc gia nao trong danh sach." << endl;
 }
 
-void thongKeTheoGioiTinh(danhSachDocGia* dsDocGia, int tongDocGia) {
+void thongKeTheoGioiTinh(danhSachDocGia* dsDocGia) {
     nodeDocGia* thisNode = dsDocGia->docGiaDau;
     int docGiaNam = 0;
 
@@ -343,9 +345,9 @@ void thongKeTheoGioiTinh(danhSachDocGia* dsDocGia, int tongDocGia) {
     }
 
     cout << "Thong ke theo gioi tinh:" << endl;
-    cout << "Co tong cong " << tongDocGia << " doc gia, trong do: " << endl;
+    cout << "Co tong cong " << dsDocGia->totalDocGia << " doc gia, trong do: " << endl;
     cout << docGiaNam << " nguoi la NAM." << endl;
-    cout << tongDocGia - docGiaNam << " nguoi la NU." << endl;
+    cout << dsDocGia->totalDocGia - docGiaNam << " nguoi la NU." << endl;
 }
 
 void inDocGia(theDocGia thongTin) {

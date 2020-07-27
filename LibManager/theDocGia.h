@@ -27,6 +27,7 @@ struct nodeDocGia {
 };
 
 struct danhSachDocGia {
+    int totalDocGia;
     nodeDocGia* docGiaDau;
     nodeDocGia* docGiaCuoi;
 };
@@ -35,7 +36,7 @@ danhSachDocGia* createDanhSachDocGia();
 
 nodeDocGia* createDocGiaNode(theDocGia);
 
-danhSachDocGia* getDanhSachDocGiaList(int&);
+danhSachDocGia* getDanhSachDocGiaList();
 
 bool isNam(theDocGia);
 
@@ -55,7 +56,7 @@ bool editDiaChiDocGia(nodeDocGia*&);
 
 bool editGioiTinhDocGia(nodeDocGia*&);
 
-bool deleteDocGia(int ID, danhSachDocGia*&, int&);
+bool deleteDocGia(int ID, danhSachDocGia*&);
 
 nodeDocGia* searchForDocGiaByCMND(const char*, danhSachDocGia*);
 
@@ -63,7 +64,7 @@ nodeDocGia* searchForDocGiaByID(int, danhSachDocGia*);
 
 void searchForDocGiaByHoTen(const char*, danhSachDocGia*);
 
-int themDocGiaTuCSV(FILE*, danhSachDocGia*&, int&);
+int themDocGiaTuCSV(FILE*, danhSachDocGia*&);
 
 int getMaxID(danhSachDocGia*);
 
@@ -77,6 +78,6 @@ void freeDanhSachDocGia(danhSachDocGia*&);
 
 void xemDanhSachDocGia(nodeDocGia*);
 
-void thongKeTheoGioiTinh(danhSachDocGia*, int);
+void thongKeTheoGioiTinh(danhSachDocGia*);
 
 void inDocGia(theDocGia);

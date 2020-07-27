@@ -12,7 +12,7 @@ accountNode* createAccountNode(account* newAccount) {
 }
 
 // Ham lay list account tu file.
-accountList* getAccountList(int& totalAccount) {
+accountList* getAccountList() {
     FILE* f = fopen(ACCOUNT_FILE, "rb+");
     if (f == NULL) return NULL;
 
@@ -23,10 +23,10 @@ accountList* getAccountList(int& totalAccount) {
 
     // Lay tong so account.
     fseek(f, 0, SEEK_SET);
-    fread(&totalAccount, sizeof(int), 1, f);
+    fread(&newAccountList->totalAccount, sizeof(int), 1, f);
 
     // Doc cac account vao list
-    for (int i = 1; i <= totalAccount; ++i) {
+    for (int i = 1; i <= newAccountList->totalAccount; ++i) {
         account* newAccount = (account*)malloc(sizeof(account));
         fread(newAccount, sizeof(account), 1, f);
 
@@ -268,7 +268,7 @@ bool editUserNgaySinh(user_info*& user_session_info) {
 //
 // Ham them nguoi dung vao danh sach.
 //
-bool addUser(int& totalAccount, accountList*& userList, userInfoList*& infoList) {
+bool addUser(accountList*& userList, userInfoList*& infoList) {
     char username[USERNAME_MAX_SIZE];
     char password[PASSWORD_MAX_SIZE];
 
@@ -281,7 +281,7 @@ bool addUser(int& totalAccount, accountList*& userList, userInfoList*& infoList)
 
         // Tao mot tai khoan moi.
         account* newAccount = (account*)malloc(sizeof(account));
-        newAccount->ID = ++totalAccount;
+        newAccount->ID = ++userList->totalAccount;
         strcpy(newAccount->user_name, username);
         strcpy(newAccount->pass_word, password);
 
