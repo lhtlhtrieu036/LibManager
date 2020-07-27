@@ -6,7 +6,7 @@
 #include"include.h"
 
 // Ham dang nhap - tra ve con tro den user.
-account* logUserIn(accountList*);
+account* logUserIn(const char*, const char*, accountList*);
 
 // Ham dang xuat khoi he thong.
 void logUserOut(account*&, user_info*&);

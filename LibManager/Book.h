@@ -59,12 +59,3 @@ void deleteSachDauList(bookList*&);
 void deleteSachCuoiList(bookList*&);
 void deleteSachGiuaList(bookNode*&);
 void freeBookList(bookList*&);
-
-bookNode* isBookExist(char*, bookList);
-void enterBookInfo(bookList&);
-void add_book_to_list(bookList&, bookNode*);
-void deleteOneBook(bookList&);
-void delete_ALL_book(bookList&);
-void cout_Book_List(bookList);
-void getBookList(bookList&);
-void write_bookList_to_DAT(bookList);
