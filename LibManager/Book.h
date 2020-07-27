@@ -20,7 +20,8 @@ struct Book {
     char book_publisher[BOOK_PUBLISHER_MAX];
     char book_type[BOOK_TYPE_MAX];
     int price;
-    int count;
+    int countTotal;
+    int countBorrowed;
 };
 
 struct borrowBook {
@@ -28,7 +29,7 @@ struct borrowBook {
     time_t borrowDate;
     time_t returnDate;
     time_t actualReturnDate;
-    Book listISBN[MAX_BORROW];
+    char* listISBN[MAX_BORROW];
     bool returned;
 };
 
@@ -50,6 +51,8 @@ bookList* createBookList();
 bookNode* createBookNode(Book);
 bookList* getDanhSachSachList();
 bookNode* searchBookByISBN(const char*, bookList*);
+bool validateBookInfo(Book);
+int addBookFromCSV(FILE*, bookList*&);
 void searchBookByName(const char*, bookList*);
 void inMotQuyenSach(Book);
 void inBookList(bookNode*);

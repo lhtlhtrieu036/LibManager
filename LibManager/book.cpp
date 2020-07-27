@@ -54,6 +54,97 @@ bookNode* searchBookByISBN(const char* ISBN, bookList* dsSach) {
     }
     return NULL;
 }
+
+bool validateBookInfo(Book newBook) {
+    return strlen(newBook.ISBN) <= ISBN_MAX &&
+        strlen(newBook.book_Name) <= BOOK_NAME_MAX &&
+        strlen(newBook.book_Author) <= NAME_MAX &&
+        strlen(newBook.book_published_year) <= BOOK_PUBLISHED_MAX &&
+        strlen(newBook.book_publisher) <= BOOK_PUBLISHER_MAX &&
+        newBook.countTotal >= 0 &&
+        newBook.price >= 0;
+}
+
+int addBookFromCSV(FILE* csvFile, bookList*& dsSach) {
+    if (csvFile == NULL) return 0;
+
+    char buffer[1024];
+
+    // So thu tu cot.
+    int index = 0;
+
+    // So thu tu dong.
+    int lineNumber = 1;
+
+    // So dong da them.
+    int added = 0;
+
+    while (fgets(buffer, 1024, csvFile)) {
+        Book newBook;
+        char* cell = strtok(buffer, ",");
+
+        while (cell) {
+            if (index == 0) strcpy(newBook.ISBN, cell);
+            if (index == 1) strcpy(newBook.book_Name, cell);
+            if (index == 2) strcpy(newBook.book_Author, cell);
+            if (index == 3) strcpy(newBook.book_published_year, cell);
+            if (index == 4) strcpy(newBook.book_publisher, cell);
+            if (index == 5) strcpy(newBook.book_type, cell);
+            if (index == 6) newBook.price = atoi(cell);
+            if (index == 7) {
+                if (cell[strlen(cell) - 1] == '\n') cell[strlen(cell) - 1] = '\0';
+                newBook.countTotal = atoi(cell);
+            }
+            ++index;
+
+            cell = strtok(NULL, ",");
+
+            if (index == 8) {
+                if (validateBookInfo(newBook)) {
+                    // Neu sach da ton tai, cong don sach.
+                    // (Sach ton tai bang ISBN)
+                    bookNode* bookNodeExisted = searchBookByISBN(newBook.ISBN, dsSach);
+                    if (bookNodeExisted != NULL) bookNodeExisted->bookInfo.countTotal += newBook.countTotal;
+                    else {
+                        newBook.countBorrowed = 0;
+                        bookNode* newBookNode = createBookNode(newBook);
+                        
+                        // Chen book node vao cuoi list.
+                        if (dsSach->firstBook == NULL) {
+                            dsSach->firstBook = newBookNode;
+                            dsSach->lastBook = newBookNode;
+                        } else {
+                            dsSach->lastBook->nextBook = newBookNode;
+                            newBookNode->prevBook = dsSach->lastBook;
+                            dsSach->lastBook = newBookNode;
+                        }
+
+                        // Den day moi dem so luong quyen sach.
+                        ++dsSach->bookCount;
+                    }
+
+                    // Dem tong so sach da them.
+                    ++added;
+                }
+                else {
+                    cout << "Da co loi xay ra o dong so " << lineNumber << endl;
+                    cout << "Nguyen nhan co the vao cac loi sau:" << endl;
+                    cout << "- Do dai cac thong tin khong phu hop." << endl;
+                    cout << "- Loi nhap lieu tu file .csv" << endl;
+                }
+
+                // Reset so cot ve 0.
+                index = 0;
+
+                // Dem so dong.
+                ++lineNumber;
+            }
+        }
+    }
+
+    return added;
+}
+
 void searchBookByName(const char* bookName, bookList* dsSach) {
     bookNode* thisBookNode = dsSach->firstBook;
     bool foundBook = false;
@@ -76,7 +167,9 @@ void inMotQuyenSach(Book thisBook) {
     cout << "Nha xuat ban: " << thisBook.book_publisher << endl;
     cout << "The loai: " << thisBook.book_type << endl;
     cout << "Gia sach: " << thisBook.price << endl;
-    cout << "So luong: " << thisBook.count << endl;
+    cout << "Tong so quyen sach: " << thisBook.countTotal << endl;
+    cout << "Tong so quyen da cho muon: " << thisBook.countBorrowed << endl;
+    cout << "Tong so quyen hien co: " << thisBook.countTotal - thisBook.countBorrowed << endl;
 }
 
 void inBookList(bookNode* thisBook) {
@@ -98,6 +191,26 @@ bookNode* isBookExist(char* ISBN, bookList list) {
     return NULL;
 }
 
+void deleteSachDauList(bookList*& dsSach) {
+    bookNode* thisBook = dsSach->firstBook;
+
+    if (thisBook->nextBook == NULL)
+        dsSach->firstBook = NULL;
+    else {
+        dsSach->firstBook = thisBook->nextBook;
+        thisBook->nextBook->prevBook = NULL;
+    }
+
+    free(thisBook);
+}
+
+void freeBookList(bookList*& dsSach) {
+    while (dsSach->firstBook != NULL)
+        deleteSachDauList(dsSach);
+    free(dsSach);
+}
+
+/*
 void enterBookInfo(bookList& a)
 {
     Book newBook;
@@ -244,22 +357,4 @@ void write_bookList_to_DAT(bookList list)
     cout << "CCCCCC" << endl;
     fclose(f);
 }
-
-void deleteSachDauList(bookList*& dsSach) {
-    bookNode* thisBook = dsSach->firstBook;
-
-    if (thisBook->nextBook == NULL)
-        dsSach->firstBook = NULL;
-    else {
-        dsSach->firstBook = thisBook->nextBook;
-        thisBook->nextBook->prevBook = NULL;
-    }
-
-    free(thisBook);
-}
-
-void freeBookList(bookList*& dsSach) {
-    while (dsSach->firstBook != NULL)
-        deleteSachDauList(dsSach);
-    free(dsSach);
-}
+*/

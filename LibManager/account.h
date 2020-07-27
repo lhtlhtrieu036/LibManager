@@ -20,7 +20,7 @@
 // Thong tin nguoi dung
 #define NAME_MAX 30
 #define NAME_MIN 10
-#define BIRTH_DAY 10
+#define BIRTH_DAY 11
 #define CMND_MIN 9
 #define CMND_MAX 10
 #define EMAIL_MIN 10
@@ -54,8 +54,7 @@ struct accountList {
 };
 
 // Cau truc thong tin cua mot user.
-struct user_info
-{
+struct user_info {
     int ID;
     int permissions;
     char ho_Ten[NAME_MAX];
