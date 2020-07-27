@@ -183,6 +183,8 @@ int main() {
                 continue;
             }
 
+            system("cls");
+
             switch (command_code) {
                 // Bat su kien doi mat khau.
                 case CHANGE_PASSWORD_COMMAND_CODE: {
@@ -371,6 +373,24 @@ int main() {
                                 } else cout << "Lenh nhap sach da bi huy." << endl;
                             else cout << "File khong ton tai." << endl;
                         } else cout << "File ban vua nhap khong phai la file .csv" << endl;
+                    } else cout << "Ban khong co quyen thuc hien lenh nay." << endl;
+
+                    break;
+                }
+
+                // Bat su kien xoa thong tin sach.
+                case XOA_SACH_COMMAND_CODE: {
+                    if (!isChuyenVien(user_session_info)) {
+                        cout << "Nhap ISBN cua quyen sach can xoa: " << endl;
+                        char ISBN[ISBN_MAX]; cin >> ISBN;
+
+                        if (deleteBook(ISBN, dsSach))
+                            cout << "Da xoa sach ISBN " << ISBN << " thanh cong." << endl;
+                        else {
+                            cout << "Xoa sach khong thanh cong vi mot trong so cac ly do sau:" << endl;
+                            cout << "- Sach co ISBN khong ton tai." << endl;
+                            cout << "- Lenh xoa sach da bi huy." << endl;
+                        }
                     } else cout << "Ban khong co quyen thuc hien lenh nay." << endl;
 
                     break;

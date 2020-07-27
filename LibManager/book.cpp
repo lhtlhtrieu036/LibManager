@@ -55,6 +55,21 @@ bookNode* searchBookByISBN(const char* ISBN, bookList* dsSach) {
     return NULL;
 }
 
+void searchBookByName(const char* bookName, bookList* dsSach) {
+    bookNode* thisBookNode = dsSach->firstBook;
+    bool foundBook = false;
+
+    while (thisBookNode != NULL) {
+        if (_stricmp(bookName, thisBookNode->bookInfo.book_Name) == 0) {
+            inMotQuyenSach(thisBookNode->bookInfo);
+            foundBook = true;
+        }
+        thisBookNode = thisBookNode->nextBook;
+    }
+
+    if (!foundBook) cout << "Khong tim thay sach co ten " << bookName << endl;
+}
+
 bool validateBookInfo(Book newBook) {
     return strlen(newBook.ISBN) <= ISBN_MAX &&
         strlen(newBook.book_Name) <= BOOK_NAME_MAX &&
@@ -145,20 +160,6 @@ int addBookFromCSV(FILE* csvFile, bookList*& dsSach) {
     return added;
 }
 
-void searchBookByName(const char* bookName, bookList* dsSach) {
-    bookNode* thisBookNode = dsSach->firstBook;
-    bool foundBook = false;
-
-    while (thisBookNode != NULL) {
-        if (_stricmp(bookName, thisBookNode->bookInfo.book_Name) == 0) {
-            inMotQuyenSach(thisBookNode->bookInfo);
-            foundBook = true;
-        }	
-        thisBookNode = thisBookNode->nextBook;
-    }
-    
-    if (!foundBook) cout << "Khong tim thay sach co ten " << bookName << endl;
-}
 void inMotQuyenSach(Book thisBook) {
     cout << "ISBN: " << thisBook.ISBN << endl;
     cout << "Ten sach: " << thisBook.book_Name << endl;
@@ -170,6 +171,7 @@ void inMotQuyenSach(Book thisBook) {
     cout << "Tong so quyen sach: " << thisBook.countTotal << endl;
     cout << "Tong so quyen da cho muon: " << thisBook.countBorrowed << endl;
     cout << "Tong so quyen hien co: " << thisBook.countTotal - thisBook.countBorrowed << endl;
+    cout << "=====" << endl;
 }
 
 void inBookList(bookNode* thisBook) {
@@ -191,6 +193,25 @@ bookNode* isBookExist(char* ISBN, bookList list) {
     return NULL;
 }
 
+bool deleteBook(const char* ISBN, bookList*& dsSach) {
+    bookNode* thisBook = searchBookByISBN(ISBN, dsSach);
+    if (thisBook != NULL) {
+        if (confirmationBox()) {
+            if (thisBook == dsSach->firstBook)
+                deleteSachDauList(dsSach);
+            else if (thisBook == dsSach->lastBook)
+                deleteSachCuoiList(dsSach);
+            else
+                deleteSachGiuaList(thisBook);
+
+            --dsSach->bookCount;
+            return true;
+        }
+    }
+
+    return false;
+}
+
 void deleteSachDauList(bookList*& dsSach) {
     bookNode* thisBook = dsSach->firstBook;
 
@@ -200,6 +221,25 @@ void deleteSachDauList(bookList*& dsSach) {
         dsSach->firstBook = thisBook->nextBook;
         thisBook->nextBook->prevBook = NULL;
     }
+
+    free(thisBook);
+}
+
+void deleteSachCuoiList(bookList*& dsSach) {
+    bookNode* thisBook = dsSach->lastBook;
+    if (thisBook->prevBook == NULL)
+        dsSach->lastBook = NULL;
+    else {
+        dsSach->lastBook = thisBook->prevBook;
+        thisBook->prevBook->nextBook = NULL;
+    }
+
+    free(thisBook);
+}
+
+void deleteSachGiuaList(bookNode*& thisBook) {
+    thisBook->nextBook->prevBook = thisBook->prevBook;
+    thisBook->prevBook->nextBook = thisBook->nextBook;
 
     free(thisBook);
 }

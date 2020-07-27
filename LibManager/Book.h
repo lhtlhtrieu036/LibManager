@@ -44,19 +44,20 @@ struct bookList {
     bookNode* lastBook;
     int bookCount;
 };
-
-
-// 
+ 
 bookList* createBookList();
 bookNode* createBookNode(Book);
 bookList* getDanhSachSachList();
 bookNode* searchBookByISBN(const char*, bookList*);
 bool validateBookInfo(Book);
+bool deleteBook(const char*, bookList*&);
 int addBookFromCSV(FILE*, bookList*&);
 void searchBookByName(const char*, bookList*);
 void inMotQuyenSach(Book);
 void inBookList(bookNode*);
 void deleteSachDauList(bookList*&);
+void deleteSachCuoiList(bookList*&);
+void deleteSachGiuaList(bookNode*&);
 void freeBookList(bookList*&);
 
 bookNode* isBookExist(char*, bookList);
