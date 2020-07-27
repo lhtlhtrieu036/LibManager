@@ -16,9 +16,21 @@
 #define TIM_DOC_GIA_CMND_COMMAND_CODE 2500
 #define TIM_DOC_GIA_HO_TEN_COMMAND_CODE 2600
 
+// COMMAND CODE for Sach
+#define XEM_SACH_COMMAND_CODE 3100
+#define THEM_SACH_CSV_COMMAND_CODE 3200
+#define DOI_THONG_TIN_SACH_COMMAND_CODE 3300
+#define XOA_SACH_COMMAND_CODE 3400
+#define TIM_SACH_THEO_ISBN_COMMAND_CODE 3500
+#define TIM_SACH_THEO_TEN_COMAND_CODE 3600
+
 // COMMAND CODE for Thong ke
+#define THONG_KE_SO_LUONG_SACH_COMMAND_CODE 6100
+#define THONG_KE_SACH_THEO_THE_LOAI_COMMAND_CODE 6200
 #define THONG_KE_SO_LUONG_DOC_GIA_COMMAND_CODE 6300
 #define THONG_KE_DOC_GIA_GIOI_TINH_COMMAND_CODE 6400
+#define THONG_KE_SACH_DANG_MUON 6500
+#define THONG_KE_DOC_GIA_TRE_HAN 6600
 
 // Command menu thay doi thong tin nguoi dung.
 // Menu thong tin co the nhan trung gia tri voi menu ben tren,
@@ -56,6 +68,9 @@ void adminMenu();
 
 // Menu quan ly doc gia.
 void quanLyDocGia(user_info*);
+
+// Menu quan ly sach.
+void quanLySach(user_info*);
 
 // Menu thay doi thong tin doc gia.
 void editInfoDocGia();

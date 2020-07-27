@@ -41,6 +41,18 @@ void quanLyDocGia(user_info* user_session_info) {
     cout << TIM_DOC_GIA_HO_TEN_COMMAND_CODE << ". Tim doc gia theo Ho ten." << endl;
 }
 
+void quanLySach(user_info* user_session_info) {
+    cout << "== Quan ly sach ==" << endl;
+    if (!isChuyenVien(user_session_info)) {
+        cout << XEM_SACH_COMMAND_CODE << ". Xem danh sach cac sach trong thu vien." << endl;
+        cout << THEM_SACH_CSV_COMMAND_CODE << ". Them sach tu file .csv." << endl;
+        cout << DOI_THONG_TIN_SACH_COMMAND_CODE << ". Doi thong tin mot quyen sach." << endl;
+        cout << XOA_SACH_COMMAND_CODE << ". Xoa thong tin mot quyen sach." << endl;
+    }
+    cout << TIM_SACH_THEO_ISBN_COMMAND_CODE << ". Tim sach theo ISBN." << endl;
+    cout << TIM_SACH_THEO_TEN_COMAND_CODE << ". Tim sach theo ten sach." << endl;
+}
+
 void editInfoDocGia() {
     cout << "== Doi thong tin doc gia ==" << endl;
     cout << MENU_DOI_TEN_DOC_GIA_COMMAND_CODE << ". Doi ten doc gia." << endl;
@@ -55,9 +67,13 @@ void thongKeCoBan(user_info* user_session_info) {
     cout << "== Thong ke co ban ==" << endl;
 
     if (!isChuyenVien(user_session_info)) {
+        cout << THONG_KE_SO_LUONG_SACH_COMMAND_CODE << ". Thong ke so luong sach trong thu vien." << endl;
+        cout << THONG_KE_SACH_THEO_THE_LOAI_COMMAND_CODE << ". Thong ke so sach theo the loai." << endl;
         cout << THONG_KE_SO_LUONG_DOC_GIA_COMMAND_CODE << ". Thong ke so luong doc gia." << endl;
         cout << THONG_KE_DOC_GIA_GIOI_TINH_COMMAND_CODE << ". Thong ke doc gia theo gioi tinh." << endl;
     }
+    cout << THONG_KE_SACH_DANG_MUON << ". Thong ke sach dang muon." << endl;
+    cout << THONG_KE_DOC_GIA_TRE_HAN << ". Thong ke doc gia tre han." << endl;
 }
 
 // Controller (xu ly) cho cac menu

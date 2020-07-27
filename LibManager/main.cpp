@@ -162,6 +162,10 @@ int main() {
             // Load menu quan ly doc gia.
             quanLyDocGia(user_session_info);
 
+            // Load menu quan ly sach.
+            quanLySach(user_session_info);
+
+            // Load menu thong ke co ban.
             thongKeCoBan(user_session_info);
 
             cout << "=====" << endl;

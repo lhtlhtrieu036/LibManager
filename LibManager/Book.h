@@ -18,40 +18,38 @@ struct Book {
     char book_Author[NAME_MAX];
     char book_published_year[BOOK_PUBLISHED_MAX];
     char book_publisher[BOOK_PUBLISHER_MAX];
-	char book_type[BOOK_TYPE_MAX];
+    char book_type[BOOK_TYPE_MAX];
     int price;
     int count;
 };
 
 struct borrowBook {
     int maDocGia;
-    // Them ngay muon
-    // Them ngay tra (du kien)
-    // Them ngay tra (thuc te)
+    time_t borrowDate;
+    time_t returnDate;
+    time_t actualReturnDate;
     Book listISBN[MAX_BORROW];
     bool returned;
 };
 
-struct bookNode
-{
-	Book bookInfo;
-	bookNode* nextBook;
-	bookNode* prevBook;
+struct bookNode {
+    Book bookInfo;
+    bookNode* nextBook;
+    bookNode* prevBook;
 };
 
-struct bookList
-{
-	bookNode* firstBook;
-	bookNode* lastBook;
-	int bookCount;
+struct bookList {
+    bookNode* firstBook;
+    bookNode* lastBook;
+    int bookCount;
 };
 
-bookNode* creatBookNode(Book newBook);
-bookNode* isBookExist(char* ISBN, bookList list);
+bookNode* creatBookNode(Book);
+bookNode* isBookExist(char*, bookList);
 void enterBookInfo(bookList& a);
-void add_book_to_list(bookList& a, bookNode* newbook);
-void deleteOneBook(bookList& a);
-void delete_ALL_book(bookList& a);
-void cout_Book_List(bookList a);
-void getBookList(bookList& a);
-void write_bookList_to_DAT(bookList list);
+void add_book_to_list(bookList&, bookNode*);
+void deleteOneBook(bookList&);
+void delete_ALL_book(bookList&);
+void cout_Book_List(bookList);
+void getBookList(bookList&);
+void write_bookList_to_DAT(bookList);

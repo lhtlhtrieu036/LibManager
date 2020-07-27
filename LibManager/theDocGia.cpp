@@ -175,8 +175,14 @@ int themDocGiaTuCSV(FILE* csvFile, danhSachDocGia*& list, int& totalDocGia) {
     if (csvFile == NULL) return 0;
 
     char buffer[1024];
+    
+    // So cot.
     int index = 0;
+
+    // So dong.
     int lineNumber = 1;
+
+    // So Doc gia da them.
     int added = 0;
     
     while (fgets(buffer, 1024, csvFile)) {
@@ -184,12 +190,21 @@ int themDocGiaTuCSV(FILE* csvFile, danhSachDocGia*& list, int& totalDocGia) {
         // Doc 1 dong.
         char* cell = strtok(buffer, ",");
         while (cell) {
+            //
+            // Van de dat ra o day la tao mot Doc gia moi truoc,
+            // sau do moi validate du lieu.
+            //
             if (index == 0) strcpy(newDocGia.ho_Ten, cell);
             if (index == 1) strcpy(newDocGia.so_CMND, cell);
             if (index == 2) strcpy(newDocGia.ngay_Sinh, cell);
             if (index == 3) newDocGia.gioiTinh = (strcmp(cell, "1") == 0) ? 1 : 0;
             if (index == 4) strcpy(newDocGia.email, cell);
-            if (index == 5) strcpy(newDocGia.diaChi, cell);
+            if (index == 5) {
+                // Loai bo ky tu xuong dong.
+                if (cell[strlen(cell) - 1] == '\n') cell[strlen(cell) - 1] = '\0';
+                strcpy(newDocGia.diaChi, cell);
+            }
+            // Tang so cot len.
             ++index;
 
             cell = strtok(NULL, ",");
@@ -220,7 +235,7 @@ int themDocGiaTuCSV(FILE* csvFile, danhSachDocGia*& list, int& totalDocGia) {
 
                     //
                     // O day ta khong can confirm box,
-                    // vi khi user nhap vao file .csv la user da thuc su muon thuc hien.
+                    // vi khi user nhap vao file .csv la user da thuc su muon thuc hien hanh dong.
                     // Ngoai ra, neu co sai sot thi van co the chinh sua tu phia chuyen vien va xoa tu phia quan ly,
                     // neu trung thi da co bao loi.
                     //
@@ -236,6 +251,8 @@ int themDocGiaTuCSV(FILE* csvFile, danhSachDocGia*& list, int& totalDocGia) {
                         newNodeDocGia->docGiaPhiaTruoc = list->docGiaCuoi;
                         list->docGiaCuoi = newNodeDocGia;
                     }
+
+                    cout << "Da them doc gia " << newNodeDocGia->thongTinDocGia.ho_Ten << endl;
                     ++added;
                     ++totalDocGia;
                 }
