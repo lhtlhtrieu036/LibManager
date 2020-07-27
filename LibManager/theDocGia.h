@@ -3,8 +3,8 @@
 #include"include.h"
 
 #define DOCGIA_FILE "docgia.dat"
-#define NAM 1
-#define NU  0
+#define DOCGIA_NAM 1
+#define DOCGIA_NU  0
 
 struct theDocGia {
     int maDocGia;

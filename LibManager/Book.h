@@ -4,9 +4,9 @@
 
 #define BOOKLIST_FILE "bookList.dat"
 
-#define ISBN_MAX 13
+#define ISBN_MAX 15
 #define BOOK_NAME_MAX 100
-#define BOOK_PUBLISHED_MAX 4
+#define BOOK_PUBLISHED_MAX 5
 #define BOOK_PUBLISHER_MAX 50
 #define BOOK_TYPE_MAX 50
 
@@ -44,9 +44,20 @@ struct bookList {
     int bookCount;
 };
 
-bookNode* creatBookNode(Book);
+
+// 
+bookList* createBookList();
+bookNode* createBookNode(Book);
+bookList* getDanhSachSachList();
+bookNode* searchBookByISBN(const char*, bookList*);
+void searchBookByName(const char*, bookList*);
+void inMotQuyenSach(Book);
+void inBookList(bookNode*);
+void deleteSachDauList(bookList*&);
+void freeBookList(bookList*&);
+
 bookNode* isBookExist(char*, bookList);
-void enterBookInfo(bookList& a);
+void enterBookInfo(bookList&);
 void add_book_to_list(bookList&, bookNode*);
 void deleteOneBook(bookList&);
 void delete_ALL_book(bookList&);

@@ -243,10 +243,10 @@ void catchEditInfoDocGia(nodeDocGia*& docGia, danhSachDocGia*& dsDocGia) {
 
         case MENU_DOI_GIOI_TINH_DOC_GIA_COMMAND_CODE: {
             cout << "Doi Gioi tinh doc gia: " << endl;
-            cout << "Gioi tinh doc gia hien tai la " << ((docGia->thongTinDocGia.gioiTinh) ? "NAM" : "NU") << endl;
+            cout << "Gioi tinh doc gia hien tai la " << ((isNam(docGia->thongTinDocGia)) ? "NAM" : "NU") << endl;
             cout << "Luu y: " << endl;
-            cout << NAM << ". Nam" << endl;
-            cout << NU << ". Nu" << endl;
+            cout << DOCGIA_NAM << ". Nam" << endl;
+            cout << DOCGIA_NU << ". Nu" << endl;
 
             if (editGioiTinhDocGia(docGia))
                 cout << "Da doi Gioi tinh doc gia thanh cong." << endl;

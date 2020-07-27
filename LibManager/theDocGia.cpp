@@ -309,8 +309,7 @@ void searchForDocGiaByHoTen(const char* HoTen, danhSachDocGia* list) {
     nodeDocGia* thisNode = list->docGiaDau;
     bool foundDocGia = false;
     while (thisNode != NULL) {
-        char* tmp_name = _strdup(thisNode->thongTinDocGia.ho_Ten);
-        if (strcmp(_strlwr(tmp_name), HoTen) == 0) {
+        if (_stricmp(thisNode->thongTinDocGia.ho_Ten, HoTen) == 0) {
             inDocGia(thisNode->thongTinDocGia);
             foundDocGia = true;
 
@@ -353,7 +352,7 @@ void inDocGia(theDocGia thongTin) {
     printf("ID: %d\n", thongTin.maDocGia);
     printf("Ho ten: %s\n", thongTin.ho_Ten);
     printf("Email: %s\n", thongTin.email);
-    printf("Gioi tinh: %s\n", (thongTin.gioiTinh == NAM) ? "NAM" : "NU");
+    printf("Gioi tinh: %s\n", (isNam(thongTin)) ? "NAM" : "NU");
     printf("CMND: %s\n", thongTin.so_CMND);
     printf("Ngay sinh: %s\n", thongTin.ngay_Sinh);
     printf("Dia chi: %s\n", thongTin.diaChi);
