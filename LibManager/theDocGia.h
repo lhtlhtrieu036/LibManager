@@ -3,8 +3,8 @@
 #include"include.h"
 
 #define DOCGIA_FILE "docgia.dat"
-#define NAM 1
-#define NU  0
+#define DOCGIA_NAM 1
+#define DOCGIA_NU  0
 
 struct theDocGia {
     int maDocGia;
@@ -27,6 +27,7 @@ struct nodeDocGia {
 };
 
 struct danhSachDocGia {
+    int totalDocGia;
     nodeDocGia* docGiaDau;
     nodeDocGia* docGiaCuoi;
 };
@@ -35,16 +36,48 @@ danhSachDocGia* createDanhSachDocGia();
 
 nodeDocGia* createDocGiaNode(theDocGia);
 
-danhSachDocGia* getDanhSachDocGiaList(int&);
+danhSachDocGia* getDanhSachDocGiaList();
+
+bool isNam(theDocGia);
+
+bool isCSV(char const*);
+
+bool validateDocGiaInfo(theDocGia, danhSachDocGia*);
+
+bool editTenDocGia(nodeDocGia*&);
+
+bool editCMNDDocGia(nodeDocGia*&, danhSachDocGia*&);
+
+bool editNgaySinhDocGia(nodeDocGia*&);
+
+bool editEmailDocGia(nodeDocGia*&);
+
+bool editDiaChiDocGia(nodeDocGia*&);
+
+bool editGioiTinhDocGia(nodeDocGia*&);
+
+bool deleteDocGia(int ID, danhSachDocGia*&);
 
 nodeDocGia* searchForDocGiaByCMND(const char*, danhSachDocGia*);
 
+nodeDocGia* searchForDocGiaByID(int, danhSachDocGia*);
+
 void searchForDocGiaByHoTen(const char*, danhSachDocGia*);
 
+int themDocGiaTuCSV(FILE*, danhSachDocGia*&);
+
+int getMaxID(danhSachDocGia*);
+
 void deleteDocGiaDau(danhSachDocGia*&);
+
+void deleteDocGiaCuoi(danhSachDocGia*&);
+
+void deleteDocGiaGiua(nodeDocGia*&);
 
 void freeDanhSachDocGia(danhSachDocGia*&);
 
 void xemDanhSachDocGia(nodeDocGia*);
+
+void thongKeTheoGioiTinh(danhSachDocGia*);
 
 void inDocGia(theDocGia);

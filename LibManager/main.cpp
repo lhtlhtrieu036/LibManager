@@ -1,39 +1,30 @@
 #include "include.h"
 
-
-// LUU Y:
-// File ACCOUNT_FILE phai co dang nhu sau:
-
-// n - Tong so user
-// user1username
-// user1password
-// user2username
-// user2password
-// ..
-// usernusername
-// usernpassword
-
 // Ham nap danh sach nguoi dung & danh sach thong tin nguoi dung
 // tu file vao linked list.
-void Initialise(accountList*& users, userInfoList*& infos, danhSachDocGia*& dsDocGia, int& totalAccounts, int& totalDocGia) {
-    users = getAccountList(totalAccounts);
-    infos = getUserInfoList(totalAccounts);
-    dsDocGia = getDanhSachDocGiaList(totalDocGia);
+void Initialise(accountList*& users, 
+                userInfoList*& infos, 
+                danhSachDocGia*& dsDocGia, 
+                bookList*& dsSach) {
+    users = getAccountList();
+    infos = getUserInfoList(users->totalAccount);
+    dsDocGia = getDanhSachDocGiaList();
+    dsSach = getDanhSachSachList();
 
-    if (users == NULL || infos == NULL || dsDocGia == NULL) {
+    if (users == NULL || infos == NULL || dsDocGia == NULL || dsSach == NULL) {
         cout << "Co van de xay ra voi file du lieu. Vui long tai lai chuong trinh.\n";
         exit(0);
     }
 }
 
 // Ham ghi cac danh sach tro lai file sau khi ket thuc.
-void Terminate(accountList*& users, userInfoList*& infos, danhSachDocGia*& dsDocGia, int totalAccounts, int totalDocGia) {
+void Terminate(accountList*& users, userInfoList*& infos, danhSachDocGia*& dsDocGia, bookList*& dsSach) {
     // Ghi danh sach users tro lai file.
     FILE* f = fopen(ACCOUNT_FILE, "wb+");
     fseek(f, 0, SEEK_SET);
     
     // Ghi tong so user.
-    fwrite(&totalAccounts, sizeof(int), 1, f);
+    fwrite(&users->totalAccount, sizeof(int), 1, f);
 
     // Ghi credentials tung user.
     accountNode* thisNode = users->head;
@@ -54,12 +45,42 @@ void Terminate(accountList*& users, userInfoList*& infos, danhSachDocGia*& dsDoc
     }
     fclose(f);
 
+    // Ghi doc gia tro lai file.
+    f = fopen(DOCGIA_FILE, "wb+");
+
+    // Ghi tong so doc gia.
+    fwrite(&dsDocGia->totalDocGia, sizeof(int), 1, f);
+
+    // Ghi tung doc gia.
+    nodeDocGia* docGia = dsDocGia->docGiaDau;
+    while (docGia != NULL) {
+        fwrite(&docGia->thongTinDocGia, sizeof(theDocGia), 1, f);
+        docGia = docGia->docGiaTiepTheo;
+    }
+    fclose(f);
+
+    // Ghi sach tro lai file.
+    f = fopen(BOOKLIST_FILE, "wb+");
+
+    // Ghi tong so sach.
+    fwrite(&dsSach->bookCount, sizeof(int), 1, f);
+
+    // Ghi cac node.
+    bookNode* thisBookNode = dsSach->firstBook;
+    while (thisBookNode != NULL) {
+        fwrite(&thisBookNode->bookInfo, sizeof(Book), 1, f);
+        thisBookNode = thisBookNode->nextBook;
+    }
+
+    fclose(f);
+
     //
-    // Xoa user list va user info list.
+    // Xoa cac danh sach.
     //
     freeAccountList(users);
     freeUserInfoList(infos);
     freeDanhSachDocGia(dsDocGia);
+    freeBookList(dsSach);
 }
 
 int main() {
@@ -76,13 +97,13 @@ int main() {
     // phuc vu muc dich dang nhap.
     //
     
-    int totalAccounts, totalDocGia;
     accountList* users = NULL;
     userInfoList* infos = NULL;
     danhSachDocGia* dsDocGia = NULL;
+    bookList* dsSach = NULL;
 
 
-    Initialise(users, infos, dsDocGia, totalAccounts, totalDocGia);
+    Initialise(users, infos, dsDocGia, dsSach);
 
     //
     // Sau do cac bien sau se luu session (phien dang nhap) cua nguoi dung:
@@ -105,7 +126,7 @@ int main() {
     do {
         // Thoat hoan toan chuong trinh.
         if (stop_executing) {
-            Terminate(users, infos, dsDocGia, totalAccounts, totalDocGia);
+            Terminate(users, infos, dsDocGia, dsSach);
             break;
         }
 
@@ -146,8 +167,15 @@ int main() {
             }
 
             // Load menu quan ly doc gia.
-            quanLyDocGia();
+            quanLyDocGia(user_session_info);
 
+            // Load menu quan ly sach.
+            quanLySach(user_session_info);
+
+            // Load menu thong ke co ban.
+            thongKeCoBan(user_session_info);
+
+            cout << "=====" << endl;
             cout << "Nhap lenh ban muon thuc hien (so dung truoc moi menu): " << endl;
             if (!(cin >> command_code)) {
                 cin.clear(); // xoa loi
@@ -191,7 +219,7 @@ int main() {
                 // Bat su kien them user.
                 case MENU_THEM_USER_COMMAND_CODE: {
                     if (isAdmin(user_session_info)) {
-                        if (addUser(totalAccounts, users, infos)) {
+                        if (addUser(users, infos)) {
                             cout << "Da tao tai khoan moi thanh cong." << endl;
                             cout << "Moi thay doi se duoc luu sau khi dang xuat va thoat khoi chuong trinh bang lenh " << EXIT_COMMAND_CODE << endl;
 
@@ -205,7 +233,7 @@ int main() {
                     else cout << "Ban khong co quyen thuc hien lenh nay." << endl;
                     break;
                 }
-                
+
                 // Bat su kien phan quyen user (admin)
                 case MENU_PHAN_QUYEN_USER_COMMAND_CODE: {
                     if (isAdmin(user_session_info)) {
@@ -224,18 +252,150 @@ int main() {
                     else cout << "Ban khong co quyen thuc hien lenh nay." << endl;
                     break;
                 }
-
+                
+                // Bat su kien xem doc gia
                 case XEM_DOC_GIA_COMMAND_CODE: {
                     cout << "== Danh sach doc gia ==" << endl;
                     xemDanhSachDocGia(dsDocGia->docGiaDau);
                     cout << "==        END        ==" << endl;
-                    cout << "Danh sach nay co " << totalDocGia << " doc gia." << endl;
+                    cout << "Danh sach nay co " << dsDocGia->totalDocGia << " doc gia." << endl;
+                    break;
+                }
+
+                // Bat su kien them doc gia tu file .csv
+                case THEM_DOC_GIA_CSV_COMMAND_CODE: {
+                    cout << "Nhap file .csv chua thong tin cac doc gia: ";
+                    char fileName[1024]; cin >> fileName;
+
+                    if (isCSV(fileName)) {
+                        FILE* f = fopen(fileName, "r+");
+
+                        if (f != NULL)
+                            if (confirmationBox()) {
+                                int totalAdded = themDocGiaTuCSV(f, dsDocGia);
+                                cout << "Da them thanh cong " << totalAdded << " doc gia." << endl;
+                            } else cout << "Lenh nhap doc gia da bi huy." << endl;
+                        else cout << "File khong ton tai." << endl;
+                    }
+                    else cout << "File ban vua nhap khong phai la file .csv" << endl;
+
+                    break;
+                }
+                
+                // Bat su kien doi thong tin doc gia.
+                case DOI_THONG_TIN_DOC_GIA_COMMAND_CODE: {
+                    cout << "Nhap ID doc gia can thay doi thong tin: " << endl;
+                    int idDocGia;
+                    if (!(cin >> idDocGia)) {
+                        cin.clear();
+                        cin.ignore();
+                        break;
+                    }
+
+                    // Tim doc gia co ID.
+                    nodeDocGia* docGia = searchForDocGiaByID(idDocGia, dsDocGia);
+
+                    if (docGia != NULL) {
+                        // Hien menu
+                        editInfoDocGia();
+
+                        // Bat su kien.
+                        catchEditInfoDocGia(docGia, dsDocGia);
+                    }
+                    else cout << "Doc gia khong ton tai." << endl;
+                    break;
+                }
+
+                // Bat su kien xoa doc gia
+                case XOA_DOC_GIA_COMMAND_CODE: {
+                    if (!isChuyenVien(user_session_info)) {
+                        cout << "Nhap ID cua doc gia can xoa: " << endl;
+                        int ID; cin >> ID;
+
+                        if (deleteDocGia(ID, dsDocGia)) {
+                            cout << "Da xoa doc gia thanh cong." << endl;
+                        } else {
+                            cout << "Xoa doc gia khong thanh cong vi mot trong cac ly do sau: " << endl;
+                            cout << "- Doc gia khong ton tai." << endl;
+                            cout << "- Lenh xoa bi huy." << endl;
+                        }
+                    } else cout << "Ban khong co quyen thuc hien lenh nay." << endl;
+                    break;
+                }
+
+                // Bat su kien tim doc gia co CMND
+                case TIM_DOC_GIA_CMND_COMMAND_CODE: {
+                    cout << "Nhap CMND cua doc gia can tim:" << endl;
+                    char CMND[CMND_MAX]; cin >> CMND;
+
+                    nodeDocGia* docGia = searchForDocGiaByCMND(CMND, dsDocGia);
+                    if (docGia == NULL) cout << "Khong tim thay doc gia co CMND " << CMND << endl;
+                    else inDocGia(docGia->thongTinDocGia);
+
+                    break;
+                }
+
+                // Bat su kien tim doc gia co ho ten.
+                case TIM_DOC_GIA_HO_TEN_COMMAND_CODE: {
+                    cout << "Nhap ho ten cua doc gia can tim:" << endl;
+                    char hoTen[NAME_MAX];
+                    cin.ignore(); cin.getline(hoTen, NAME_MAX);
+
+                    searchForDocGiaByHoTen(hoTen, dsDocGia);
+
+                    break;
+                }
+
+                // Bat su kien xem danh sach sach trong thu vien.
+                case XEM_SACH_COMMAND_CODE: {
+                    if (!isChuyenVien(user_session_info)) {
+                        inBookList(dsSach->firstBook);
+                        cout << "Co tong so " << dsSach->bookCount << " cuon sach trong thu vien." << endl;
+                    } else cout << "Ban khong co quyen thuc hien lenh nay." << endl;
+                    break;
+                }
+
+                // Bat su kien tim sach theo ISBN
+                case TIM_SACH_THEO_ISBN_COMMAND_CODE: {
+                    cout << "Nhap ISBN cua sach: " << endl;
+                    char ISBN[ISBN_MAX]; cin >> ISBN;
+
+                    bookNode* resultBook = searchBookByISBN(ISBN, dsSach);
+                    if (resultBook != NULL)
+                        inMotQuyenSach(resultBook->bookInfo);
+                    else cout << "Khong tim thay sach co ISBN " << ISBN << endl;
+                    break;
+                }
+                // Bat su kien tim sach theo ten.
+                case TIM_SACH_THEO_TEN_COMAND_CODE: {
+                    cout << "Nhap ten sach can tim: " << endl;
+                    char tenSach[BOOK_NAME_MAX]; cin.ignore();
+                    cin.getline(tenSach, BOOK_NAME_MAX);
+
+                    searchBookByName(tenSach, dsSach);           
+
+                    break;
+                }
+
+                // Bat su kien thong ke so luong doc gia.
+                case THONG_KE_SO_LUONG_DOC_GIA_COMMAND_CODE:
+                    if (!isChuyenVien(user_session_info)) {
+                        cout << "Thong ke so luong doc gia:" << endl;
+                        cout << "Tong so luong doc gia: " << dsDocGia->totalDocGia << endl;
+                    }
+                    else cout << "Ban khong co quyen thuc hien chuc nang nay." << endl;
+                    break;
+
+                // Bat su kien thong ke doc gia theo gioi tinh.
+                case THONG_KE_DOC_GIA_GIOI_TINH_COMMAND_CODE: {
+                    if (!isChuyenVien(user_session_info)) thongKeTheoGioiTinh(dsDocGia);
+                    else cout << "Ban khong co quyen thuc hien chuc nang nay." << endl;
+                    
                     break;
                 }
 
                 default:
                     cout << "Khong tim thay lenh " << command_code << endl;
-                    break;
             }
             system("pause");
         }

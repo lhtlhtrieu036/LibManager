@@ -1,12 +1,5 @@
 #include"include.h"
 
-// Chua dang nhap.
-void nonLoggedInMenu() {
-    
-
-    // Xu ly dang nhap.
-}
-
 // Menu xu ly sua doi thong tin.
 void editInfoMenu() {
     cout << "== Thay doi thong tin ==" << endl;
@@ -35,12 +28,56 @@ void adminMenu() {
     cout << MENU_PHAN_QUYEN_USER_COMMAND_CODE << ". Phan quyen cho nguoi dung." << endl;
 }
 
-void quanLyDocGia() {
+void quanLyDocGia(user_info* user_session_info) {
     cout << "== Quan ly doc gia == " << endl;
     cout << XEM_DOC_GIA_COMMAND_CODE << ". Xem danh sach doc gia." << endl;
+    cout << THEM_DOC_GIA_CSV_COMMAND_CODE << ". Them doc gia tu file .csv." << endl;
+    cout << DOI_THONG_TIN_DOC_GIA_COMMAND_CODE << ". Doi thong tin mot doc gia." << endl;
+
+    if (!isChuyenVien(user_session_info))
+        cout << XOA_DOC_GIA_COMMAND_CODE << ". Xoa mot doc gia." << endl;
+
+    cout << TIM_DOC_GIA_CMND_COMMAND_CODE << ". Tim doc gia theo CMND." << endl;
+    cout << TIM_DOC_GIA_HO_TEN_COMMAND_CODE << ". Tim doc gia theo Ho ten." << endl;
+}
+
+void quanLySach(user_info* user_session_info) {
+    cout << "== Quan ly sach ==" << endl;
+    if (!isChuyenVien(user_session_info)) {
+        cout << XEM_SACH_COMMAND_CODE << ". Xem danh sach cac sach trong thu vien." << endl;
+        cout << THEM_SACH_CSV_COMMAND_CODE << ". Them sach tu file .csv." << endl;
+        cout << DOI_THONG_TIN_SACH_COMMAND_CODE << ". Doi thong tin mot quyen sach." << endl;
+        cout << XOA_SACH_COMMAND_CODE << ". Xoa thong tin mot quyen sach." << endl;
+    }
+    cout << TIM_SACH_THEO_ISBN_COMMAND_CODE << ". Tim sach theo ISBN." << endl;
+    cout << TIM_SACH_THEO_TEN_COMAND_CODE << ". Tim sach theo ten sach." << endl;
+}
+
+void editInfoDocGia() {
+    cout << "== Doi thong tin doc gia ==" << endl;
+    cout << MENU_DOI_TEN_DOC_GIA_COMMAND_CODE << ". Doi ten doc gia." << endl;
+    cout << MENU_DOI_CMND_DOC_GIA_COMMAND_CODE << ". Doi CMND doc gia." << endl;
+    cout << MENU_DOI_NGAY_SINH_DOC_GIA_COMMAND_CODE << ". Doi ngay sinh doc gia." << endl;
+    cout << MENU_DOI_GIOI_TINH_DOC_GIA_COMMAND_CODE << ". Doi gioi tinh doc gia." << endl;
+    cout << MENU_DOI_EMAIL_DOC_GIA_COMMAND_CODE << ". Doi email doc gia." << endl;
+    cout << MENU_DOI_DIA_CHI_DOC_GIA_COMMAND_CODE << ". Doi dia chi doc gia." << endl;
+}
+
+void thongKeCoBan(user_info* user_session_info) {
+    cout << "== Thong ke co ban ==" << endl;
+
+    if (!isChuyenVien(user_session_info)) {
+        cout << THONG_KE_SO_LUONG_SACH_COMMAND_CODE << ". Thong ke so luong sach trong thu vien." << endl;
+        cout << THONG_KE_SACH_THEO_THE_LOAI_COMMAND_CODE << ". Thong ke so sach theo the loai." << endl;
+        cout << THONG_KE_SO_LUONG_DOC_GIA_COMMAND_CODE << ". Thong ke so luong doc gia." << endl;
+        cout << THONG_KE_DOC_GIA_GIOI_TINH_COMMAND_CODE << ". Thong ke doc gia theo gioi tinh." << endl;
+    }
+    cout << THONG_KE_SACH_DANG_MUON << ". Thong ke sach dang muon." << endl;
+    cout << THONG_KE_DOC_GIA_TRE_HAN << ". Thong ke doc gia tre han." << endl;
 }
 
 // Controller (xu ly) cho cac menu
+
 void getInfoMenu(user_info* user_session_info) {
     cout << "== Thong tin cua ban ==" << endl;
     cout << "Ho va ten: " << user_session_info->ho_Ten << endl;
@@ -103,22 +140,126 @@ void catchEditInfoMenu(account*& account_session_info, user_info*& user_session_
             cout << "Gioi tinh cua ban hien tai la: " << user_session_info->gioi_Tinh << endl;
             cout << "Doi gioi tinh: " << endl;
 
-            editUserGioiTinh(user_session_info);
-            cout << "Da doi gioi tinh thanh cong. Xin vui long dang nhap lai de luu moi thay doi." << endl;
-
+            if (editUserGioiTinh(user_session_info))
+                cout << "Da doi gioi tinh thanh cong. Xin vui long dang nhap lai de luu moi thay doi." << endl;
+            else cout << "Doi gioi tinh that bai." << endl;
             break;
 
         case MENU_DOI_NGAY_SINH_COMMAND_CODE:
             cout << "Ngay sinh cua ban hien tai la: " << user_session_info->ngay_Sinh << endl;
             cout << "Doi ngay sinh: " << endl;
 
-            editUserNgaySinh(user_session_info);
-            cout << "Da doi ngay sinh thanh cong. Xin vui long dang nhap lai de luu moi thay doi." << endl;
-
+            if (editUserNgaySinh(user_session_info))
+                cout << "Da doi ngay sinh thanh cong. Xin vui long dang nhap lai de luu moi thay doi." << endl;
+            else cout << "Doi ngay sinh that bai." << endl;
             break;
 
         default:
             cout << "Khong tim thay chuc nang nay." << endl;
+    }
+}
+
+void catchEditInfoDocGia(nodeDocGia*& docGia, danhSachDocGia*& dsDocGia) {
+    int command = -1;
+    cout << "Chon phan thong tin can chinh sua: ";
+    if (!(cin >> command)) {
+        cin.clear();
+        cin.ignore();
+        cout << "Lenh khong hop le." << endl;
+        return;
+    }
+    switch (command) {
+        case MENU_DOI_TEN_DOC_GIA_COMMAND_CODE: {
+            cout << "Doi Ho ten doc gia." << endl;
+            cout << "Ho ten doc gia hien tai la " << docGia->thongTinDocGia.ho_Ten << endl;
+
+            if (editTenDocGia(docGia))
+                cout << "Da doi Ho ten doc gia thanh cong." << endl;
+            else {
+                cout << "Doi Ho ten doc gia that bai vi mot trong cac ly do sau:" << endl;
+                cout << "- Ho ten doc gia qua dai / qua ngan." << endl;
+                cout << "- Tien trinh doi Ho ten bi huy." << endl;
+            }
+            break;
+        }
+
+        case MENU_DOI_CMND_DOC_GIA_COMMAND_CODE: {
+            cout << "Doi CMND doc gia: " << endl;
+            cout << "CMND doc gia hien tai la " << docGia->thongTinDocGia.so_CMND << endl;
+            cout << "Luu y: CMND moi khong duoc trung voi cac doc gia hien co." << endl;
+
+            if (editCMNDDocGia(docGia, dsDocGia))
+                cout << "Da doi CMND doc gia thanh cong." << endl;
+            else {
+                cout << "Doi CMND doc gia that bai vi mot trong cac ly do sau: " << endl;
+                cout << "- CMND qua dai / qua ngan." << endl;
+                cout << "- CMND trung voi doc gia khac hoac trung voi CMND cu." << endl;
+                cout << "- Tien trinh doi CMND bi huy." << endl;
+            }
+            break;
+        }
+
+        case MENU_DOI_NGAY_SINH_DOC_GIA_COMMAND_CODE: {
+            cout << "Doi ngay sinh doc gia: " << endl;
+            cout << "Ngay sinh doc gia hien tai la " << docGia->thongTinDocGia.ngay_Sinh << endl;
+
+            if (editNgaySinhDocGia(docGia))
+                cout << "Da doi Ngay sinh doc gia thanh cong." << endl;
+            else {
+                cout << "Doi Ngay sinh doc gia that bai vi mot trong cac ly do sau: " << endl;
+                cout << "- Ngay sinh qua dai / qua ngan." << endl;
+                cout << "- Tien trinh doi Ngay sinh bi huy." << endl;
+            }
+            break;
+        }
+
+        case MENU_DOI_EMAIL_DOC_GIA_COMMAND_CODE: {
+            cout << "Doi Email doc gia: " << endl;
+            cout << "Email doc gia hien tai la " << docGia->thongTinDocGia.email << endl;
+
+            if (editEmailDocGia(docGia))
+                cout << "Da doi Email doc gia thanh cong." << endl;
+            else {
+                cout << "Doi Email doc gia that bai vi mot trong cac ly do sau: " << endl;
+                cout << "- Email qua dai / qua ngan." << endl;
+                cout << "- Tien trinh doi Email bi huy." << endl;
+            }
+            break;
+        }
+
+        case MENU_DOI_DIA_CHI_DOC_GIA_COMMAND_CODE: {
+            cout << "Doi Dia chi doc gia: " << endl;
+            cout << "Dia chi doc gia hien tai la " << docGia->thongTinDocGia.diaChi << endl;
+
+            if (editDiaChiDocGia(docGia))
+                cout << "Da doi Dia chi doc gia thanh cong." << endl;
+            else {
+                cout << "Doi Dia chi doc gia that bai vi mot trong cac ly do sau: " << endl;
+                cout << "- Dia chi qua dai / qua ngan." << endl;
+                cout << "- Tien trinh doi Dia chi bi huy." << endl;
+            }
+            break;
+        }
+
+        case MENU_DOI_GIOI_TINH_DOC_GIA_COMMAND_CODE: {
+            cout << "Doi Gioi tinh doc gia: " << endl;
+            cout << "Gioi tinh doc gia hien tai la " << ((isNam(docGia->thongTinDocGia)) ? "NAM" : "NU") << endl;
+            cout << "Luu y: " << endl;
+            cout << DOCGIA_NAM << ". Nam" << endl;
+            cout << DOCGIA_NU << ". Nu" << endl;
+
+            if (editGioiTinhDocGia(docGia))
+                cout << "Da doi Gioi tinh doc gia thanh cong." << endl;
+            else {
+                cout << "Doi Gioi tinh doc gia that bai vi mot trong cac ly do sau: " << endl;
+                cout << "- Gioi tinh khong hop le." << endl;
+                cout << "- Tien trinh doi Gioi tinh bi huy." << endl;
+            }
+        }
+
+
+        default:
+            cout << "Khong tim thay lenh " << command << endl;
     }
 }
 

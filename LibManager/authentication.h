@@ -20,5 +20,8 @@ bool isAdmin(user_info*);
 // Ham kiem tra user co phai quan ly hay khong.
 bool isQuanLy(user_info*);
 
+// Ham kiem tra user co phai chuyen vien hay khong.
+bool isChuyenVien(user_info*);
+
 // Ham kiem tra user con active hay bi block.
 bool isActive(user_info*);

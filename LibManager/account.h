@@ -48,6 +48,7 @@ struct accountNode {
 };
 
 struct accountList {
+    int totalAccount;
     accountNode* head;
     accountNode* tail;
 };
@@ -88,7 +89,7 @@ struct userInfoList {
 accountNode* createAccountNode(account* newAccount);
 
 // Ham lay list account tu file.
-accountList* getAccountList(int&);
+accountList* getAccountList();
 
 // Ham tao mot info node.
 // Ham nay duoc viet rieng, vi co the duoc tai su dung
@@ -124,7 +125,7 @@ bool editUserNgaySinh(user_info*&);
 bool changeUserPassword(account*);
 
 // Ham them user.
-bool addUser(int&, accountList*&, userInfoList*&);
+bool addUser(accountList*&, userInfoList*&);
 
 // Ham phan quyen user.
 bool permissionUser(userInfoList*&);

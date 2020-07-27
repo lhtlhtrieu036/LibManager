@@ -56,6 +56,12 @@ bool isQuanLy(user_info* userInfo) {
     return userInfo->permissions == USER_QUANLY;
 }
 
+// Ham kiem tra user co phai chuyen vien hay khong.
+// (Rut ngan code trong cac cau lenh if).
+bool isChuyenVien(user_info* userInfo) {
+    return !isAdmin(userInfo) && !isQuanLy(userInfo);
+}
+
 // Ham kiem tra tai khoan con active hay khong.
 bool isActive(user_info* userInfo) {
     return userInfo->tinh_Trang;
