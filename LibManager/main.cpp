@@ -183,6 +183,8 @@ int main() {
                 continue;
             }
 
+            system("cls");
+
             switch (command_code) {
                 // Bat su kien doi mat khau.
                 case CHANGE_PASSWORD_COMMAND_CODE: {
@@ -355,6 +357,45 @@ int main() {
                     break;
                 }
 
+                // Bat su kien nhap sach tu file .csv
+                case THEM_SACH_CSV_COMMAND_CODE: {
+                    if (!isChuyenVien(user_session_info)) {
+                        cout << "Nhap file .csv chua sach: " << endl;
+                        char fileName[1024]; cin >> fileName;
+
+                        if (isCSV(fileName)) {
+                            FILE* f = fopen(fileName, "r+");
+
+                            if (f != NULL)
+                                if (confirmationBox()) {
+                                    int totalAdded = addBookFromCSV(f, dsSach);
+                                    cout << "Da them thanh cong " << totalAdded << " line." << endl;
+                                } else cout << "Lenh nhap sach da bi huy." << endl;
+                            else cout << "File khong ton tai." << endl;
+                        } else cout << "File ban vua nhap khong phai la file .csv" << endl;
+                    } else cout << "Ban khong co quyen thuc hien lenh nay." << endl;
+
+                    break;
+                }
+
+                // Bat su kien xoa thong tin sach.
+                case XOA_SACH_COMMAND_CODE: {
+                    if (!isChuyenVien(user_session_info)) {
+                        cout << "Nhap ISBN cua quyen sach can xoa: " << endl;
+                        char ISBN[ISBN_MAX]; cin >> ISBN;
+
+                        if (deleteBook(ISBN, dsSach))
+                            cout << "Da xoa sach ISBN " << ISBN << " thanh cong." << endl;
+                        else {
+                            cout << "Xoa sach khong thanh cong vi mot trong so cac ly do sau:" << endl;
+                            cout << "- Sach co ISBN khong ton tai." << endl;
+                            cout << "- Lenh xoa sach da bi huy." << endl;
+                        }
+                    } else cout << "Ban khong co quyen thuc hien lenh nay." << endl;
+
+                    break;
+                }
+
                 // Bat su kien tim sach theo ISBN
                 case TIM_SACH_THEO_ISBN_COMMAND_CODE: {
                     cout << "Nhap ISBN cua sach: " << endl;
@@ -366,6 +407,7 @@ int main() {
                     else cout << "Khong tim thay sach co ISBN " << ISBN << endl;
                     break;
                 }
+
                 // Bat su kien tim sach theo ten.
                 case TIM_SACH_THEO_TEN_COMAND_CODE: {
                     cout << "Nhap ten sach can tim: " << endl;

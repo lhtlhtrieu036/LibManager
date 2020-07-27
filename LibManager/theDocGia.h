@@ -56,7 +56,7 @@ bool editDiaChiDocGia(nodeDocGia*&);
 
 bool editGioiTinhDocGia(nodeDocGia*&);
 
-bool deleteDocGia(int ID, danhSachDocGia*&);
+bool deleteDocGia(int, danhSachDocGia*&);
 
 nodeDocGia* searchForDocGiaByCMND(const char*, danhSachDocGia*);
 
