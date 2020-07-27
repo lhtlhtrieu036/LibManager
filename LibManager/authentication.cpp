@@ -1,12 +1,7 @@
 #include"include.h"
 
 // Ham dang nhap, tra ve con tro den tai khoan cua user.
-account* logUserIn(accountList* list) {
-    char username[USERNAME_MAX_SIZE], password[PASSWORD_MAX_SIZE];
-    cout << "== Dang nhap vao tai khoan ==" << endl;
-    cout << "Tai khoan: "; cin >> username;
-    cout << "Mat khau : "; cin >> password;
-
+account* logUserIn(const char* username, const char* password, accountList* list) {
     accountNode* accountInDB = list->head;
     while (accountInDB != NULL) {
         // Lay thong tin tu 1 node.

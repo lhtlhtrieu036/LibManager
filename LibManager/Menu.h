@@ -52,6 +52,11 @@
 #define MENU_DOI_EMAIL_DOC_GIA_COMMAND_CODE 5
 #define MENU_DOI_DIA_CHI_DOC_GIA_COMMAND_CODE 6
 
+// Command menu thay doi thong tin sach.
+// Tuong tu menu ben tren, menu nay cung khong so trung.
+#define MENU_DOI_TEN_SACH_COMMAND_CODE 1
+#define MENU_DOI_NAM_XUAT_BAN_COMMAND_CODE 2
+
 // Command menu them user va phan quyen.
 // (Menu danh rieng cho admin)
 #define MENU_THEM_USER_COMMAND_CODE 8

@@ -5,6 +5,7 @@ danhSachDocGia* createDanhSachDocGia() {
     danhSachDocGia* newList = (danhSachDocGia*)malloc(sizeof(danhSachDocGia));
     newList->docGiaDau = NULL;
     newList->docGiaCuoi = NULL;
+    newList->totalDocGia = 0;
     return newList;
 }
 

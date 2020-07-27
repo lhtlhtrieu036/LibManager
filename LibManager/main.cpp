@@ -83,15 +83,7 @@ void Terminate(accountList*& users, userInfoList*& infos, danhSachDocGia*& dsDoc
     freeBookList(dsSach);
 }
 
-int main() {
-    //
-    // Thong tin demo
-    //
-    cout << "(Demo only): Tai khoan admin: admin/admin@fit.hcmus" << endl;
-    cout << "(Demo only): Tai khoan quan ly: lttan/lttan@bqpvietnam" << endl;
-    cout << "(Demo only): Tai khoan chuyen vien: thquan/quan@hcmus" << endl;
-    system("pause");
-
+int main(int argc, char** argv) {
     //
     // De bat dau, dau tien load tat ca user va info vao mot danh sach.
     // phuc vu muc dich dang nhap.
@@ -101,7 +93,6 @@ int main() {
     userInfoList* infos = NULL;
     danhSachDocGia* dsDocGia = NULL;
     bookList* dsSach = NULL;
-
 
     Initialise(users, infos, dsDocGia, dsSach);
 
@@ -123,6 +114,34 @@ int main() {
     bool stop_executing = false;
     
     // Bat nguoi dung dang nhap bang moi gia.
+    // (That ra cai nay la dang nhap bang command line).
+    if (argc != 3) {
+        cout << "Vui long nhap tai khoan / mat khau." << endl;
+        stop_executing = true;
+    } 
+    else {
+        // Dang nhap va load user account session.
+        user_session_account = logUserIn(argv[1], argv[2], users);
+        if (user_session_account == NULL) {
+            cout << "Tai khoan / Mat khau khong chinh xac." << endl;
+            stop_executing = true;
+        }
+        else {
+            // Lay user_session_info.
+            user_session_info = getUserInfo(infos, user_session_account);
+
+            // Neu user inative, bao loi va dang xuat.
+            if (!isActive(user_session_info)) {
+                cout << "Tai khoan cua ban da bi deactivate. Vui long lien he admin de duoc giai quyet." << endl;
+                logUserOut(user_session_account, user_session_info);
+                stop_executing = true;
+            }
+        }
+    }
+
+    // Vong lap giu cho chuong trinh luon chay.
+    // (Thoat bang cach set bien stop_executing = true, nhu da lam ben tren
+    // de bat mot so loi.)
     do {
         // Thoat hoan toan chuong trinh.
         if (stop_executing) {
@@ -131,26 +150,6 @@ int main() {
         }
 
         system("cls");
-        do {
-            user_session_account = logUserIn(users);
-            if (user_session_account == NULL) {
-                cout << "Sai tai khoan / mat khau. Xin thu lai!" << endl;
-            }
-            else {
-                user_session_info = getUserInfo(infos, user_session_account);
-
-                // Neu nguoi dung khong con active, thong bao va dang xuat.
-                if (!isActive(user_session_info)) {
-                    cout << "Tai khoan cua ban da bi block. Vui long lien he admin de duoc giai quyet. Xin cam on." << endl;
-                    logUserOut(user_session_account, user_session_info);
-                    break;
-                }
-
-                cout << "Dang nhap thanh cong. Dang chuyen ban den menu nguoi dung phu hop..." << endl;
-            }
-            system("pause");
-            system("cls");
-        } while (user_session_account == NULL || user_session_info == NULL);
 
         // Da dang nhap thanh cong.
         int command_code = -1;
