@@ -7,9 +7,9 @@
 #define DOCGIA_NU  0
 
 struct ngayThangNam {
-	int ngay;
-	int thang;
-	int nam;
+    int ngay;
+    int thang;
+    int nam;
 };
 
 struct theDocGia {
