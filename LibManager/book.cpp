@@ -146,6 +146,7 @@ int addBookFromCSV(FILE* csvFile, bookList*& dsSach) {
                     cout << "Nguyen nhan co the vao cac loi sau:" << endl;
                     cout << "- Do dai cac thong tin khong phu hop." << endl;
                     cout << "- Loi nhap lieu tu file .csv" << endl;
+                    cout << "=====" << endl;
                 }
 
                 // Reset so cot ve 0.
@@ -248,4 +249,122 @@ void freeBookList(bookList*& dsSach) {
     while (dsSach->firstBook != NULL)
         deleteSachDauList(dsSach);
     free(dsSach);
+}
+
+void writeBookBackToFile(bookList* dsSach) {
+    FILE* f = fopen(BOOKLIST_FILE, "wb+");
+
+    // Ghi tong so sach.
+    fwrite(&dsSach->bookCount, sizeof(int), 1, f);
+
+    // Ghi cac node.
+    bookNode* thisBookNode = dsSach->firstBook;
+    while (thisBookNode != NULL) {
+        fwrite(&thisBookNode->bookInfo, sizeof(Book), 1, f);
+        thisBookNode = thisBookNode->nextBook;
+    }
+
+    fclose(f);
+}
+
+void thongKeSachTheoTheLoai(bookList* dsSach) {
+    hashMap* dsTheLoai = createHashMap();
+    bookNode* thisBook = dsSach->firstBook;
+
+    while (thisBook != NULL) {
+        hashNode* resultNode = findInHashMap(dsTheLoai, thisBook->bookInfo.book_type);
+
+        if (resultNode != NULL) ++resultNode->count;
+        else pushToHashMap(dsTheLoai, thisBook->bookInfo.book_type);
+
+        thisBook = thisBook->nextBook;
+    }
+
+    hashNode* thisNode = dsTheLoai->firstNode;
+    while (thisNode != NULL) {
+        cout << "The loai: " << thisNode->hash << " - so quyen: " << thisNode->count << endl;
+        thisNode = thisNode->nextNode;
+    }
+    
+    releaseHashMap(dsTheLoai);
+}
+
+bool editBookName(bookNode*& thisBook) {
+    char newBookName[BOOK_NAME_MAX];
+    cout << "Nhap ten moi cho sach: " << endl;
+    cin.ignore(); cin.getline(newBookName, BOOK_NAME_MAX);
+
+    if (confirmationBox()) {
+        strcpy(thisBook->bookInfo.book_Name, newBookName);
+        return true;
+    }
+
+    return false;
+}
+
+bool editAuthorName(bookNode*& thisBook) {
+    char newAuthorName[BOOK_NAME_MAX];
+    cout << "Nhap ten tac gia moi: " << endl;
+    cin.ignore(); cin.getline(newAuthorName, NAME_MAX);
+
+    if (confirmationBox()) {
+        strcpy(thisBook->bookInfo.book_Author, newAuthorName);
+        return true;
+    }
+
+    return false;
+}
+
+bool editPublisherName(bookNode*& thisBook) {
+    char newPublisherName[BOOK_PUBLISHER_MAX];
+    cout << "Nhap ten NXB moi: " << endl;
+    cin.ignore(); cin.getline(newPublisherName, BOOK_PUBLISHER_MAX);
+
+    if (confirmationBox()) {
+        strcpy(thisBook->bookInfo.book_publisher, newPublisherName);
+        return true;
+    }
+
+    return false;
+}
+
+bool editPublishedYear(bookNode*& thisBook) {
+    char newYear[BOOK_PUBLISHED_MAX];
+    cin >> newYear;
+
+    if (confirmationBox()) {
+        strcpy(thisBook->bookInfo.book_published_year, newYear);
+        return true;
+    }
+
+    return false;
+}
+
+bool editBookType(bookNode*& thisBook) {
+    char newBookType[BOOK_TYPE_MAX];
+    cin.ignore(); cin.getline(newBookType, BOOK_TYPE_MAX);
+
+    if (confirmationBox()) {
+        strcpy(thisBook->bookInfo.book_type, newBookType);
+        return true;
+    }
+
+    return false;
+}
+
+bool editBookPrice(bookNode*& thisBook) {
+    int newBookPrice;
+
+    if (!(cin >> newBookPrice)) {
+        cin.clear();
+        cin.ignore();
+        return false;
+    }
+
+    if (confirmationBox()) {
+        thisBook->bookInfo.price = newBookPrice;
+        return true;
+    }
+
+    return false;
 }

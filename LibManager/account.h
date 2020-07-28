@@ -142,3 +142,13 @@ void freeAccountList(accountList*&);
 //
 void freeUserInfoNode(userInfoList*&);
 void freeUserInfoList(userInfoList*&);
+
+//
+// Ham ghi tai khoan tro lai file.
+//
+void writeCredentialsBackToFile(accountList*);
+
+//
+// Ham ghi info nguoi dung tro lai file.
+//
+void writeInfoBackToFile(userInfoList*);

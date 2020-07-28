@@ -3,8 +3,7 @@
 #define MENU_H
 #endif // !MENU_H
 
-#define EXIT_COMMAND_CODE    3817 // E - X - I - T
-#define LOGOUT_COMMAND_CODE  6969 // nonsense, se set gia tri khac trong tuong lai
+#define LOGOUT_COMMAND_CODE    3817 // E - X - I - T
 #define CHANGE_PASSWORD_COMMAND_CODE 9455 // P - A - S -S.
 #define CHANGE_INFO_COMMAND_CODE 1024 // nonsense, se set gia tri khac trong tuong lai.
 
@@ -23,6 +22,10 @@
 #define XOA_SACH_COMMAND_CODE 3400
 #define TIM_SACH_THEO_ISBN_COMMAND_CODE 3500
 #define TIM_SACH_THEO_TEN_COMAND_CODE 3600
+
+// COMMAND CODE for quan ly Muon - Tra Sach.
+#define MUON_SACH_COMMAND_CODE 4000
+#define TRA_SACH_COMMAND_CODE 5000
 
 // COMMAND CODE for Thong ke
 #define THONG_KE_SO_LUONG_SACH_COMMAND_CODE 6100
@@ -55,7 +58,11 @@
 // Command menu thay doi thong tin sach.
 // Tuong tu menu ben tren, menu nay cung khong so trung.
 #define MENU_DOI_TEN_SACH_COMMAND_CODE 1
-#define MENU_DOI_NAM_XUAT_BAN_COMMAND_CODE 2
+#define MENU_DOI_TAC_GIA_SACH_COMMAND_CODE 2
+#define MENU_DOI_NAM_XUAT_BAN_SACH_COMMAND_CODE 3
+#define MENU_DOI_NHA_XUAT_BAN_SACH_COMMAND_CODE 4
+#define MENU_DOI_THE_LOAI_SACH_COMMAND_CODE 5
+#define MENU_DOI_GIA_SACH_COMMAND_CODE 6
 
 // Command menu them user va phan quyen.
 // (Menu danh rieng cho admin)
@@ -77,8 +84,14 @@ void quanLyDocGia(user_info*);
 // Menu quan ly sach.
 void quanLySach(user_info*);
 
+// Menu quan ly cho muon - tra sach.
+void muonTraSach();
+
 // Menu thay doi thong tin doc gia.
 void editInfoDocGia();
+
+// Menu thay doi thong tin sach.
+void editInfoBook();
 
 // Menu thong ke co ban.
 void thongKeCoBan(user_info*);
@@ -88,6 +101,9 @@ void catchEditInfoMenu(account*&, user_info*&);
 
 // Xu ly cho menu thay doi thong tin doc gia.
 void catchEditInfoDocGia(nodeDocGia*&, danhSachDocGia*&);
+
+// Xu ly cho menu thay doi thong tin sach.
+void catchEditInfoBook(bookNode*&, bookList*&);
 
 // Ham xac nhan hanh dong cua nguoi dung.
 bool confirmationBox();

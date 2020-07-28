@@ -23,5 +23,8 @@
 #include"theDocGia.h"
 #include"Menu.h"
 
+// Hashmap - ho tro viec thong ke sach dua tren the loai.
+#include"Hashmap.h"
+
 using namespace std;
 #endif // !_INCLUDE_H_

@@ -309,6 +309,7 @@ int themDocGiaTuCSV(FILE* csvFile, danhSachDocGia*& list) {
                     cout << "- CMND da duoc su dung cho mot doc gia khac." << endl;
                     cout << "- Do dai cac thong tin khong phu hop." << endl;
                     cout << "- Loi nhap lieu tu file .csv" << endl;
+                    cout << "=====" << endl;
                 }
 
                 index = 0;
@@ -405,6 +406,7 @@ void inDocGia(theDocGia thongTin) {
     printf("Dia chi: %s\n", thongTin.diaChi);
     printf("Ngay lap the: %s\n", ctime(&thongTin.ngayLapThe));
     printf("Ngay het han: %s\n", ctime(&thongTin.ngayHetHan));
+    printf("=====\n");
 }
 
 void deleteDocGiaDau(danhSachDocGia*& list) {
@@ -440,4 +442,19 @@ void freeDanhSachDocGia(danhSachDocGia*& list) {
         deleteDocGiaDau(list);
     
     free(list);
+}
+
+void writeDocGiaBackToFile(danhSachDocGia* dsDocGia) {
+    FILE* f = fopen(DOCGIA_FILE, "wb+");
+
+    // Ghi tong so doc gia.
+    fwrite(&dsDocGia->totalDocGia, sizeof(int), 1, f);
+
+    // Ghi tung doc gia.
+    nodeDocGia* docGia = dsDocGia->docGiaDau;
+    while (docGia != NULL) {
+        fwrite(&docGia->thongTinDocGia, sizeof(theDocGia), 1, f);
+        docGia = docGia->docGiaTiepTheo;
+    }
+    fclose(f);
 }

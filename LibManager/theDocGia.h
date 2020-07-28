@@ -82,6 +82,8 @@ void deleteDocGiaGiua(nodeDocGia*&);
 
 void freeDanhSachDocGia(danhSachDocGia*&);
 
+void writeDocGiaBackToFile(danhSachDocGia*);
+
 void xemDanhSachDocGia(nodeDocGia*);
 
 void thongKeTheoGioiTinh(danhSachDocGia*);

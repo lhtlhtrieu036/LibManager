@@ -406,3 +406,31 @@ void freeUserInfoList(userInfoList*& infos) {
     while (infos->head != NULL) freeUserInfoNode(infos);
     free(infos);
 }
+
+void writeCredentialsBackToFile(accountList* users) {
+    FILE* f = fopen(ACCOUNT_FILE, "wb+");
+    fseek(f, 0, SEEK_SET);
+
+    // Ghi tong so user.
+    fwrite(&users->totalAccount, sizeof(int), 1, f);
+
+    // Ghi credentials tung user.
+    accountNode* thisNode = users->head;
+    while (thisNode != NULL) {
+        fwrite(thisNode->credentials, sizeof(account), 1, f);
+        thisNode = thisNode->nextAccount;
+    }
+    fclose(f);
+}
+
+void writeInfoBackToFile(userInfoList* infos) {
+    FILE* f = fopen(USER_INFO_FILE, "wb+");
+
+    // Ghi info tung user.
+    userInfoNode* thisUserInfo = infos->head;
+    while (thisUserInfo != NULL) {
+        fwrite(thisUserInfo->info, sizeof(user_info), 1, f);
+        thisUserInfo = thisUserInfo->nextUser;
+    }
+    fclose(f);
+}
