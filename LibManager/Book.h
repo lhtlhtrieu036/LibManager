@@ -10,8 +10,6 @@
 #define BOOK_PUBLISHER_MAX 50
 #define BOOK_TYPE_MAX 50
 
-#define MAX_BORROW 5
-
 struct Book {
     char ISBN[ISBN_MAX];
     char book_Name[BOOK_NAME_MAX];
@@ -22,15 +20,6 @@ struct Book {
     int price;
     int countTotal;
     int countBorrowed;
-};
-
-struct borrowBook {
-    int maDocGia;
-    time_t borrowDate;
-    time_t returnDate;
-    time_t actualReturnDate;
-    char* listISBN[MAX_BORROW];
-    bool returned;
 };
 
 struct bookNode {
@@ -52,6 +41,7 @@ bookNode* searchBookByISBN(const char*, bookList*);
 bool validateBookInfo(Book);
 bool deleteBook(const char*, bookList*&);
 int addBookFromCSV(FILE*, bookList*&);
+int bookLeft(Book);
 void searchBookByName(const char*, bookList*);
 void inMotQuyenSach(Book);
 void inBookList(bookNode*);

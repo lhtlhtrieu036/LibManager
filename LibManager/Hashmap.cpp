@@ -3,12 +3,17 @@
 hashMap* createHashMap() {
     hashMap* newHashMap = (hashMap*)malloc(sizeof(hashMap));
     newHashMap->firstNode = NULL;
+    newHashMap->totalNode = 0;
     return newHashMap;
 }
 
 hashNode* createHashNode(const char* hash) {
     hashNode* newHashNode = (hashNode*)malloc(sizeof(hashNode));
+
+    // Dung xau dong de co the su dung lai.
+    newHashNode->hash = (char*)malloc(strlen(hash));
     strcpy(newHashNode->hash, hash);
+
     newHashNode->count = 1;
     newHashNode->nextNode = NULL;
     return newHashNode;
@@ -34,6 +39,7 @@ void pushToHashMap(hashMap*& map, const char* hash) {
         map->lastNode->nextNode = newNode;
         map->lastNode = newNode;
     }
+    ++map->totalNode;
 }
 
 void releaseHashMap(hashMap*& map) {

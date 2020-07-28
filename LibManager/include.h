@@ -15,16 +15,17 @@
 #include<ctime>
 #include<cstdlib>
 #include<cstring>
+// Hashmap - ho tro viec thong ke sach dua tren the loai.
+// (Ham tu build).
+#include"Hashmap.h"
 
 // Header
 #include"account.h"
 #include"authentication.h"
 #include"Book.h"
 #include"theDocGia.h"
+#include"muonTraSach.h"
 #include"Menu.h"
-
-// Hashmap - ho tro viec thong ke sach dua tren the loai.
-#include"Hashmap.h"
 
 using namespace std;
 #endif // !_INCLUDE_H_

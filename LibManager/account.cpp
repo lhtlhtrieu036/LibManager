@@ -422,6 +422,7 @@ void writeCredentialsBackToFile(accountList* users) {
 
 void writeInfoBackToFile(userInfoList* infos) {
     FILE* f = fopen(USER_INFO_FILE, "wb+");
+    fseek(f, 0, SEEK_SET);
 
     // Ghi info tung user.
     userInfoNode* thisUserInfo = infos->head;

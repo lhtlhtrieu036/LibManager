@@ -144,6 +144,7 @@
     <ClCompile Include="Hashmap.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="muonTraSach.cpp" />
     <ClCompile Include="theDocGia.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +153,7 @@
     <ClInclude Include="Book.h" />
     <ClInclude Include="Hashmap.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="muonTraSach.h" />
     <ClInclude Include="theDocGia.h" />
     <ClInclude Include="include.h" />
   </ItemGroup>

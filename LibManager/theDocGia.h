@@ -44,6 +44,8 @@ bool isCSV(char const*);
 
 bool validateDocGiaInfo(theDocGia, danhSachDocGia*);
 
+bool theConHan(theDocGia);
+
 bool editTenDocGia(nodeDocGia*&);
 
 bool editCMNDDocGia(nodeDocGia*&, danhSachDocGia*&);

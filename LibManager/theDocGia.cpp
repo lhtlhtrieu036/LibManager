@@ -66,6 +66,11 @@ bool validateDocGiaInfo(theDocGia newDocGia, danhSachDocGia* listDocGia) {
         searchForDocGiaByCMND(newDocGia.so_CMND, listDocGia) == NULL;
 }
 
+bool theConHan(theDocGia docGia) {
+    time_t now = time(NULL);
+    return docGia.ngayHetHan - now >= 0;
+}
+
 bool editTenDocGia(nodeDocGia*& docGia) {
     char newName[NAME_MAX];
     cin.ignore();
@@ -362,6 +367,7 @@ void inDocGia(theDocGia thongTin) {
     printf("Dia chi: %s\n", thongTin.diaChi);
     printf("Ngay lap the: %s\n", ctime(&thongTin.ngayLapThe));
     printf("Ngay het han: %s\n", ctime(&thongTin.ngayHetHan));
+    if (!theConHan(thongTin)) printf("(The da het han)\n");
     printf("=====\n");
 }
 
@@ -402,6 +408,7 @@ void freeDanhSachDocGia(danhSachDocGia*& list) {
 
 void writeDocGiaBackToFile(danhSachDocGia* dsDocGia) {
     FILE* f = fopen(DOCGIA_FILE, "wb+");
+    fseek(f, 0, SEEK_SET);
 
     // Ghi tong so doc gia.
     fwrite(&dsDocGia->totalDocGia, sizeof(int), 1, f);

@@ -161,6 +161,10 @@ int addBookFromCSV(FILE* csvFile, bookList*& dsSach) {
     return added;
 }
 
+int bookLeft(Book thisBook) {
+    return thisBook.countTotal - thisBook.countBorrowed;
+}
+
 void inMotQuyenSach(Book thisBook) {
     cout << "ISBN: " << thisBook.ISBN << endl;
     cout << "Ten sach: " << thisBook.book_Name << endl;
@@ -253,6 +257,7 @@ void freeBookList(bookList*& dsSach) {
 
 void writeBookBackToFile(bookList* dsSach) {
     FILE* f = fopen(BOOKLIST_FILE, "wb+");
+    fseek(f, 0, SEEK_SET);
 
     // Ghi tong so sach.
     fwrite(&dsSach->bookCount, sizeof(int), 1, f);
@@ -281,6 +286,7 @@ void thongKeSachTheoTheLoai(bookList* dsSach) {
     }
 
     hashNode* thisNode = dsTheLoai->firstNode;
+    cout << "Hien co " << dsTheLoai->totalNode << " the loai sach, chi tiet:" << endl;
     while (thisNode != NULL) {
         cout << "The loai: " << thisNode->hash << " - so quyen: " << thisNode->count << endl;
         thisNode = thisNode->nextNode;

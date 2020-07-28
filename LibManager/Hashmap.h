@@ -2,12 +2,13 @@
 #include "include.h"
 
 struct hashNode {
-    char hash[BOOK_TYPE_MAX];
+    char* hash;
     int count;
     hashNode* nextNode;
 };
 
 struct hashMap {
+    int totalNode;
     hashNode* firstNode;
     hashNode* lastNode;
 };
