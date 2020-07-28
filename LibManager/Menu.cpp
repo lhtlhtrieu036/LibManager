@@ -166,7 +166,11 @@ void catchEditInfoMenu(account*& account_session_info, user_info*& user_session_
 
             if (editUserNgaySinh(user_session_info))
                 cout << "Da doi ngay sinh thanh cong. Xin vui long dang nhap lai de luu moi thay doi." << endl;
-            else cout << "Doi ngay sinh that bai." << endl;
+			else {
+				cout << "Doi ngay sinh that bai vi mot trong cac ly do sau:" << endl;
+				cout << "- Ngay sinh khong hop le." << endl;
+				cout << "- Lenh doi ngay sinh bi huy." << endl;
+			}
             break;
 
         default:
@@ -222,8 +226,8 @@ void catchEditInfoDocGia(nodeDocGia*& docGia, danhSachDocGia*& dsDocGia) {
                 cout << "Da doi Ngay sinh doc gia thanh cong." << endl;
             else {
                 cout << "Doi Ngay sinh doc gia that bai vi mot trong cac ly do sau: " << endl;
-                cout << "- Ngay sinh qua dai / qua ngan." << endl;
-                cout << "- Tien trinh doi Ngay sinh bi huy." << endl;
+				cout << "- Ngay sinh khong hop le." << endl;
+				cout << "- Tien trinh doi Ngay sinh bi huy." << endl;
             }
             break;
         }

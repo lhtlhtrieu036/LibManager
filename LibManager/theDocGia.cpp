@@ -1,5 +1,43 @@
 #include"include.h"
 
+// Ham check ngay thang hop le
+bool dateCheck(ngayThangNam ngayThang) {
+	int daysInMonth = 30;
+	switch (ngayThang.thang) {
+		case 1: case 3: case 5: case 7: case 8: case 10: case 12: 
+			daysInMonth = 31; 
+			break;
+		case 2:
+			if ((ngayThang.nam % 4 == 0 && ngayThang.nam % 100 != 0) || (ngayThang.nam % 400 == 0))
+				daysInMonth = 29;
+			else
+				daysInMonth = 28;
+			break;
+		default:
+			break;
+	}
+	
+	if (ngayThang.nam < 0 || 
+		ngayThang.thang <= 0 || 
+		ngayThang.thang > 12 || 
+		ngayThang.ngay <= 0 || 
+		ngayThang.ngay > daysInMonth) return false;
+	
+	return true;
+};
+
+// Ham chuyen doi ngay (string) sang (int)
+ngayThangNam chuyenDoiNgay(char* ngayString) {
+	ngayThangNam ketQua;
+	int ngayBangInt = atoi(ngayString);
+
+	ketQua.nam = ngayBangInt % 10000; ngayBangInt /= 10000;
+	ketQua.thang = ngayBangInt % 100; ngayBangInt /= 100;
+	ketQua.ngay = ngayBangInt;
+	
+	return ketQua;
+}
+
 // Ham tao mot danh sach doc gia (doubly-linked-list).
 danhSachDocGia* createDanhSachDocGia() {
     danhSachDocGia* newList = (danhSachDocGia*)malloc(sizeof(danhSachDocGia));
@@ -59,11 +97,14 @@ bool isCSV(char const* fileName) {
 }
 
 bool validateDocGiaInfo(theDocGia newDocGia, danhSachDocGia* listDocGia) {
+	ngayThangNam ngayThang = chuyenDoiNgay(newDocGia.ngay_Sinh);
+
     return strlen(newDocGia.ho_Ten) <= NAME_MAX && strlen(newDocGia.ho_Ten) >= NAME_MIN &&
         strlen(newDocGia.so_CMND) <= CMND_MAX && strlen(newDocGia.so_CMND) >= CMND_MIN &&
         strlen(newDocGia.email) <= EMAIL_MAX && strlen(newDocGia.email) >= EMAIL_MIN &&
         strlen(newDocGia.diaChi) <= ADDRESS_MAX && strlen(newDocGia.diaChi) >= ADDRESS_MIN &&
-        searchForDocGiaByCMND(newDocGia.so_CMND, listDocGia) == NULL;
+        searchForDocGiaByCMND(newDocGia.so_CMND, listDocGia) == NULL &&
+		dateCheck(ngayThang);
 }
 
 bool theConHan(theDocGia docGia) {
@@ -105,13 +146,16 @@ bool editCMNDDocGia(nodeDocGia*& docGia, danhSachDocGia*& dsDocGia) {
 bool editNgaySinhDocGia(nodeDocGia*& docGia) {
     char ngaySinh[BIRTH_DAY];
     cin.ignore();
-    cin >> ngaySinh;
+
+	cout << "Nhap ngay sinh moi: " << endl;
+	cin >> ngaySinh;
+	
+	if (!dateCheck(chuyenDoiNgay(ngaySinh))) return false;
 
     if (confirmationBox()) {
         strcpy(docGia->thongTinDocGia.ngay_Sinh, ngaySinh);
         return true;
     }
-
     return false;
 }
 
@@ -204,7 +248,7 @@ int themDocGiaTuCSV(FILE* csvFile, danhSachDocGia*& list) {
             //
             if (index == 0) strcpy(newDocGia.ho_Ten, cell);
             if (index == 1) strcpy(newDocGia.so_CMND, cell);
-            if (index == 2) strcpy(newDocGia.ngay_Sinh, cell);
+			if (index == 2) strcpy(newDocGia.ngay_Sinh, cell);
             if (index == 3) newDocGia.gioiTinh = (strcmp(cell, "1") == 0) ? 1 : 0;
             if (index == 4) strcpy(newDocGia.email, cell);
             if (index == 5) {

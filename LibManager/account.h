@@ -39,6 +39,8 @@ struct account
 
 };
 
+
+
 // O day ta se bieu dien danh sach tai khoan
 // duoi dang danh sach lien ket kep.
 struct accountNode {

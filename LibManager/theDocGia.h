@@ -6,6 +6,12 @@
 #define DOCGIA_NAM 1
 #define DOCGIA_NU  0
 
+struct ngayThangNam {
+	int ngay;
+	int thang;
+	int nam;
+};
+
 struct theDocGia {
     int maDocGia;
     char ho_Ten[NAME_MAX];
@@ -85,3 +91,7 @@ void xemDanhSachDocGia(nodeDocGia*);
 void thongKeTheoGioiTinh(danhSachDocGia*);
 
 void inDocGia(theDocGia);
+
+bool dateCheck(ngayThangNam);
+
+ngayThangNam chuyenDoiNgay(char*);
