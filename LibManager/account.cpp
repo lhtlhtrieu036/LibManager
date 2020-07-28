@@ -256,6 +256,9 @@ bool editUserNgaySinh(user_info*& user_session_info) {
     cin.ignore();
     cin >> ngaySinh;
 
+	// Neu ngay thang khong hop le, bao loi.
+	if (!dateCheck(chuyenDoiNgay(ngaySinh))) return false;
+
     if (confirmationBox()) {
         strcpy(user_session_info->ngay_Sinh, ngaySinh);
 
