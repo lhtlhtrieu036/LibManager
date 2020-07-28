@@ -18,7 +18,6 @@ void generalMenu() {
     cout << CHANGE_PASSWORD_COMMAND_CODE << ". Thay doi mat khau tai khoan." << endl;
     cout << CHANGE_INFO_COMMAND_CODE << ". Thay doi thong tin tai khoan." << endl;
     cout << LOGOUT_COMMAND_CODE << ". Dang xuat khoi tai khoan." << endl;
-    cout << EXIT_COMMAND_CODE << ". Dang xuat va thoat khoi he thong." << endl;
 }
 
 // Menu cho admin

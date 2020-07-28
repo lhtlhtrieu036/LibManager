@@ -397,3 +397,18 @@ void freeDanhSachDocGia(danhSachDocGia*& list) {
     
     free(list);
 }
+
+void writeDocGiaBackToFile(danhSachDocGia* dsDocGia) {
+    FILE* f = fopen(DOCGIA_FILE, "wb+");
+
+    // Ghi tong so doc gia.
+    fwrite(&dsDocGia->totalDocGia, sizeof(int), 1, f);
+
+    // Ghi tung doc gia.
+    nodeDocGia* docGia = dsDocGia->docGiaDau;
+    while (docGia != NULL) {
+        fwrite(&docGia->thongTinDocGia, sizeof(theDocGia), 1, f);
+        docGia = docGia->docGiaTiepTheo;
+    }
+    fclose(f);
+}

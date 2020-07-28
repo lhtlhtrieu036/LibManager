@@ -250,6 +250,22 @@ void freeBookList(bookList*& dsSach) {
     free(dsSach);
 }
 
+void writeBookBackToFile(bookList* dsSach) {
+    FILE* f = fopen(BOOKLIST_FILE, "wb+");
+
+    // Ghi tong so sach.
+    fwrite(&dsSach->bookCount, sizeof(int), 1, f);
+
+    // Ghi cac node.
+    bookNode* thisBookNode = dsSach->firstBook;
+    while (thisBookNode != NULL) {
+        fwrite(&thisBookNode->bookInfo, sizeof(Book), 1, f);
+        thisBookNode = thisBookNode->nextBook;
+    }
+
+    fclose(f);
+}
+
 bool editBookName(bookNode*& thisBook) {
     char newBookName[BOOK_NAME_MAX];
     cout << "Nhap ten moi cho sach: " << endl;

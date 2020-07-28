@@ -59,6 +59,7 @@ void deleteSachDauList(bookList*&);
 void deleteSachCuoiList(bookList*&);
 void deleteSachGiuaList(bookNode*&);
 void freeBookList(bookList*&);
+void writeBookBackToFile(bookList*);
 
 bool editBookName(bookNode*&);
 bool editAuthorName(bookNode*&);
