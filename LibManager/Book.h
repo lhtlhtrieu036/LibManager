@@ -60,7 +60,7 @@ void deleteSachCuoiList(bookList*&);
 void deleteSachGiuaList(bookNode*&);
 void freeBookList(bookList*&);
 void writeBookBackToFile(bookList*);
-
+void thongKeSachTheoTheLoai(bookList*);
 bool editBookName(bookNode*&);
 bool editAuthorName(bookNode*&);
 bool editPublisherName(bookNode*&);

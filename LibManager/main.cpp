@@ -135,6 +135,9 @@ int main(int argc, char** argv) {
             // Load menu quan ly sach.
             quanLySach(user_session_info);
 
+            // Load menu quan ly Muon - Tra Sach
+            muonTraSach();
+
             // Load menu thong ke co ban.
             thongKeCoBan(user_session_info);
 
@@ -332,6 +335,7 @@ int main(int argc, char** argv) {
                     break;
                 }
 
+                // Bat su kien doi thong tin sach.
                 case DOI_THONG_TIN_SACH_COMMAND_CODE: {
                     if (!isChuyenVien(user_session_info)) {
                         cout << "Nhap ISBN cua sach can doi thong tin: ";
@@ -387,6 +391,27 @@ int main(int argc, char** argv) {
 
                     searchBookByName(tenSach, dsSach);           
 
+                    break;
+                }
+
+                // Bat su kien thong ke so luong sach.
+                case THONG_KE_SO_LUONG_SACH_COMMAND_CODE: {
+                    if (!isChuyenVien(user_session_info)) {
+                        cout << "Trong thu vien hien co " << dsSach->bookCount << " quyen sach." << endl;
+                        cout << "De xem chi tiet tung quyen sach, dung lenh " << XEM_SACH_COMMAND_CODE << endl;
+                        cout << "De tra cuu thong tin sach theo ISBN, dung lenh " << TIM_SACH_THEO_ISBN_COMMAND_CODE << endl;
+                        cout << "De tra cuu thong tin sach theo ten sach, dung lenh " << TIM_SACH_THEO_TEN_COMAND_CODE << endl;
+                    } else cout << "Ban khong co quyen thuc hien lenh nay." << endl;
+                    
+                    break;
+                }
+
+                // Bat su kien thong ke so luong sach theo the loai.
+                case THONG_KE_SACH_THEO_THE_LOAI_COMMAND_CODE: {
+                    if (!isChuyenVien(user_session_info)) {
+                        cout << "Thong ke sach theo the loai: " << endl;
+                        thongKeSachTheoTheLoai(dsSach);
+                    } else cout << "Ban khong co quyen thuc hien lenh nay." << endl;
                     break;
                 }
 

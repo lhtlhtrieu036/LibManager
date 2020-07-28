@@ -52,6 +52,12 @@ void quanLySach(user_info* user_session_info) {
     cout << TIM_SACH_THEO_TEN_COMAND_CODE << ". Tim sach theo ten sach." << endl;
 }
 
+void muonTraSach() {
+    cout << "== Quan ly Muon - Tra sach ==" << endl;
+    cout << MUON_SACH_COMMAND_CODE << ". Lap phieu muon sach." << endl;
+    cout << TRA_SACH_COMMAND_CODE << ". Lap phieu tra sach." << endl;
+}
+
 void editInfoDocGia() {
     cout << "== Doi thong tin doc gia ==" << endl;
     cout << MENU_DOI_TEN_DOC_GIA_COMMAND_CODE << ". Doi ten doc gia." << endl;

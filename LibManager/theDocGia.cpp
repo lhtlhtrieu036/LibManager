@@ -265,6 +265,7 @@ int themDocGiaTuCSV(FILE* csvFile, danhSachDocGia*& list) {
                     cout << "- CMND da duoc su dung cho mot doc gia khac." << endl;
                     cout << "- Do dai cac thong tin khong phu hop." << endl;
                     cout << "- Loi nhap lieu tu file .csv" << endl;
+                    cout << "=====" << endl;
                 }
 
                 index = 0;
@@ -361,6 +362,7 @@ void inDocGia(theDocGia thongTin) {
     printf("Dia chi: %s\n", thongTin.diaChi);
     printf("Ngay lap the: %s\n", ctime(&thongTin.ngayLapThe));
     printf("Ngay het han: %s\n", ctime(&thongTin.ngayHetHan));
+    printf("=====\n");
 }
 
 void deleteDocGiaDau(danhSachDocGia*& list) {

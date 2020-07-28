@@ -23,6 +23,10 @@
 #define TIM_SACH_THEO_ISBN_COMMAND_CODE 3500
 #define TIM_SACH_THEO_TEN_COMAND_CODE 3600
 
+// COMMAND CODE for quan ly Muon - Tra Sach.
+#define MUON_SACH_COMMAND_CODE 4000
+#define TRA_SACH_COMMAND_CODE 5000
+
 // COMMAND CODE for Thong ke
 #define THONG_KE_SO_LUONG_SACH_COMMAND_CODE 6100
 #define THONG_KE_SACH_THEO_THE_LOAI_COMMAND_CODE 6200
@@ -79,6 +83,9 @@ void quanLyDocGia(user_info*);
 
 // Menu quan ly sach.
 void quanLySach(user_info*);
+
+// Menu quan ly cho muon - tra sach.
+void muonTraSach();
 
 // Menu thay doi thong tin doc gia.
 void editInfoDocGia();

@@ -146,6 +146,7 @@ int addBookFromCSV(FILE* csvFile, bookList*& dsSach) {
                     cout << "Nguyen nhan co the vao cac loi sau:" << endl;
                     cout << "- Do dai cac thong tin khong phu hop." << endl;
                     cout << "- Loi nhap lieu tu file .csv" << endl;
+                    cout << "=====" << endl;
                 }
 
                 // Reset so cot ve 0.
@@ -264,6 +265,28 @@ void writeBookBackToFile(bookList* dsSach) {
     }
 
     fclose(f);
+}
+
+void thongKeSachTheoTheLoai(bookList* dsSach) {
+    hashMap* dsTheLoai = createHashMap();
+    bookNode* thisBook = dsSach->firstBook;
+
+    while (thisBook != NULL) {
+        hashNode* resultNode = findInHashMap(dsTheLoai, thisBook->bookInfo.book_type);
+
+        if (resultNode != NULL) ++resultNode->count;
+        else pushToHashMap(dsTheLoai, thisBook->bookInfo.book_type);
+
+        thisBook = thisBook->nextBook;
+    }
+
+    hashNode* thisNode = dsTheLoai->firstNode;
+    while (thisNode != NULL) {
+        cout << "The loai: " << thisNode->hash << " - so quyen: " << thisNode->count << endl;
+        thisNode = thisNode->nextNode;
+    }
+    
+    releaseHashMap(dsTheLoai);
 }
 
 bool editBookName(bookNode*& thisBook) {
