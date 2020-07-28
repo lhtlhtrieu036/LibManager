@@ -404,7 +404,7 @@ int main(int argc, char** argv) {
                 // Bat su kien tao phieu muon sach.
                 case MUON_SACH_COMMAND_CODE: {
                     cout << "Lap phieu muon sach:" << endl;
-                    if (lapPhieuMuonSach(dsDocGia, dsSach)) {
+                    if (lapPhieuMuonSach(dsPhieuMuonSach, dsDocGia, dsSach)) {
                         cout << "Lap phieu muon sach thanh cong." << endl;
                     } else cout << "Lap phieu muon sach that bai." << endl;
                     break;

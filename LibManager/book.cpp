@@ -15,6 +15,7 @@ bookNode* createBookNode(Book newBook) {
     newBookNode->prevBook = NULL;
     return newBookNode;
 }
+
 bookList* getDanhSachSachList() {
     FILE* f = fopen(BOOKLIST_FILE, "rb+");
     if (f == NULL) return NULL;
@@ -45,6 +46,7 @@ bookList* getDanhSachSachList() {
 
     return newBookList;
 }
+
 bookNode* searchBookByISBN(const char* ISBN, bookList* dsSach) {
     bookNode* thisBookNode = dsSach->firstBook;
     while (thisBookNode != NULL) {

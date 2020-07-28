@@ -37,10 +37,10 @@ borrowBookTicketNode* createTicketNode(borrowBookTicket);
 // Ham load phieu muon sach tu file vao list.
 borrowBookTicketList* getDanhSachPhieuMuonSach();
 
-bool validateMuonSach(borrowBookTicket);
+hashMap* validateMuonSach(borrowBookTicket, danhSachDocGia*, bookList*);
 
 // Ham lap phieu muon sach.
-bool lapPhieuMuonSach(danhSachDocGia*, bookList*);
+bool lapPhieuMuonSach(borrowBookTicketList*&, danhSachDocGia*, bookList*&);
 
 // Ham viet phieu muon sach tu list vao file.
 void writeBorrowTicketToFile(borrowBookTicketList*);

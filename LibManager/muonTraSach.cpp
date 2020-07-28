@@ -39,7 +39,19 @@ borrowBookTicketList* getDanhSachPhieuMuonSach() {
     // Doc tung phieu vao node.
     for (int i = 1; i <= newTicketList->totalTickets; ++i) {
         borrowBookTicket newBookTicket;
-        fread(&newBookTicket, sizeof(borrowBookTicket), 1, f);
+        fread(&newBookTicket.maDocGia, sizeof(newBookTicket.maDocGia), 1, f);
+        fread(&newBookTicket.totalMuon, sizeof(newBookTicket.totalMuon), 1, f);
+        
+        for (int i = 0; i < newBookTicket.totalMuon; ++i) {
+            newBookTicket.listISBN[i] = (char*)malloc(ISBN_MAX);
+            fread(newBookTicket.listISBN[i], ISBN_MAX, 1, f);
+        }
+
+        fread(&newBookTicket.borrowDate, sizeof(newBookTicket.borrowDate), 1, f);
+        fread(&newBookTicket.returnDate, sizeof(newBookTicket.returnDate), 1, f);
+        fread(&newBookTicket.actualReturnDate, sizeof(newBookTicket.actualReturnDate), 1, f);
+
+        //fread(&newBookTicket, sizeof(borrowBookTicket), 1, f);
 
         borrowBookTicketNode* newTicketNode = createTicketNode(newBookTicket);
 
@@ -59,16 +71,16 @@ borrowBookTicketList* getDanhSachPhieuMuonSach() {
     return newTicketList;
 }
 
-bool validateMuonSach(borrowBookTicket ticket, danhSachDocGia* dsDocGia, bookList* dsSach) {
+hashMap* validateMuonSach(borrowBookTicket ticket, danhSachDocGia* dsDocGia, bookList* dsSach) {
     nodeDocGia* docGia = searchForDocGiaByID(ticket.maDocGia, dsDocGia);
     if (docGia == NULL) {
         cout << "Doc gia khong ton tai." << endl;
-        return false;
+        return NULL;
     }
     
     if (!theConHan(docGia->thongTinDocGia)) {
         cout << "The doc gia da het han." << endl;
-        return false;
+        return NULL;
     }
 
     // Chuyen danh sach ISBN thanh hashmap de dem moi ISBN rieng biet 1 lan.
@@ -84,25 +96,30 @@ bool validateMuonSach(borrowBookTicket ticket, danhSachDocGia* dsDocGia, bookLis
     hashNode* sachTrongHashMap = dsSachDaDuocDem->firstNode;
     while (sachTrongHashMap != NULL) {
         bookNode* thongTinSach = searchBookByISBN(sachTrongHashMap->hash, dsSach);
-        if (thongTinSach == NULL || bookLeft(thongTinSach->bookInfo) == 0) {
+        if (thongTinSach == NULL || 
+            bookLeft(thongTinSach->bookInfo) == 0 ||
+            bookLeft(thongTinSach->bookInfo) - sachTrongHashMap->count < 0) {
             hasErrorInBooks = true;
             break;
         }
+        sachTrongHashMap = sachTrongHashMap->nextNode;
     }
 
-    releaseHashMap(dsSachDaDuocDem);
+    //releaseHashMap(dsSachDaDuocDem);
 
     if (hasErrorInBooks) {
         cout << "Mot trong so cac quyen sach khong ton tai / khong du so luong cho muon." << endl;
-        return false;
+        return NULL;
     }
 
-    return true;
+    return dsSachDaDuocDem;
 }
 
 bool lapPhieuMuonSach(borrowBookTicketList*& bookTicketList, danhSachDocGia* dsDocGia, bookList*& dsSach) {
     borrowBookTicket newBorrowTicket;
-    cout << "Nhap ID (Ma Doc gia): "; 
+
+    // Nhap doc gia.
+    cout << "Nhap ID Doc gia (Ma Doc gia): "; 
     
     if (!(cin >> newBorrowTicket.maDocGia)) {
         cin.clear();
@@ -111,6 +128,7 @@ bool lapPhieuMuonSach(borrowBookTicketList*& bookTicketList, danhSachDocGia* dsD
         return false;
     }
 
+    // Nhap so luong sach
     cout << "Nhap so luong sach can muon: " << endl;
 
     if (!(cin >> newBorrowTicket.totalMuon)) {
@@ -120,19 +138,78 @@ bool lapPhieuMuonSach(borrowBookTicketList*& bookTicketList, danhSachDocGia* dsD
         return false;
     }
 
+    // Validate luong sach.
     if (newBorrowTicket.totalMuon <= 0 || newBorrowTicket.totalMuon > MAX_BORROW) {
         cout << "So sach muon khong hop le." << endl;
         return false;
     }
     
+    // Lay ISBN cua tung quyen sach muon.   
     for (int i = 0; i < newBorrowTicket.totalMuon; ++i) {
         cout << "Nhap ISBN quyen sach thu " << i + 1 << " can muon: " << endl;
         char tempISBN[ISBN_MAX]; cin >> tempISBN;
-        newBorrowTicket.listISBN[i] = _strdup(tempISBN);
+        newBorrowTicket.listISBN[i] = (char*)malloc(ISBN_MAX);
+        strcpy(newBorrowTicket.listISBN[i], tempISBN);
     }
 
-    if (validateMuonSach(newBorrowTicket, dsDocGia, dsSach)) {
+    // So ngay muon sach.
+    cout << "Nhap so ngay can muon: " << endl;
+    int soNgay; cin >> soNgay;
+
+    // Validate so ngay muon.
+    if (soNgay <= 0 || soNgay > 7) {
+        cout << "So ngay muon khong hop le." << endl;
+        return false;
+    }
+
+    hashMap* dsSachDaDem = validateMuonSach(newBorrowTicket, dsDocGia, dsSach);
+
+    if (dsSachDaDem != NULL) {
+        //
+        // Neu da validate thanh cong, tien hanh chen thoi gian.
+        //
+        time_t currentTime = time(NULL);
+        newBorrowTicket.borrowDate = currentTime;
+        newBorrowTicket.actualReturnDate = currentTime;
+
+        // Doi now sang struct.
+        tm* nowInStruct = gmtime(&currentTime);
+
+        // Cong them so ngay muon.
+        nowInStruct->tm_yday += soNgay;
+
+        // Doi now nguoc lai thanh time_t
+        time_t returnDate = mktime(nowInStruct);
+        newBorrowTicket.returnDate = returnDate;
+
+        // Viet so luong sach muon vao list Sach.
+        hashNode* thisNode = dsSachDaDem->firstNode;
+        while (thisNode != NULL) {
+            // Cap nhat so luong sach cho muon.
+            bookNode* thisBook = searchBookByISBN(thisNode->hash, dsSach);
+            thisBook->bookInfo.countBorrowed += thisNode->count;
+
+            thisNode = thisNode->nextNode;
+        }
         
+        borrowBookTicketNode* newBorrowNode = createTicketNode(newBorrowTicket);
+
+        // Chen node vao duoi list.
+        if (bookTicketList->firstTicket == NULL) {
+            bookTicketList->firstTicket = newBorrowNode;
+            bookTicketList->lastTicket = newBorrowNode;
+        } else {
+            bookTicketList->lastTicket->nextTicketNode = newBorrowNode;
+            newBorrowNode->prevTicketNode = bookTicketList->lastTicket;
+            bookTicketList->lastTicket = newBorrowNode;
+        }
+        
+        // Tang so phieu trong list.
+        ++bookTicketList->totalTickets;
+
+        releaseHashMap(dsSachDaDem);
+
+        return true;
     }
 
     return false;
@@ -145,7 +222,18 @@ void writeBorrowTicketToFile(borrowBookTicketList* borrowTicketList) {
 
     borrowBookTicketNode* bookTicketNode = borrowTicketList->firstTicket;
     while (bookTicketNode != NULL) {
-        fwrite(&bookTicketNode->bookTicketData, sizeof(bookTicketNode->bookTicketData), 1, f);
+        //
+        // Doi voi list string, chung ta se khong ghi binh thuong ma phai ghi tung dong.
+        //
+        fwrite(&bookTicketNode->bookTicketData.maDocGia, sizeof(bookTicketNode->bookTicketData.maDocGia), 1, f);
+        fwrite(&bookTicketNode->bookTicketData.totalMuon, sizeof(bookTicketNode->bookTicketData.totalMuon), 1, f);
+        for (int i = 0; i < bookTicketNode->bookTicketData.totalMuon; ++i)
+            fwrite(bookTicketNode->bookTicketData.listISBN[i], ISBN_MAX, 1, f);
+        fwrite(&bookTicketNode->bookTicketData.borrowDate, sizeof(bookTicketNode->bookTicketData.borrowDate), 1, f);
+        fwrite(&bookTicketNode->bookTicketData.returnDate, sizeof(bookTicketNode->bookTicketData.returnDate), 1, f);
+        fwrite(&bookTicketNode->bookTicketData.actualReturnDate, sizeof(bookTicketNode->bookTicketData.actualReturnDate), 1, f);
+
+
         bookTicketNode = bookTicketNode->nextTicketNode;
     }
 
