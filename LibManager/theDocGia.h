@@ -7,9 +7,9 @@
 #define DOCGIA_NU  0
 
 struct ngayThangNam {
-	int ngay;
-	int thang;
-	int nam;
+    int ngay;
+    int thang;
+    int nam;
 };
 
 struct theDocGia {
@@ -49,6 +49,8 @@ bool isNam(theDocGia);
 bool isCSV(char const*);
 
 bool validateDocGiaInfo(theDocGia, danhSachDocGia*);
+
+bool theConHan(theDocGia);
 
 bool editTenDocGia(nodeDocGia*&);
 

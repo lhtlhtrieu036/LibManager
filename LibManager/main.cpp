@@ -5,20 +5,22 @@
 void Initialise(accountList*& users, 
                 userInfoList*& infos, 
                 danhSachDocGia*& dsDocGia, 
-                bookList*& dsSach) {
+                bookList*& dsSach,
+                borrowBookTicketList*& dsPhieuMuonSach) {
     users = getAccountList();
     infos = getUserInfoList(users->totalAccount);
     dsDocGia = getDanhSachDocGiaList();
     dsSach = getDanhSachSachList();
+    dsPhieuMuonSach = getDanhSachPhieuMuonSach();
 
-    if (users == NULL || infos == NULL || dsDocGia == NULL || dsSach == NULL) {
+    if (users == NULL || infos == NULL || dsDocGia == NULL || dsSach == NULL || dsPhieuMuonSach == NULL) {
         cout << "Co van de xay ra voi file du lieu. Vui long tai lai chuong trinh.\n";
         exit(0);
     }
 }
 
 // Ham ghi cac list vao file tuong ung.
-void writeAllLists(accountList* users, userInfoList* infos, danhSachDocGia* dsDocGia, bookList* dsSach) {
+void writeAllLists(accountList* users, userInfoList* infos, danhSachDocGia* dsDocGia, bookList* dsSach, borrowBookTicketList*& dsPhieuMuonSach) {
     // Ghi danh sach users tro lai file.
     writeCredentialsBackToFile(users);
 
@@ -30,14 +32,17 @@ void writeAllLists(accountList* users, userInfoList* infos, danhSachDocGia* dsDo
 
     // Ghi sach tro lai file.
     writeBookBackToFile(dsSach);
+
+    // Ghi phieu muon sach tro lai file.
+    writeBorrowTicketToFile(dsPhieuMuonSach);
 }
 
 // Ham ket thuc chuong trinh: luu lai cac thay doi va free cac list.
-void Terminate(accountList*& users, userInfoList*& infos, danhSachDocGia*& dsDocGia, bookList*& dsSach) {
+void Terminate(accountList*& users, userInfoList*& infos, danhSachDocGia*& dsDocGia, bookList*& dsSach, borrowBookTicketList*& dsPhieuMuonSach) {
     //
     // Ghi lai cac thay doi vao file.
     //
-    writeAllLists(users, infos, dsDocGia, dsSach);
+    writeAllLists(users, infos, dsDocGia, dsSach, dsPhieuMuonSach);
 
     //
     // Xoa cac danh sach.
@@ -46,6 +51,7 @@ void Terminate(accountList*& users, userInfoList*& infos, danhSachDocGia*& dsDoc
     freeUserInfoList(infos);
     freeDanhSachDocGia(dsDocGia);
     freeBookList(dsSach);
+    freeBookTicketList(dsPhieuMuonSach);
 }
 
 int main(int argc, char** argv) {
@@ -58,8 +64,9 @@ int main(int argc, char** argv) {
     userInfoList* infos = NULL;
     danhSachDocGia* dsDocGia = NULL;
     bookList* dsSach = NULL;
+    borrowBookTicketList* dsPhieuMuonSach = NULL;
 
-    Initialise(users, infos, dsDocGia, dsSach);
+    Initialise(users, infos, dsDocGia, dsSach, dsPhieuMuonSach);
 
     //
     // Sau do cac bien sau se luu session (phien dang nhap) cua nguoi dung:
@@ -110,7 +117,7 @@ int main(int argc, char** argv) {
     do {
         // Thoat hoan toan chuong trinh.
         if (stop_executing) {
-            Terminate(users, infos, dsDocGia, dsSach);
+            Terminate(users, infos, dsDocGia, dsSach, dsPhieuMuonSach);
             break;
         }
 
@@ -394,6 +401,24 @@ int main(int argc, char** argv) {
                     break;
                 }
 
+                // Bat su kien tao phieu muon sach.
+                case MUON_SACH_COMMAND_CODE: {
+                    cout << "Lap phieu muon sach: " << endl;
+                    if (lapPhieuMuonSach(dsPhieuMuonSach, dsDocGia, dsSach)) {
+                        cout << "Lap phieu muon sach thanh cong." << endl;
+                    } else cout << "Lap phieu muon sach that bai." << endl;
+                    break;
+                }
+
+                // Bat su kien tao phieu tra sach.
+                case TRA_SACH_COMMAND_CODE: {
+                    cout << "Lap phieu tra sach: " << endl;
+                    if (lapPhieuTraSach(dsPhieuMuonSach, dsDocGia, dsSach)) {
+                        cout << "Lap phieu tra sach thanh cong." << endl;
+                    } else cout << "Lap phieu tra sach that bai." << endl;
+                    break;
+                }
+
                 // Bat su kien thong ke so luong sach.
                 case THONG_KE_SO_LUONG_SACH_COMMAND_CODE: {
                     if (!isChuyenVien(user_session_info)) {
@@ -438,7 +463,7 @@ int main(int argc, char** argv) {
             system("pause");
 
             // Luu thong tin lai sau moi lan cap nhat.
-            writeAllLists(users, infos, dsDocGia, dsSach);
+            writeAllLists(users, infos, dsDocGia, dsSach, dsPhieuMuonSach);
         }
     } while (true);
     

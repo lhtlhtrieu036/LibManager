@@ -2,14 +2,15 @@
 #include "include.h"
 
 struct hashNode {
-	char hash[BOOK_TYPE_MAX];
-	int count;
-	hashNode* nextNode;
+    char* hash;
+    int count;
+    hashNode* nextNode;
 };
 
 struct hashMap {
-	hashNode* firstNode;
-	hashNode* lastNode;
+    int totalNode;
+    hashNode* firstNode;
+    hashNode* lastNode;
 };
 
 // Ham tao mot hashmap moi.
