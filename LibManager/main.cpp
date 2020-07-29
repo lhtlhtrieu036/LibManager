@@ -403,7 +403,7 @@ int main(int argc, char** argv) {
 
                 // Bat su kien tao phieu muon sach.
                 case MUON_SACH_COMMAND_CODE: {
-                    cout << "Lap phieu muon sach:" << endl;
+                    cout << "Lap phieu muon sach: " << endl;
                     if (lapPhieuMuonSach(dsPhieuMuonSach, dsDocGia, dsSach)) {
                         cout << "Lap phieu muon sach thanh cong." << endl;
                     } else cout << "Lap phieu muon sach that bai." << endl;
@@ -412,7 +412,10 @@ int main(int argc, char** argv) {
 
                 // Bat su kien tao phieu tra sach.
                 case TRA_SACH_COMMAND_CODE: {
-
+                    cout << "Lap phieu tra sach: " << endl;
+                    if (lapPhieuTraSach(dsPhieuMuonSach, dsDocGia, dsSach)) {
+                        cout << "Lap phieu tra sach thanh cong." << endl;
+                    } else cout << "Lap phieu tra sach that bai." << endl;
                     break;
                 }
 
