@@ -30,16 +30,11 @@
 #define SEX 4
 
 // Cau truc cua mot tai khoan gom ID, username va password.
-struct account 
-{
-
+struct account {
     int ID;
     char user_name[USERNAME_MAX_SIZE];
     char pass_word[PASSWORD_MAX_SIZE];
-
 };
-
-
 
 // O day ta se bieu dien danh sach tai khoan
 // duoi dang danh sach lien ket kep.

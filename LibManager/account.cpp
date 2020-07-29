@@ -256,8 +256,8 @@ bool editUserNgaySinh(user_info*& user_session_info) {
     cin.ignore();
     cin >> ngaySinh;
 
-	// Neu ngay thang khong hop le, bao loi.
-	if (!dateCheck(chuyenDoiNgay(ngaySinh))) return false;
+    // Neu ngay thang khong hop le, bao loi.
+    if (!dateCheck(chuyenDoiNgay(ngaySinh))) return false;
 
     if (confirmationBox()) {
         strcpy(user_session_info->ngay_Sinh, ngaySinh);
@@ -425,6 +425,7 @@ void writeCredentialsBackToFile(accountList* users) {
 
 void writeInfoBackToFile(userInfoList* infos) {
     FILE* f = fopen(USER_INFO_FILE, "wb+");
+    fseek(f, 0, SEEK_SET);
 
     // Ghi info tung user.
     userInfoNode* thisUserInfo = infos->head;
