@@ -451,3 +451,28 @@ void freeBookTicketList(borrowBookTicketList*& bookTicketList) {
     while (bookTicketList->firstTicket != NULL) deleteBookTicketListFirstNode(bookTicketList);
     free(bookTicketList);
 }
+
+int thongKeSachChoMuon(bookList* dsSach) {
+    bookNode* thisNode = dsSach->firstBook;
+    int totalSachChoMuon = 0;
+    while (thisNode != NULL) {
+        totalSachChoMuon += thisNode->bookInfo.countBorrowed;
+        thisNode = thisNode->nextBook;
+    }
+    return totalSachChoMuon;
+}
+
+int thongKeDocGiaTreHan(borrowBookTicketList* borrowList) {
+    int totalTreHan = 0;
+    time_t currentTime = time(NULL);
+    borrowBookTicketNode* borrowTicket = borrowList->firstTicket;
+
+    while (borrowTicket != NULL) {
+        if (currentTime - borrowTicket->bookTicketData.returnDate > 0)
+            ++totalTreHan;
+        borrowTicket = borrowTicket->nextTicketNode;
+    }
+
+    return totalTreHan;
+}
+

@@ -80,3 +80,9 @@ void deleteBookTicketNode(borrowBookTicketList*&, borrowBookTicketNode*&);
 
 // Ham giai phong list phieu.
 void freeBookTicketList(borrowBookTicketList*&);
+
+// Ham dem so luong quyen sach da cho muon.
+int thongKeSachChoMuon(bookList*);
+
+// Ham dem so luong doc gia tre han.
+int thongKeDocGiaTreHan(borrowBookTicketList*);
