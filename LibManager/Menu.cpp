@@ -101,7 +101,7 @@ void getInfoMenu(user_info* user_session_info) {
     cout << "Dia chi: " << user_session_info->dia_Chi << endl;
     cout << "CMND: " << user_session_info->so_CMND << endl;
     ngayThangNam ngaySinh = chuyenDoiNgay(user_session_info->ngay_Sinh);
-    cout << "Ngay sinh: " << ngaySinh.ngay << "/" << ngaySinh.thang << "/" << ngaySinh.nam << endl;
+    cout << "Ngay sinh: "; ngaySinh.xuatNgayThangTheoDinhDang(); cout << endl;
     cout << "Gioi tinh: " << user_session_info->gioi_Tinh << endl;
 }
 
@@ -164,7 +164,8 @@ void catchEditInfoMenu(account*& account_session_info, user_info*& user_session_
             break;
 
         case MENU_DOI_NGAY_SINH_COMMAND_CODE:
-            cout << "Ngay sinh cua ban hien tai la: " << user_session_info->ngay_Sinh << endl;
+            ngayThangNam ngaySinh = chuyenDoiNgay(user_session_info->ngay_Sinh);
+            cout << "Ngay sinh cua ban hien tai la: "; ngaySinh.xuatNgayThangTheoDinhDang(); cout << endl;
             cout << "Doi ngay sinh: " << endl;
 
             if (editUserNgaySinh(user_session_info))
@@ -223,7 +224,8 @@ void catchEditInfoDocGia(nodeDocGia*& docGia, danhSachDocGia*& dsDocGia) {
 
         case MENU_DOI_NGAY_SINH_DOC_GIA_COMMAND_CODE: {
             cout << "Doi ngay sinh doc gia: " << endl;
-            cout << "Ngay sinh doc gia hien tai la " << docGia->thongTinDocGia.ngay_Sinh << endl;
+            ngayThangNam ngaySinh = chuyenDoiNgay(docGia->thongTinDocGia.ngay_Sinh);
+            cout << "Ngay sinh doc gia hien tai la "; ngaySinh.xuatNgayThangTheoDinhDang(); cout << endl;
 
             if (editNgaySinhDocGia(docGia))
                 cout << "Da doi Ngay sinh doc gia thanh cong." << endl;
