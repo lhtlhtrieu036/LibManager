@@ -407,7 +407,9 @@ void inDocGia(theDocGia thongTin) {
     printf("Email: %s\n", thongTin.email);
     printf("Gioi tinh: %s\n", (isNam(thongTin)) ? "NAM" : "NU");
     printf("CMND: %s\n", thongTin.so_CMND);
-    printf("Ngay sinh: %s\n", thongTin.ngay_Sinh);
+    printf("Ngay sinh: ");
+    ngayThangNam ngaySinh = chuyenDoiNgay(thongTin.ngay_Sinh);
+    ngaySinh.xuatNgayThangTheoDinhDang(); printf("\n");
     printf("Dia chi: %s\n", thongTin.diaChi);
     printf("Ngay lap the: %s\n", ctime(&thongTin.ngayLapThe));
     printf("Ngay het han: %s\n", ctime(&thongTin.ngayHetHan));

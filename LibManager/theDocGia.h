@@ -10,6 +10,19 @@ struct ngayThangNam {
     int ngay;
     int thang;
     int nam;
+    
+    void xuatNgayThangTheoDinhDang() {
+        // In ngay
+        if (ngay < 10) printf("0%d/", ngay);
+        else printf("%d/", ngay);
+
+        // In thang.
+        if (thang < 10) printf("0%d/", thang);
+        else printf("%d/", thang);
+
+        // In nam.
+        printf("%d", nam);
+    }
 };
 
 struct theDocGia {
