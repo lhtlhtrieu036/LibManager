@@ -126,6 +126,9 @@ bool addUser(accountList*&, userInfoList*&);
 // Ham phan quyen user.
 bool permissionUser(userInfoList*&);
 
+// Ham bo kich hoat tai khoan user.
+bool deactivateUser(int, userInfoList*&);
+
 //
 // Ham giai phong list user (khi thoat chuong trinh)
 //
@@ -137,6 +140,11 @@ void freeAccountList(accountList*&);
 //
 void freeUserInfoNode(userInfoList*&);
 void freeUserInfoList(userInfoList*&);
+
+//
+// Ham in thong tin user.
+//
+void printAccountsInfo(accountList*, userInfoList*);
 
 //
 // Ham ghi tai khoan tro lai file.

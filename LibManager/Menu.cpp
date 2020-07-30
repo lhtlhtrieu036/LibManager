@@ -23,8 +23,10 @@ void generalMenu() {
 // Menu cho admin
 void adminMenu() {
     cout << "== Cac chuc nang nang cao cho admin ==" << endl;
+    cout << MENU_XEM_USER_COMMAND_CODE << ". Xem danh sach nguoi dung hien co." << endl;
     cout << MENU_THEM_USER_COMMAND_CODE << ". Tao nguoi dung moi." << endl;
     cout << MENU_PHAN_QUYEN_USER_COMMAND_CODE << ". Phan quyen cho nguoi dung." << endl;
+    cout << MENU_KICH_HOAT_USER_COMMAND_CODE << ". Sua trang thai tai khoan nguoi dung." << endl;
 }
 
 void quanLyDocGia(user_info* user_session_info) {

@@ -102,9 +102,9 @@ int main(int argc, char** argv) {
             // Lay user_session_info.
             user_session_info = getUserInfo(infos, user_session_account);
 
-            // Neu user inative, bao loi va dang xuat.
+            // Neu user inactive, bao loi va dang xuat.
             if (!isActive(user_session_info)) {
-                cout << "Tai khoan cua ban da bi deactivate. Vui long lien he admin de duoc giai quyet." << endl;
+                cout << "Tai khoan cua ban da bi khoa. Vui long lien he admin de duoc giai quyet." << endl;
                 logUserOut(user_session_account, user_session_info);
                 stop_executing = true;
             }
@@ -182,6 +182,39 @@ int main(int argc, char** argv) {
                         logUserOut(user_session_account, user_session_info);
                     cout << "Da dang xuat, dang thoat chuong trinh.." << endl;
                     stop_executing = true;
+                    break;
+                }
+
+                // Bat su kien xem danh sach user.
+                case MENU_XEM_USER_COMMAND_CODE: {
+                    if (!isAdmin(user_session_info)) {
+                        cout << "Ban khong co quyen thuc hien lenh nay." << endl;
+                        break;
+                    }
+
+                    printAccountsInfo(users, infos);
+                    break;
+                }
+
+                // Bat su kien kich hoat / bo kich hoat user.
+                case MENU_KICH_HOAT_USER_COMMAND_CODE: {
+                    if (!isAdmin(user_session_info)) {
+                        cout << "Ban khong co quyen thuc hien lenh nay." << endl;
+                        break;
+                    }
+
+                    // Lay ID nguoi dung can thuc hien.
+                    int userID;
+                    cout << "Nhap ID nguoi dung: ";
+                    if (!(cin >> userID)) {
+                        cin.clear();
+                        cin.ignore();
+                        cout << "Lenh khong hop le." << endl;
+                        break;
+                    }
+
+                    deactivateUser(userID, infos);
+
                     break;
                 }
 

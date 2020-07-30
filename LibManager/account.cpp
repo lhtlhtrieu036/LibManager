@@ -353,6 +353,38 @@ bool permissionUser(userInfoList*& infoList) {
     return true;
 }
 
+bool deactivateUser(int userID, userInfoList*& infos) {
+    userInfoNode* user = getUserFromID(userID, infos);
+    if (user == NULL) {
+        cout << "Tai khoan khong ton tai." << endl;
+        return false;
+    }
+
+    // Khong the deactivate admin.
+    if (isAdmin(user->info)) {
+        cout << "Khong the bo kich hoat tai khoan admin." << endl;
+        return false;
+    }
+
+    // Hien thong bao.
+    if (isActive(user->info)) cout << "Tai khoan co ID " << userID << " se bi huy kich hoat." << endl;
+    else cout << "Tai khoan co ID " << userID << " se duoc kich hoat." << endl;
+
+    // Confirm.
+    if (confirmationBox()) {
+        // Cap nhat tinh trang.
+        user->info->tinh_Trang = isActive(user->info) ? 0 : 1;
+        
+        // Thong bao tinh trang.
+        if (isActive(user->info)) cout << "Da kich hoat thanh cong." << endl;
+        else cout << "Da huy kich hoat thanh cong." << endl;
+
+        return true;
+    }
+
+    return false;
+}
+
 //
 // Ham xoa phan tu dau cua list.
 //
@@ -405,6 +437,22 @@ void freeUserInfoNode(userInfoList*& infos) {
 void freeUserInfoList(userInfoList*& infos) {
     while (infos->head != NULL) freeUserInfoNode(infos);
     free(infos);
+}
+
+void printAccountsInfo(accountList* users, userInfoList* infos) {
+    accountNode* thisAccount = users->head;
+    while (thisAccount != NULL) {
+        userInfoNode* thisUserInfo = getUserFromID(thisAccount->credentials->ID, infos);
+
+        cout << "ID: " << thisAccount->credentials->ID << endl;
+        cout << "Tai khoan: " << thisAccount->credentials->user_name << endl;
+        cout << "Quyen: " << ((isAdmin(thisUserInfo->info) ? "Admin" : ((isQuanLy(thisUserInfo->info) ? "Quan ly" : "Chuyen vien")))) << endl;
+        cout << "Trang thai: " << (isActive(thisUserInfo->info) ? "Con hoat dong" : "Tai khoan bi khoa") << endl;
+        cout << "=====" << endl;
+
+        thisAccount = thisAccount->nextAccount;
+    }
+    cout << endl;
 }
 
 void writeCredentialsBackToFile(accountList* users) {

@@ -66,8 +66,10 @@
 
 // Command menu them user va phan quyen.
 // (Menu danh rieng cho admin)
+#define MENU_XEM_USER_COMMAND_CODE 7
 #define MENU_THEM_USER_COMMAND_CODE 8
 #define MENU_PHAN_QUYEN_USER_COMMAND_CODE 9
+#define MENU_KICH_HOAT_USER_COMMAND_CODE 10
 
 // Menu co ban.
 void generalMenu();
