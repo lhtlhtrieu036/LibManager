@@ -192,7 +192,7 @@ int main(int argc, char** argv) {
                         break;
                     }
 
-                    printUsersInfo(users, infos);
+                    printAccountsInfo(users, infos);
                     break;
                 }
 

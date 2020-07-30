@@ -144,7 +144,7 @@ void freeUserInfoList(userInfoList*&);
 //
 // Ham in thong tin user.
 //
-void printUsersInfo(accountList*, userInfoList*);
+void printAccountsInfo(accountList*, userInfoList*);
 
 //
 // Ham ghi tai khoan tro lai file.

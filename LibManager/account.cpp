@@ -439,10 +439,11 @@ void freeUserInfoList(userInfoList*& infos) {
     free(infos);
 }
 
-void printUsersInfo(accountList* users, userInfoList* infos) {
+void printAccountsInfo(accountList* users, userInfoList* infos) {
     accountNode* thisAccount = users->head;
     while (thisAccount != NULL) {
         userInfoNode* thisUserInfo = getUserFromID(thisAccount->credentials->ID, infos);
+
         cout << "ID: " << thisAccount->credentials->ID << endl;
         cout << "Tai khoan: " << thisAccount->credentials->user_name << endl;
         cout << "Quyen: " << ((isAdmin(thisUserInfo->info) ? "Admin" : ((isQuanLy(thisUserInfo->info) ? "Quan ly" : "Chuyen vien")))) << endl;
