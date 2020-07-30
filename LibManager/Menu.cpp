@@ -98,10 +98,8 @@ void getInfoMenu(user_info* user_session_info) {
     cout << "Ho va ten: " << user_session_info->ho_Ten << endl;
     cout << "Dia chi: " << user_session_info->dia_Chi << endl;
     cout << "CMND: " << user_session_info->so_CMND << endl;
-    //cout << "Ngay sinh: " << user_session_info->ngay_Sinh << endl;
-	ngayThangNam ngay_sinh_;
-	ngay_sinh_ = chuyenDoiNgay(user_session_info->ngay_Sinh);
-	cout << "Ngay sinh: " << ngay_sinh_.ngay << "/" << ngay_sinh_.thang << "/" << ngay_sinh_.nam << endl;
+    ngayThangNam ngaySinh = chuyenDoiNgay(user_session_info->ngay_Sinh);
+    cout << "Ngay sinh: " << ngaySinh.ngay << "/" << ngaySinh.thang << "/" << ngaySinh.nam << endl;
     cout << "Gioi tinh: " << user_session_info->gioi_Tinh << endl;
 }
 

@@ -457,6 +457,18 @@ int main(int argc, char** argv) {
                     break;
                 }
 
+                // Bat su kien thong ke so luong sach cho muon.
+                case THONG_KE_SACH_DANG_MUON: {
+                    cout << "Da co " << thongKeSachChoMuon(dsSach) << " quyen sach duoc cho muon." << endl;
+                    break;
+                }
+
+                // Bat su kien thong ke doc gia tre han.
+                case THONG_KE_DOC_GIA_TRE_HAN: {
+                    cout << "Hien tai co " << thongKeDocGiaTreHan(dsPhieuMuonSach) << " doc gia bi tre han." << endl;
+                    break;
+                }
+
                 default:
                     cout << "Khong tim thay lenh " << command_code << endl;
             }
